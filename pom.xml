@@ -67,41 +67,10 @@
             <version>${servlet.api.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-testbench</artifactId>
-            <version>${testbench.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-test-util</artifactId>
-            <version>${flow.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <systemPropertyVariables>
-                        <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -203,28 +172,6 @@
                         <configuration>
                             <workingDirectory>${bower.working.directory}</workingDirectory>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>com.lazerycode.selenium</groupId>
-                <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-                <version>${driver.binary.downloader.maven.plugin.version}</version>
-                <configuration>
-                    <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-                    <rootStandaloneServerDirectory>${project.build.directory}/driver
-                    </rootStandaloneServerDirectory>
-                    <downloadedZipFileDirectory>${project.build.directory}/driver_zips
-                    </downloadedZipFileDirectory>
-                    <customRepositoryMap>${project.basedir}/drivers.xml</customRepositoryMap>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>selenium</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
