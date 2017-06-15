@@ -14,7 +14,6 @@ import com.vaadin.server.VaadinServlet;
 @WebServlet(urlPatterns = "/*", name = "UIServlet", asyncSupported = true)
 @VaadinServletConfiguration(routerConfigurator = MyRouterConfigurator.class, productionMode = false)
 public class Servlet extends VaadinServlet {
-
     /**
      * The router configurator defines the how to map URLs to views.
      */
