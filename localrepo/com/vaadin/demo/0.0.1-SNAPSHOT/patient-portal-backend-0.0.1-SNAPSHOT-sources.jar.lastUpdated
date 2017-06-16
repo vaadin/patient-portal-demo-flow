@@ -1,0 +1,10 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Fri Jun 16 11:01:27 MSK 2017
+https\://repo.vaadin.com/nexus/content/repositories/flow/.error=
+https\://repo.vaadin.com/nexus/content/repositories/website-snapshots/.error=
+https\://repo.vaadin.com/nexus/content/repositories/website-snapshots/.lastUpdated=1497600086756
+http\://maven.vaadin.com/vaadin-addons/.lastUpdated=1497600087401
+http\://maven.vaadin.com/vaadin-addons/.error=
+https\://repo.vaadin.com/nexus/content/repositories/flow-snapshots/.lastUpdated=1497600086487
+https\://repo.vaadin.com/nexus/content/repositories/flow/.lastUpdated=1497600086197
+https\://repo.vaadin.com/nexus/content/repositories/flow-snapshots/.error=

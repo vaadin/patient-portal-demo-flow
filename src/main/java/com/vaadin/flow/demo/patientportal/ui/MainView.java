@@ -17,8 +17,9 @@
 package com.vaadin.flow.demo.patientportal.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
+import com.vaadin.demo.service.AnalyticsService;
+import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.html.Div;
 import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
@@ -34,15 +35,23 @@ import com.vaadin.ui.Composite;
 @UIScope
 public class MainView extends Composite<Div> implements HasChildView {
 
+    // TODO : to remove, not needed. Just verifies the existing backend is
+    // working
     @Autowired
-    private ApplicationContext context;
+    private AnalyticsService service;
+
+    // TODO : to remove, not needed. Just verifies the services are working
+    @Autowired
+    private PatientService patientService;
 
     @Override
     public void setChildView(View childView) {
         getContent().removeAll();
         getContent().add((Component) childView);
 
-        context.getBean(MainView.class);
+        // TODO: to remove , just verifies that services and backend is working
+        service.getStatsByAgeGroup();
+        patientService.getPatients();
     }
 
 }

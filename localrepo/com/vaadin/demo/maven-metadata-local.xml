@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.vaadin.demo</groupId>
+  <artifactId>patient-portal-backend</artifactId>
+  <versioning>
+    <versions>
+      <version>0.0.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170616075724</lastUpdated>
+  </versioning>
+</metadata>
