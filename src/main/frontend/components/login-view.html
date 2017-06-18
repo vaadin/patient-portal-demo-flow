@@ -68,7 +68,7 @@
           <label for="password">Password</label>
           <input id="password" type="password" autocomplete="password" value="{{password::input}}">
         </div>
-        <button on-tap="login" class="primary">Login</button>
+        <button id="login-button" class="primary">Login</button>
       </div>
       <template is="dom-if" if="{{errorMsg}}">
         <div role="alert" class="alert error">
@@ -95,16 +95,6 @@
           type: Boolean,
           notify: true
         }
-      },
-      login: function () {
-        this.errorMsg = '';
-        PatientPortal.http.login({
-          username: this.username,
-          password: this.password
-        })
-          .then(token => this.loggedIn = true)
-          .catch(err =>
-            this.errorMsg = err);
       }
     });
   </script>

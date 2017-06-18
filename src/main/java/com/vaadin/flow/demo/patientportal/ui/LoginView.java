@@ -1,4 +1,5 @@
-/* * Copyright 2000-2017 Vaadin Ltd.
+/*
+ * Copyright 2000-2017 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,31 +17,48 @@
 package com.vaadin.flow.demo.patientportal.ui;
 
 import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Tag;
+import com.vaadin.flow.html.Button;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
  * @author Vaadin Ltd
  *
  */
-@Tag("patient-portal")
-@HtmlImport("/components/patient-portal.html")
-//@Route(value = "")
-//@Route(value = "patients")
-//@ParentView(MainView.class)
-public class PatientPortal extends
-        PolymerTemplate<PatientPortal.PatientPortalModel> implements View {
+@Tag("login-view")
+@HtmlImport("/components/login-view.html")
+@Route("")
+public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
+        implements View {
 
-    public PatientPortal() {
+    @Id("login-button")
+    private Button loginButton;
 
+    public LoginView() {
+
+        getModel().setUsername("user");
+        getModel().setPassword("password");
+
+        loginButton.addClickListener(event -> {
+            System.out.println(getModel().getUsername());
+            System.out.println(getModel().getPassword());
+            loginButton.getUI().ifPresent(ui -> ui.navigateTo("patients"));
+        });
     }
 
-    public interface PatientPortalModel extends TemplateModel {
+    public interface LoginViewModel extends TemplateModel {
 
+        String getUsername();
+
+        void setUsername(String username);
+
+        String getPassword();
+
+        void setPassword(String password);
     }
 
 }

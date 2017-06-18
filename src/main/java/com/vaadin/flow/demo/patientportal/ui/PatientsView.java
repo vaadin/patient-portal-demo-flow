@@ -1,4 +1,5 @@
-/* * Copyright 2000-2017 Vaadin Ltd.
+/*
+ * Copyright 2000-2017 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,26 +21,23 @@ import com.vaadin.annotations.Tag;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
  * @author Vaadin Ltd
  *
  */
-@Tag("patient-portal")
-@HtmlImport("/components/patient-portal.html")
-//@Route(value = "")
-//@Route(value = "patients")
-//@ParentView(MainView.class)
-public class PatientPortal extends
-        PolymerTemplate<PatientPortal.PatientPortalModel> implements View {
+@Tag("patients-view")
+@HtmlImport("/components/main/patients/patients-view.html")
+@Route("patients")
+public class PatientsView extends
+        PolymerTemplate<PatientsView.PatientsViewModel> implements View {
 
-    public PatientPortal() {
+    public PatientsView() {
 
     }
 
-    public interface PatientPortalModel extends TemplateModel {
+    public interface PatientsViewModel extends TemplateModel {
 
     }
 
