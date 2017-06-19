@@ -1,10 +1,7 @@
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
-<link rel="import" href="../../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../shared/formatters.html">
-<link rel="import" href="patient-details.html">
 
 <dom-module id="patients-view">
   <template>
@@ -62,7 +59,6 @@
         }
       }
     </style>
-    <app-route route="{{route}}" pattern=":id" data="{{routeData}}" tail="{{subroute}}" active="{{routeActive}}"></app-route>
 
     <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query>
     <vaadin-grid id="grid" data-provider="[[_fetchPatients]]" active-item="{{currentPatient}}" page-size="100">
@@ -135,16 +131,14 @@
             Last Entry
           </vaadin-grid-sorter>
         </template>
-        <template>[[formatDate(item.lastEntry)]]</template>
+        <template>[[item.lastEntry]]</template>
       </vaadin-grid-column>
     </vaadin-grid>
 
-    <patient-details class$="[[_detailsOpen(currentPatient)]]" patient="{{currentPatient}}" route="{{subroute}}"></patient-details>
   </template>
   <script>
     Polymer({
       is: 'patients-view',
-      behaviors: [PatientPortal.Formatters],
       properties: {
         patients: {
           type: Array,

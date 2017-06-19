@@ -24,6 +24,7 @@ import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
@@ -43,9 +44,14 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
         getModel().setUsername("user");
         getModel().setPassword("password");
 
+        // Login using REST-API in the client-side until backend implemented.
+        // For some reason this doesn't work inside clicklistener so temporarily
+        // just login immediately.
+        UI.getCurrent().getPage().executeJavaScript(
+                "PatientPortal.http.login({username: $0, password: $1 });",
+                getModel().getUsername(), getModel().getPassword());
+
         loginButton.addClickListener(event -> {
-            System.out.println(getModel().getUsername());
-            System.out.println(getModel().getPassword());
             loginButton.getUI().ifPresent(ui -> ui.navigateTo("patients"));
         });
     }
