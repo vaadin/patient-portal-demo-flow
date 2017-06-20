@@ -16,5 +16,5 @@ cache:
   - $HOME/.m2
 before_cache:
   # remove all build artifacts
-  - rm -rf ./localrepo/com/vaadin/flow
-  - rm -rf ./localrepo/com/vaadin/flow-*
+  - rm -rf $TRAVIS_BUILD_DIR/localrepo/com/vaadin/flow
+  - rm -rf $TRAVIS_BUILD_DIR/localrepo/com/vaadin/flow-*
