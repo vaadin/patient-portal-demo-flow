@@ -18,9 +18,15 @@ package com.vaadin.flow.demo.patientportal;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +34,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 
+import com.vaadin.demo.service.DBInitService;
 import com.vaadin.flow.router.RouterConfigurator;
 import com.vaadin.hummingbird.ext.spring.SpringAwareConfigurator;
 import com.vaadin.hummingbird.ext.spring.VaadinUIScope;
@@ -50,7 +57,13 @@ import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
  */
 @Configuration
 @EnableWebSecurity
+@ComponentScan({ "com.vaadin.flow.demo.patientportal", "com.vaadin.demo" })
+@EnableJpaRepositories("com.vaadin.demo.repositories")
+@EntityScan("com.vaadin.demo.entities")
 public class PatientApplicationConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private DBInitService initService;
 
     /**
      * This is temporary decision to figure out how enable some existing
@@ -111,6 +124,11 @@ public class PatientApplicationConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public static FakeVoter voter() {
         return new FakeVoter();
+    }
+
+    @PostConstruct
+    private void init() {
+        initService.initDatabase();
     }
 
 }
