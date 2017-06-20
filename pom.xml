@@ -65,7 +65,7 @@
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-
+        
     </repositories>
 
     <dependencies>
@@ -121,15 +121,18 @@
             <scope>runtime</scope>
         </dependency>
 
-       <!-- This is temporary solution for the backend dependency. It's 
-            not available as a binary artifact in a maven repository. So let's use this 
-            hack to have a dependency to be able to build the project -->
         <dependency>
             <groupId>com.vaadin.demo</groupId>
             <artifactId>patient-portal-backend</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-juli</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        
+
     </dependencies>
 
 
