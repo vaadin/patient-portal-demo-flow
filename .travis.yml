@@ -11,6 +11,9 @@ dist: trusty
 branches:
   only:
     - master
+    
+install: true
+
 cache:
   directories:
   - $HOME/.m2
