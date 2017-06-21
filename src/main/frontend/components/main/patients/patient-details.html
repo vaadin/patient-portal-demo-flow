@@ -1,6 +1,4 @@
 
-<link rel="import" href="../../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../shared/navigation-helpers.html">
 <link rel="import" href="patient-profile.html">
 <link rel="import" href="patient-editor.html">
 <link rel="import" href="patient-journal.html">
@@ -63,8 +61,6 @@
         }
       }
     </style>
-    <app-route route="{{route}}" active="{{active}}" pattern="/:page" data="{{routeData}}"
-               tail="{{subroute}}"></app-route>
 
     <nav class="details-nav" hidden="[[pageActive(page, 'edit', 'new-entry')]]">
       <a on-tap="goBack">
@@ -89,7 +85,6 @@
   <script>
     Polymer({
       is: 'patient-details',
-      behaviors: [PatientPortal.NavHelpers],
       properties: {
         patient: {
           type: Object,

@@ -18,43 +18,29 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
-import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
+import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
  * @author Vaadin Ltd
  *
  */
-@Tag("patients-view")
-@HtmlImport("/components/main/patients/patients-view.html")
-@Route("patients")
-public class PatientsView
-        extends PolymerTemplate<PatientsView.PatientsViewModel>
-        implements HasChildView {
+@Tag("patient-details")
+@HtmlImport("/components/main/patients/patient-details.html")
+@Route("patient")
+@ParentView(PatientsView.class)
+public class PatientDetails extends
+        PolymerTemplate<PatientDetails.PatientDetailsModel> implements View {
 
-    private View patientDetails;
-
-    public PatientsView() {
-
-        getElement().addPropertyChangeListener("currentPatient", event -> {
-            System.out.println("current patient changed");
-        });
-    }
-
-    public interface PatientsViewModel extends TemplateModel {
+    public PatientDetails() {
 
     }
 
-    @Override
-    public void setChildView(View childView) {
-        if (this.patientDetails != null) {
-            getElement().removeChild(this.patientDetails.getElement());
-        }
-        getElement().appendChild(childView.getElement());
-        this.patientDetails = childView;
+    public interface PatientDetailsModel extends TemplateModel {
+
     }
 
 }

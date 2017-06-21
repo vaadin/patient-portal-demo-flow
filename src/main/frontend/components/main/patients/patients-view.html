@@ -135,6 +135,7 @@
       </vaadin-grid-column>
     </vaadin-grid>
 
+    <slot></slot>
   </template>
   <script>
     Polymer({
@@ -144,23 +145,11 @@
           type: Array,
           notify: true
         },
-        people: {
-          type: Array,
-          value: [{
-            firstName: 'Marcus',
-            lastName: 'Hellberg'
-          }]
-        },
         currentPatient: {
           type: Object,
           notify: true,
           observer: '_patientChanged'
         },
-        route: {
-          type: Object,
-          notify: true
-        },
-        active: Boolean,
         narrow: Boolean,
         _fetchPatients: {
           notify: true,
@@ -185,22 +174,8 @@
         this._updatePatients();
       },
 
-      observers: [
-        '_setPatientFromURL(routeData.id)'
-      ],
-
       listeners: {
         'patients-updated': '_updatePatients'
-      },
-
-      _setPatientFromURL: function () {
-        if (!this.active) return;
-        const id = +this.routeData.id;
-        if (id && this.patients && this.patients.length > 0 &&
-          (!this.currentPatient || this.currentPatient && this.currentPatient.id !== id)) {
-          this.currentPatient = this.patients.find(p => p.id === id);
-          this._selectPatient(this.currentPatient);
-        }
       },
 
       _patientChanged: function (patient) {
@@ -210,17 +185,7 @@
           return;
         }
 
-        if (this.currentPatient && this.currentPatient.id === this.routeData.id) {
-          return;
-        }
-
         this._selectPatient(patient);
-
-        if (this.routeActive) {
-          this.set('routeData.id', (patient ? patient.id : ''));
-        } else {
-          this.set('route.path', '/' + (patient ? patient.id : ''));
-        }
       },
 
       _updatePatients: function () {
