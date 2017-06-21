@@ -11,10 +11,13 @@ dist: trusty
 branches:
   only:
     - master
+    
+install: true
+
 cache:
   directories:
   - $HOME/.m2
 before_cache:
   # remove all build artifacts
-  - rm -rf $HOME/.m2/repository/com/vaadin/flow
-  - rm -rf $HOME/.m2/repository/com/vaadin/flow-*
+  - rm -rf $TRAVIS_BUILD_DIR/localrepo/com/vaadin/flow
+  - rm -rf $TRAVIS_BUILD_DIR/localrepo/com/vaadin/flow-*
