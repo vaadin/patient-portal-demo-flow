@@ -16,8 +16,15 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
+import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
@@ -35,9 +42,16 @@ public class PatientsView
         extends PolymerTemplate<PatientsView.PatientsViewModel>
         implements HasChildView {
 
+    @Autowired
+    private PatientService patientService;
+
     private View patientDetails;
 
     public PatientsView() {
+
+        addAttachListener(e -> {
+            getModel().setPatients(patientService.getPatients());
+        });
 
         getElement().addPropertyChangeListener("currentPatient", event -> {
             System.out.println("current patient changed");
@@ -46,6 +60,8 @@ public class PatientsView
 
     public interface PatientsViewModel extends TemplateModel {
 
+        @Include({ "firstName", "lastName" })
+        void setPatients(List<Patient> patients);
     }
 
     @Override

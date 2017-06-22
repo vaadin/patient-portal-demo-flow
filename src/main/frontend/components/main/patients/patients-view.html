@@ -61,7 +61,7 @@
     </style>
 
     <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query>
-    <vaadin-grid id="grid" data-provider="[[_fetchPatients]]" active-item="{{currentPatient}}" page-size="100">
+    <vaadin-grid id="grid" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
       <template class="row-details">
         <div class="details-row">
           <div class="field">
@@ -150,24 +150,7 @@
           notify: true,
           observer: '_patientChanged'
         },
-        narrow: Boolean,
-        _fetchPatients: {
-          notify: true,
-          value: function () {
-            return function (params, callback) {
-              function getSortParams() {
-                return params.sortOrders.map(sort => `sort=${sort.path},${sort.direction}`).join('&');
-              }
-
-              if (callback) PatientPortal.http.get(
-                  `/patients?page=${params.page}&size=${params.pageSize}&${getSortParams()}`)
-                .then(res => {
-                  this.$.grid.size = res.totalElements;
-                  callback(res.content);
-                });
-            }.bind(this);
-          }
-        }
+        narrow: Boolean
       },
 
       ready: function () {
