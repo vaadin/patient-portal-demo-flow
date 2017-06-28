@@ -16,6 +16,7 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Tag;
@@ -52,8 +53,13 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
                 getModel().getUsername(), getModel().getPassword());
 
         loginButton.addClickListener(event -> {
-            loginButton.getUI().ifPresent(ui -> ui.navigateTo("patients"));
+            login();
         });
+    }
+
+    @EventHandler
+    private void login() {
+        loginButton.getUI().ifPresent(ui -> ui.navigateTo("patients"));
     }
 
     public interface LoginViewModel extends TemplateModel {
