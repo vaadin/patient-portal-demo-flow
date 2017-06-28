@@ -75,7 +75,7 @@
   <script>
     class Analytics extends Polymer.Element {
         static get is() { return 'analytics-view' }
-        
+
         static get properties() {
             return {
               categories: {
@@ -89,11 +89,11 @@
               }
             }
           }
-        
+
         _categoriesSet(){
             setTimeout(()=> this._doCategoriesSet(), 0);
         }
-        
+
         _doCategoriesSet(){
         	if ( this.$.chart.chart.xAxis ){
         		this.$.chart.chart.xAxis[0].setCategories(this.categories);
@@ -103,12 +103,12 @@
         		this._categoriesSet();
         	}
         }
-        
+
         _isActive(link, route) {
             return link === route ? 'active' : '';
           }
       }
-      
+
     customElements.define(Analytics.is, Analytics);
   </script>
 </dom-module>

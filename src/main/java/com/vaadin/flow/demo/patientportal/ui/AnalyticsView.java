@@ -17,7 +17,8 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,6 +43,8 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
         implements View {
 
     private static final String AGE_ROUTE = "age";
+    private static final String DOCTOR_ROUTE = "doctor";
+    private static final String GENDER_ROUTE = "gender";
 
     @Autowired
     private AnalyticsService analyticsService;
@@ -59,26 +62,44 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         String path = locationChangeEvent.getPathWildcard();
         if (path.isEmpty() || path.equals(AGE_ROUTE)) {
-            setStatsByAge((data, categories) -> {
-                getModel().setData(data);
-                getModel().setCategories(categories);
-            });
+            setChartData(this::getDataByAge);
             getModel().setRoute(AGE_ROUTE);
-        } else {
-            getModel().setRoute(path);
+            return;
+        } else if (path.equals(DOCTOR_ROUTE)) {
+            setChartData(this::getDataByDoctor);
+        } else if (path.equals(GENDER_ROUTE)) {
+            setChartData(this::getDataByGender);
         }
+        getModel().setRoute(path);
     }
 
-    private void setStatsByAge(
-            BiConsumer<List<Integer>, List<String>> dataConsumer) {
+    private List<StringLongPair> getDataByAge() {
+        return analyticsService.getStatsByAgeGroup().stream()
+                .sorted(this::compare).collect(Collectors.toList());
+    }
+
+    private List<StringLongPair> getDataByDoctor() {
+        return analyticsService.getStatsByDoctor().entrySet().stream()
+                .map(entry -> new StringLongPair(
+                        "Dr. " + entry.getKey().getLastName(),
+                        entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    private List<StringLongPair> getDataByGender() {
+        return analyticsService.getStatsByGender().stream()
+                .collect(Collectors.toList());
+    }
+
+    private void setChartData(Supplier<List<StringLongPair>> dataSupplier) {
         List<Integer> data = new ArrayList<>();
         List<String> categories = new ArrayList<>();
-        analyticsService.getStatsByAgeGroup().stream().sorted(this::compare)
-                .forEach(pair -> {
-                    data.add(pair.getCount().intValue());
-                    categories.add(pair.getGroup());
-                });
-        dataConsumer.accept(data, categories);
+        dataSupplier.get().forEach(pair -> {
+            data.add(pair.getCount().intValue());
+            categories.add(pair.getGroup());
+        });
+        getModel().setData(data);
+        getModel().setCategories(categories);
     }
 
     private int compare(StringLongPair pair1, StringLongPair pair2) {
@@ -90,5 +111,4 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
             return pair1.getGroup().compareTo(pair2.getGroup());
         }
     }
-
 }
