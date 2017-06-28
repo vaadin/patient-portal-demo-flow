@@ -16,8 +16,14 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
+import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
@@ -30,17 +36,41 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  */
 @Tag("patient-details")
 @HtmlImport("/components/main/patients/patient-details.html")
-@Route("patient")
-@ParentView(PatientsView.class)
+@Route("patient/*")
+// @ParentView(PatientsView.class)
 public class PatientDetails extends
         PolymerTemplate<PatientDetails.PatientDetailsModel> implements View {
 
-    public PatientDetails() {
+    @Autowired
+    private PatientService patientService;
 
+    public PatientDetails() {
     }
 
     public interface PatientDetailsModel extends TemplateModel {
 
+        @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
+                "doctor.lastName", "pictureUrl" })
+        void setPatient(Patient p);
+
     }
 
+    @Override
+    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        String path = locationChangeEvent.getPathWildcard();
+
+        try {
+            long id = Long.parseLong(path);
+            Patient p = patientService.getPatient(id);
+            if (p != null) {
+                getModel().setPatient(p);
+            } else {
+                System.out.println("Patient with id " + id + " not found");
+                locationChangeEvent.rerouteTo(PatientsView.class);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Couldn't parse id from the path");
+            locationChangeEvent.rerouteTo(PatientsView.class);
+        }
+    }
 }

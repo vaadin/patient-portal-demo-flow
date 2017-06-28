@@ -39,4 +39,8 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
     public List<Patient> getPatients() {
         return patientRepository.findAll();
     }
+
+    public Patient getPatient(Long id) {
+        return patientRepository.findOne(id);
+    }
 }

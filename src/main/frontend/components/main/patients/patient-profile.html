@@ -1,6 +1,4 @@
-<link rel="import" href="../../shared/formatters.html">
-
-<dom-module id="patient-profile" include="shared-styles">
+<dom-module id="patient-profile" include="shared-styles.html">
   <template>
     <style>
       :host {
@@ -12,55 +10,55 @@
         width: 80%;
         margin: 0 auto;
       }
-      
+
       .full-name {
         order: 1;
         width: 100%;
         margin-bottom: 30px;
       }
-      
+
       .name-wrapper {
         margin-right: 8px;
         display: inline-block;
       }
-      
+
       .patient-data {
         order: 2;
         width: 60%
       }
-      
+
       .patient-data tr {
         height: 40px;
         line-height: 40px;
       }
-      
+
       .patient-data td {
         padding: 0 20px;
       }
-      
+
       .patient-data tr:nth-child(odd) {
         background: #FAFAFA;
       }
-      
+
       .label {
         text-transform: uppercase;
         color: #B5B9BC;
       }
-      
+
       .name-wrapper {
         font-size: 0.8em;
       }
-      
+
       .name-wrapper .name {
         font-size: 24px;
         font-weight: 600;
         line-height: 40px;
       }
-      
+
       .name-wrapper .name.first {
         text-decoration: underline;
       }
-      
+
       .profile-pic {
         order: 3;
         width: 35%;
@@ -68,7 +66,7 @@
         text-align: center;
         background: #FAFAFA;
       }
-      
+
       @media (max-width: 900px) {
         .container {
           flex-direction: column;
@@ -112,11 +110,11 @@
     <table class="patient-data">
       <tr>
         <td class="label">Gender</td>
-        <td class="value">[[capitalize(patient.gender)]]</td>
+        <td class="value">[[patient.gender]]</td>
       </tr>
       <tr>
         <td class="label">Date of birth</td>
-        <td class="value">[[formatDate(patient.birthDate)]]</td>
+        <td class="value">[[patient.birthDate]]</td>
       </tr>
       <tr>
         <td class="label">SSN</td>
@@ -136,7 +134,7 @@
       </tr>
       <tr>
         <td class="label">Last Visit</td>
-        <td class="value">[[formatDate(patient.lastVisit)]]</td>
+        <td class="value">[[patient.lastVisit]]</td>
       </tr>
     </table>
 
@@ -144,8 +142,7 @@
   </template>
   <script>
     Polymer({
-      is: 'patient-profile', 
-      behaviors: [PatientPortal.Formatters],
+      is: 'patient-profile',
       properties: {
         patient: {
           type: Object
