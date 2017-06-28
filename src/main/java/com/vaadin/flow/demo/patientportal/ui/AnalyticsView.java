@@ -42,6 +42,13 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
         implements View {
 
     private static final String AGE_ROUTE = "age";
+    private static final String DOCTOR_ROUTE = "doctor";
+    private static final String GENDER_ROUTE = "gender";
+    
+    private final BiConsumer<List<Integer>, List<String>> dataConsumer = (data, categories) -> {
+        getModel().setData(data);
+        getModel().setCategories(categories);
+    };
 
     @Autowired
     private AnalyticsService analyticsService;
@@ -59,18 +66,18 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         String path = locationChangeEvent.getPathWildcard();
         if (path.isEmpty() || path.equals(AGE_ROUTE)) {
-            setStatsByAge((data, categories) -> {
-                getModel().setData(data);
-                getModel().setCategories(categories);
-            });
+            setStatsByAge();
             getModel().setRoute(AGE_ROUTE);
-        } else {
-            getModel().setRoute(path);
+            return;
+        } else if (path.equals(DOCTOR_ROUTE)) {
+            setStatsByDoctor();
+        } else if (path.equals(GENDER_ROUTE)) {
+            setStatsByGender();
         }
+        getModel().setRoute(path);
     }
 
-    private void setStatsByAge(
-            BiConsumer<List<Integer>, List<String>> dataConsumer) {
+    private void setStatsByAge() {
         List<Integer> data = new ArrayList<>();
         List<String> categories = new ArrayList<>();
         analyticsService.getStatsByAgeGroup().stream().sorted(this::compare)
@@ -78,6 +85,27 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
                     data.add(pair.getCount().intValue());
                     categories.add(pair.getGroup());
                 });
+        dataConsumer.accept(data, categories);
+    }
+
+    private void setStatsByDoctor() {
+        List<Integer> data = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+        analyticsService.getStatsByDoctor().entrySet().stream()
+                .forEach(entry -> {
+                    data.add(entry.getValue().intValue());
+                    categories.add(entry.getKey().getLastName());
+                });
+        dataConsumer.accept(data, categories);
+    }
+
+    private void setStatsByGender() {
+        List<Integer> data = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+        analyticsService.getStatsByGender().stream().forEach(pair -> {
+            data.add(pair.getCount().intValue());
+            categories.add(pair.getGroup());
+        });
         dataConsumer.accept(data, categories);
     }
 
@@ -90,5 +118,4 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
             return pair1.getGroup().compareTo(pair2.getGroup());
         }
     }
-
 }
