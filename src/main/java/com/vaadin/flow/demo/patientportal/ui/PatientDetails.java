@@ -37,7 +37,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 @Tag("patient-details")
 @HtmlImport("/components/main/patients/patient-details.html")
 @Route("patient/*")
-// @ParentView(PatientsView.class)
+@ParentView(PatientsView.class)
 public class PatientDetails extends
         PolymerTemplate<PatientDetails.PatientDetailsModel> implements View {
 

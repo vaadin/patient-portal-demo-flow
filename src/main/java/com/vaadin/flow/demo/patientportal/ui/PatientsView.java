@@ -66,11 +66,14 @@ public class PatientsView
 
     @Override
     public void setChildView(View childView) {
-        if (this.patientDetails != null) {
+        if (patientDetails != null) {
             getElement().removeChild(this.patientDetails.getElement());
         }
-        getElement().appendChild(childView.getElement());
-        this.patientDetails = childView;
+        patientDetails = childView;
+        if (patientDetails == null)
+            return;
+
+        getElement().appendChild(patientDetails.getElement());
     }
 
 }

@@ -2,6 +2,7 @@
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="../../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../shared-styles.html">
 
 <dom-module id="patients-view">
   <template>
@@ -13,36 +14,10 @@
         height: 100%;
       }
 
-
       vaadin-grid {
         flex: 1;
         height: 100%;
       }
-
-
-      patient-details {
-        position: absolute;
-        box-sizing: border-box;
-        padding: 16px;
-        height: 100vh;
-        top: 0;
-        background: #fff;
-        border-left: 5px solid #434D54;
-        display: none;
-      }
-
-
-
-
-      patient-details.open {
-        display: inherit;
-        left: 25%;
-        right: 0;
-        box-shadow: 2px 2px 10px 8px rgba(0, 0, 0, 0.2);
-      }
-
-
-
 
       .details-row label {
         width: 50%;
