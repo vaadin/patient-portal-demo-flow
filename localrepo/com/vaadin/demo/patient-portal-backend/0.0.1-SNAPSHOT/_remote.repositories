@@ -1,4 +1,6 @@
 #NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
-#Tue Jun 20 12:58:39 MSK 2017
+#Tue Jul 04 08:26:10 MSK 2017
 patient-portal-backend-0.0.1-SNAPSHOT.jar>=
 patient-portal-backend-0.0.1-SNAPSHOT.pom>=
+patient-portal-backend-0.0.1-SNAPSHOT.pom>project.local=
+patient-portal-backend-0.0.1-SNAPSHOT.jar>project.local=
