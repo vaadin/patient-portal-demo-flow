@@ -36,7 +36,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  */
 @Tag("patient-details")
 @HtmlImport("/components/main/patients/patient-details.html")
-@Route("patient/*")
+@Route("patients/{id}/*")
 @ParentView(PatientsView.class)
 public class PatientDetails extends
         PolymerTemplate<PatientDetails.PatientDetailsModel> implements View {
@@ -53,14 +53,14 @@ public class PatientDetails extends
                 "doctor.lastName", "pictureUrl" })
         void setPatient(Patient p);
 
+        void setPage(String page);
     }
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        String path = locationChangeEvent.getPathWildcard();
-
         try {
-            long id = Long.parseLong(path);
+            long id = Long
+                    .parseLong(locationChangeEvent.getPathParameter("id"));
             Patient p = patientService.getPatient(id);
             if (p != null) {
                 getModel().setPatient(p);
@@ -72,5 +72,7 @@ public class PatientDetails extends
             System.out.println("Couldn't parse id from the path");
             locationChangeEvent.rerouteTo(PatientsView.class);
         }
+
+        getModel().setPage(locationChangeEvent.getPathWildcard());
     }
 }

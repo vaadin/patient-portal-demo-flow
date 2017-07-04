@@ -1,7 +1,5 @@
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../shared/formatters.html">
-<link rel="import" href="../../shared/navigation-helpers.html">
 <link rel="import" href="../../my-icons.html">
 <dom-module id="patient-journal">
   <template>
@@ -10,48 +8,48 @@
         display: flex;
         flex-direction: column;
       }
-      
+
       vaadin-grid {
         flex: 1;
       }
-      
+
       .top {
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
-      
+
       .details {
         padding: 0 25px 25px 25px;
       }
-      
+
       .details h3 {
         text-transform: uppercase;
         font-size: 0.8rem;
       }
-      
+
       .details article {
         white-space: normal;
       }
-      
+
       .cell-wrapper {
         display: flex;
         flex-wrap: wrap;
       }
-      
+
       .cell-wrapper div {
         width: 50%;
       }
-      
+
       .cell-wrapper .date {
         font-weight: bold;
       }
-      
+
       .cell-wrapper .appointment,
       .cell-wrapper .doctor {
         text-align: right;
       }
-      
+
       .cell-wrapper .doctor-label {
         text-transform: uppercase;
         font-size: 0.8rem;
@@ -80,8 +78,8 @@
         <template class="header">Journal Entries</template>
         <template>
           <div class="cell-wrapper">
-            <div class="date">{{formatDate(item.date)}}</div>
-            <div class="appointment">{{capitalize(item.appointmentType)}}</div>
+            <div class="date">{{item.date}}</div>
+            <div class="appointment">{{item.appointmentType}}</div>
             <div class="doctor-label">Doctor</div>
             <div class="doctor">{{item.doctor.lastName}}, {{item.doctor.firstName}}</div>
           </div>
@@ -94,7 +92,7 @@
             Date
           </vaadin-grid-sorter>
         </template>
-        <template>[[formatDate(item.date)]]</template>
+        <template>[[item.date]]</template>
       </vaadin-grid-column>
       <vaadin-grid-column hidden="[[narrow]]">
         <template class="header">
@@ -102,7 +100,7 @@
             Appointment
           </vaadin-grid-sorter>
         </template>
-        <template>[[capitalize(item.appointmentType)]]</template>
+        <template>[[item.appointmentType]]</template>
       </vaadin-grid-column>
       <vaadin-grid-column hidden="[[narrow]]">
         <template class="header">
@@ -132,9 +130,7 @@
   <script>
     Polymer({
       is: 'patient-journal',
-      behaviors: [PatientPortal.Formatters],
       properties: {
-        route: Object,
         patient: {
           type: Object,
           notify: true

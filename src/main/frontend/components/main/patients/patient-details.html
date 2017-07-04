@@ -1,9 +1,10 @@
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="patient-profile.html">
-<!-- <link rel="import" href="patient-editor.html">
+<!-- <link rel="import" href="patient-editor.html"> -->
 <link rel="import" href="patient-journal.html">
-<link rel="import" href="journal-editor.html"> -->
+<!-- <link rel="import" href="journal-editor.html"> -->
 
 <dom-module id="patient-details">
   <template>
@@ -71,22 +72,23 @@
       }
     </style>
 
+    <!-- TODO: fix links when patient's id can be accessed -->
     <nav class="details-nav">
-      <a href="/patients" router-link>
+      <a href="patients" router-link>
         <iron-icon icon="arrow-long-left"></iron-icon>
         <span class="linktext">All patients</span></a>
       <div class="sub-pages">
-        <a class$="[[_getItemClasses('profile', page)]]">Profile</a>
-        <a class$="[[_getItemClasses('journal', page)]]">Journal</a>
+        <a href="patients/1" router-link class$="[[_getItemClasses('profile', page)]]">Profile</a>
+        <a href="patients/1/journal" router-link class$="[[_getItemClasses('journal', page)]]">Journal</a>
       </div>
       <a href$="[[route.prefix]]/edit">Edit patient</a>
     </nav>
 
     <iron-pages class="content" selected="[[page]]" fallback-selection="profile" attr-for-selected="name" role="main">
       <patient-profile name="profile" patient="{{patient}}"></patient-profile>
-      <!-- <patient-journal name="journal" patient="[[patient]]" route="{{route}}" entries="[[journalEntries]]"></patient-journal>
-      <patient-editor name="edit" patient="[[patient]]" route="{{route}}"></patient-editor>
-      <journal-editor name="new-entry" patient="[[patient]]" route="{{route}}"></journal-editor> -->
+      <patient-journal name="journal" patient="[[patient]]" route="{{route}}" entries="[[journalEntries]]"></patient-journal>
+      <!-- <patient-editor name="edit" patient="[[patient]]" route="{{route}}"></patient-editor> -->
+      <!-- <journal-editor name="new-entry" patient="[[patient]]" route="{{route}}"></journal-editor> -->
     </iron-pages>
 
   </template>
