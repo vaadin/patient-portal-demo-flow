@@ -59,8 +59,8 @@
     </style>
 
     <nav class="menu">
-      <a href="/patients" class$="[[_isActive('patients')]]">Patients</a>
-      <a href="/analytics" class$="[[_isActive('analytics')]]">Analytics</a>
+      <a router-link href="/patients" class$="[[_isActive('patients')]]">Patients</a>
+      <a router-link href="/analytics" class$="[[_isActive('analytics')]]">Analytics</a>
 
       <a class="right" on-tap="_logout">
         <iron-icon icon="sign-out"></iron-icon>
