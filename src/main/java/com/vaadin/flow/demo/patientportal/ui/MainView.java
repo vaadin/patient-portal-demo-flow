@@ -16,16 +16,13 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.demo.service.AnalyticsService;
-import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.html.Div;
+import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.Tag;
 import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
+import com.vaadin.flow.template.PolymerTemplate;
+import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Composite;
 
 /**
  * @author Vaadin Ltd
@@ -33,25 +30,23 @@ import com.vaadin.ui.Composite;
  */
 @SuppressWarnings("serial")
 @UIScope
-public class MainView extends Composite<Div> implements HasChildView {
+@Tag("main-view")
+@HtmlImport("/components/main/main-view.html")
+public class MainView extends PolymerTemplate<TemplateModel>
+        implements HasChildView {
 
-    // TODO : to remove, not needed. Just verifies the existing backend is
-    // working
-    @Autowired
-    private AnalyticsService service;
-
-    // TODO : to remove, not needed. Just verifies the services are working
-    @Autowired
-    private PatientService patientService;
+    private View childView;
 
     @Override
     public void setChildView(View childView) {
-        getContent().removeAll();
-        getContent().add((Component) childView);
+        if (this.childView != null) {
+            getElement().removeChild(this.childView.getElement());
+        }
+        this.childView = childView;
+        if (this.childView == null)
+            return;
 
-        // TODO: to remove , just verifies that services and backend is working
-        service.getStatsByAgeGroup();
-        patientService.getPatients();
+        getElement().appendChild(this.childView.getElement());
     }
 
 }

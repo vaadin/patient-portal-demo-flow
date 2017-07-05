@@ -29,6 +29,7 @@ import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
+import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
@@ -38,6 +39,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 @Tag("patients-view")
 @HtmlImport("/components/main/patients/patients-view.html")
 @Route("patients")
+@ParentView(MainView.class)
 public class PatientsView
         extends PolymerTemplate<PatientsView.PatientsViewModel>
         implements HasChildView {
