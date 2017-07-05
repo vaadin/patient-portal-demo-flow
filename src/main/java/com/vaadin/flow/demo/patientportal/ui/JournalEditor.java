@@ -18,7 +18,6 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
@@ -35,30 +34,20 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  * @author Vaadin Ltd
  *
  */
-@Tag("patient-editor")
-@HtmlImport("/components/main/patients/patient-editor.html")
-@Route("patients/{id}/edit")
+@Tag("journal-editor")
+@HtmlImport("/components/main/patients/journal-editor.html")
+@Route("patients/{id}/new-entry")
 @ParentView(PatientDetails.class)
-public class PatientEditor extends
-        PolymerTemplate<PatientEditor.PatientEditorModel> implements View {
+public class JournalEditor extends
+        PolymerTemplate<JournalEditor.JournalEditorModel> implements View {
 
     @Autowired
     private PatientService patientService;
 
-    public PatientEditor() {
+    public JournalEditor() {
     }
 
-    @EventHandler
-    private void close() {
-        System.out.println("close");
-    }
-
-    @EventHandler
-    private void save() {
-        System.out.println("save");
-    }
-
-    public interface PatientEditorModel extends TemplateModel {
+    public interface JournalEditorModel extends TemplateModel {
 
         @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
                 "doctor.lastName", "pictureUrl" })

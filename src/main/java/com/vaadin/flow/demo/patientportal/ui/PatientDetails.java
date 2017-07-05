@@ -16,19 +16,15 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
-import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.router.LocationChangeEvent;
+import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
  * @author Vaadin Ltd
@@ -36,43 +32,24 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  */
 @Tag("patient-details")
 @HtmlImport("/components/main/patients/patient-details.html")
-@Route("patients/{id}/*")
 @ParentView(PatientsView.class)
-public class PatientDetails extends
-        PolymerTemplate<PatientDetails.PatientDetailsModel> implements View {
+public class PatientDetails extends PolymerTemplate<TemplateModel>
+        implements HasChildView {
 
-    @Autowired
-    private PatientService patientService;
+    private View childView;
 
     public PatientDetails() {
     }
 
-    public interface PatientDetailsModel extends TemplateModel {
-
-        @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
-                "doctor.lastName", "pictureUrl" })
-        void setPatient(Patient p);
-
-        void setPage(String page);
-    }
-
     @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        try {
-            long id = Long
-                    .parseLong(locationChangeEvent.getPathParameter("id"));
-            Patient p = patientService.getPatient(id);
-            if (p != null) {
-                getModel().setPatient(p);
-            } else {
-                System.out.println("Patient with id " + id + " not found");
-                locationChangeEvent.rerouteTo(PatientsView.class);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Couldn't parse id from the path");
-            locationChangeEvent.rerouteTo(PatientsView.class);
+    public void setChildView(View childView) {
+        if (this.childView != null) {
+            getElement().removeChild(this.childView.getElement());
         }
+        this.childView = childView;
+        if (this.childView == null)
+            return;
 
-        getModel().setPage(locationChangeEvent.getPathWildcard());
+        getElement().appendChild(this.childView.getElement());
     }
 }

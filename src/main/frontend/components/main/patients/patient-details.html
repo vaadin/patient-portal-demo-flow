@@ -1,10 +1,4 @@
-
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="patient-profile.html">
-<link rel="import" href="patient-editor.html">
-<link rel="import" href="patient-journal.html">
-<!-- <link rel="import" href="journal-editor.html"> -->
 
 <dom-module id="patient-details">
   <template>
@@ -84,12 +78,7 @@
       <a router-link href="patients/1/edit">Edit patient</a>
     </nav>
 
-    <iron-pages class="content" selected="[[page]]" fallback-selection="profile" attr-for-selected="name" role="main">
-      <patient-profile name="profile" patient="{{patient}}"></patient-profile>
-      <patient-journal name="journal" patient="[[patient]]" entries="[[journalEntries]]"></patient-journal>
-      <patient-editor name="edit" patient="{{patient}}"></patient-editor>
-      <!-- <journal-editor name="new-entry" patient="[[patient]]" route="{{route}}"></journal-editor> -->
-    </iron-pages>
+    <slot></slot>
 
   </template>
   <script>
@@ -100,10 +89,7 @@
           type: Object,
           notify: true
         },
-        journalEntries: Array,
-        page: {
-          type: String
-        }
+        journalEntries: Array
       }
     })
   </script>
