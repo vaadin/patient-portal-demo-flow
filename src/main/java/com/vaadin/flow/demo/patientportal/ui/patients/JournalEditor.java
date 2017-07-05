@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.vaadin.flow.demo.patientportal.ui;
+package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,6 +23,7 @@ import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
@@ -34,20 +35,20 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  * @author Vaadin Ltd
  *
  */
-@Tag("patient-profile")
-@HtmlImport("/components/main/patients/patient-profile.html")
-@Route("patients/{id}/")
+@Tag("journal-editor")
+@HtmlImport("/components/main/patients/journal-editor.html")
+@Route("patients/{id}/new-entry")
 @ParentView(PatientDetails.class)
-public class PatientProfile extends
-        PolymerTemplate<PatientProfile.PatientProfileModel> implements View {
+public class JournalEditor extends
+        PolymerTemplate<JournalEditor.JournalEditorModel> implements View {
 
     @Autowired
     private PatientService patientService;
 
-    public PatientProfile() {
+    public JournalEditor() {
     }
 
-    public interface PatientProfileModel extends TemplateModel {
+    public interface JournalEditorModel extends TemplateModel {
 
         @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
                 "doctor.lastName", "pictureUrl" })

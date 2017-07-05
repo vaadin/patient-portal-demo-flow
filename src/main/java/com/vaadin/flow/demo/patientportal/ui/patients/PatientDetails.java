@@ -14,12 +14,11 @@
  * the License.
  */
 
-package com.vaadin.flow.demo.patientportal.ui;
+package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
-import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;

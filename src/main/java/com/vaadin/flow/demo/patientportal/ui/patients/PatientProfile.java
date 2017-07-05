@@ -14,16 +14,16 @@
  * the License.
  */
 
-package com.vaadin.flow.demo.patientportal.ui;
+package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
@@ -35,30 +35,20 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  * @author Vaadin Ltd
  *
  */
-@Tag("patient-editor")
-@HtmlImport("/components/main/patients/patient-editor.html")
-@Route("patients/{id}/edit")
+@Tag("patient-profile")
+@HtmlImport("/components/main/patients/patient-profile.html")
+@Route("patients/{id}/")
 @ParentView(PatientDetails.class)
-public class PatientEditor extends
-        PolymerTemplate<PatientEditor.PatientEditorModel> implements View {
+public class PatientProfile extends
+        PolymerTemplate<PatientProfile.PatientProfileModel> implements View {
 
     @Autowired
     private PatientService patientService;
 
-    public PatientEditor() {
+    public PatientProfile() {
     }
 
-    @EventHandler
-    private void close() {
-        System.out.println("close");
-    }
-
-    @EventHandler
-    private void save() {
-        System.out.println("save");
-    }
-
-    public interface PatientEditorModel extends TemplateModel {
+    public interface PatientProfileModel extends TemplateModel {
 
         @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
                 "doctor.lastName", "pictureUrl" })
