@@ -31,6 +31,8 @@ import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.AttachEvent;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
@@ -51,12 +53,14 @@ public class PatientsView
 
     public PatientsView() {
 
-        addAttachListener(e -> {
-            getModel().setPatients(patientService.getPatients());
+        getElement().addPropertyChangeListener("currentPatient", event -> {
+            // TODO: Make this navigate to /patients/{current-patient-id}.
+            System.out.println("current patient changed");
         });
 
-        getElement().addPropertyChangeListener("currentPatient", event -> {
-            System.out.println("current patient changed");
+        // TODO: Remove this when proper patient-navigation can be implemented.
+        getElement().addEventListener("click", event -> {
+            UI.getCurrent().navigateTo("patients/1");
         });
     }
 
@@ -64,6 +68,11 @@ public class PatientsView
 
         @Include({ "firstName", "lastName" })
         void setPatients(List<Patient> patients);
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        getModel().setPatients(patientService.getPatients());
     }
 
     @Override
