@@ -21,10 +21,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
@@ -49,6 +51,9 @@ public class PatientsView
     @Autowired
     private PatientService patientService;
 
+    @Id("patientsGrid")
+    private Element grid;
+
     private View patientDetails;
 
     public PatientsView() {
@@ -59,7 +64,7 @@ public class PatientsView
         });
 
         // TODO: Remove this when proper patient-navigation can be implemented.
-        getElement().addEventListener("click", event -> {
+        grid.addEventListener("click", event -> {
             UI.getCurrent().navigateTo("patients/1");
         });
     }
