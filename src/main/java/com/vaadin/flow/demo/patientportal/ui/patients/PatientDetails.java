@@ -18,10 +18,8 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
+import com.vaadin.flow.demo.patientportal.ui.ParentPolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
-import com.vaadin.flow.router.HasChildView;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 
@@ -32,23 +30,6 @@ import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 @Tag("patient-details")
 @HtmlImport("/components/main/patients/patient-details.html")
 @ParentView(PatientsView.class)
-public class PatientDetails extends PolymerTemplate<TemplateModel>
-        implements HasChildView {
+public class PatientDetails extends ParentPolymerTemplate<TemplateModel> {
 
-    private View childView;
-
-    public PatientDetails() {
-    }
-
-    @Override
-    public void setChildView(View childView) {
-        if (this.childView != null) {
-            getElement().removeChild(this.childView.getElement());
-        }
-        this.childView = childView;
-        if (this.childView == null)
-            return;
-
-        getElement().appendChild(this.childView.getElement());
-    }
 }

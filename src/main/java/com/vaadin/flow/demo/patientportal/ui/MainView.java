@@ -32,21 +32,6 @@ import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
 @UIScope
 @Tag("main-view")
 @HtmlImport("/components/main/main-view.html")
-public class MainView extends PolymerTemplate<TemplateModel>
-        implements HasChildView {
-
-    private View childView;
-
-    @Override
-    public void setChildView(View childView) {
-        if (this.childView != null) {
-            getElement().removeChild(this.childView.getElement());
-        }
-        this.childView = childView;
-        if (this.childView == null)
-            return;
-
-        getElement().appendChild(this.childView.getElement());
-    }
+public class MainView extends ParentPolymerTemplate<TemplateModel> {
 
 }

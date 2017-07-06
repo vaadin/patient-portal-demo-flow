@@ -27,9 +27,6 @@ import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.router.HasChildView;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
@@ -45,16 +42,13 @@ import com.vaadin.ui.UI;
 @Route("patients")
 @ParentView(MainView.class)
 public class PatientsView
-        extends PolymerTemplate<PatientsView.PatientsViewModel>
-        implements HasChildView {
+        extends ParentPolymerTemplate<PatientsView.PatientsViewModel> {
 
     @Autowired
     private PatientService patientService;
 
     @Id("patientsGrid")
     private Element grid;
-
-    private View patientDetails;
 
     public PatientsView() {
 
@@ -78,18 +72,6 @@ public class PatientsView
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         getModel().setPatients(patientService.getPatients());
-    }
-
-    @Override
-    public void setChildView(View childView) {
-        if (patientDetails != null) {
-            getElement().removeChild(this.patientDetails.getElement());
-        }
-        patientDetails = childView;
-        if (patientDetails == null)
-            return;
-
-        getElement().appendChild(patientDetails.getElement());
     }
 
 }
