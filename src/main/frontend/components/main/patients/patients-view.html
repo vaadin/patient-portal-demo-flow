@@ -36,7 +36,7 @@
     </style>
 
     <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query>
-    <vaadin-grid id="grid" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
+    <vaadin-grid id="patientsGrid" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
       <template class="row-details">
         <div class="details-row">
           <div class="field">
@@ -147,12 +147,12 @@
       },
 
       _updatePatients: function () {
-        this.$.grid.clearCache();
+        this.$.patientsGrid.clearCache();
         // TODO: re-select selected item
       },
 
       _selectPatient: function (patient) {
-        this.$.grid.selectedItems = patient ? [patient] : [];
+        this.$.patientsGrid.selectedItems = patient ? [patient] : [];
       },
 
       _detailsOpen: function (currentPatient) {
@@ -165,10 +165,10 @@
 
       _toggleExpand: function (evt) {
         const item = evt.model.item;
-        if (this.$.grid.expandedItems && this.$.grid.expandedItems.includes(item)) {
-          this.$.grid.expandedItems = [];
+        if (this.$.patientsGrid.expandedItems && this.$.patientsGrid.expandedItems.includes(item)) {
+          this.$.patientsGrid.expandedItems = [];
         } else {
-          this.$.grid.expandedItems = [item];
+          this.$.patientsGrid.expandedItems = [item];
         }
       }
     });
