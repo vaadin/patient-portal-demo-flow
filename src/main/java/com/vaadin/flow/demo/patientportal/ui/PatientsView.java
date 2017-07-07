@@ -51,13 +51,9 @@ public class PatientsView
 
     public PatientsView() {
 
-        getElement().addPropertyChangeListener("currentPatient", event -> {
-            // TODO: Make this navigate to /patients/{current-patient-id}.
-            System.out.println("current patient changed");
-        });
-
         // TODO: Remove this when proper patient-navigation can be implemented.
-        grid.addEventListener("click", event -> getUI().get().navigateTo("patients/1"));
+        grid.addEventListener("click",
+                event -> getUI().get().navigateTo("patients/1"));
     }
 
     public interface PatientsViewModel extends TemplateModel {
