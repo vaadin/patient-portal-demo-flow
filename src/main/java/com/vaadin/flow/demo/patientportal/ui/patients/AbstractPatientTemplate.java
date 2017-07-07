@@ -16,6 +16,8 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.annotations.Include;
@@ -52,9 +54,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
-            Patient patient = patientService.getPatient(id);
-            if (patient != null) {
-                getModel().setPatient(patient);
+            Optional<Patient> patient = patientService.getPatient(id);
+            if (patient.isPresent()) {
+                getModel().setPatient(patient.get());
             } else {
                 // Patient with that id was not found
                 locationChangeEvent.rerouteToErrorView();

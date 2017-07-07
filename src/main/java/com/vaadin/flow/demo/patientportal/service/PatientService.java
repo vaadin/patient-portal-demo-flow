@@ -16,6 +16,7 @@
 package com.vaadin.flow.demo.patientportal.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
         return patientRepository.findAll();
     }
 
-    public Patient getPatient(Long id) {
-        return patientRepository.findOne(id);
+    public Optional<Patient> getPatient(Long id) {
+        return Optional.ofNullable(patientRepository.findOne(id));
     }
 }
