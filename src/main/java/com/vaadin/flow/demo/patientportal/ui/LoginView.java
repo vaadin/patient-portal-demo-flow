@@ -52,14 +52,12 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
                 "PatientPortal.http.login({username: $0, password: $1 });",
                 getModel().getUsername(), getModel().getPassword());
 
-        loginButton.addClickListener(event -> {
-            login();
-        });
+        loginButton.addClickListener(event -> login());
     }
 
     @EventHandler
     private void login() {
-        loginButton.getUI().ifPresent(ui -> ui.navigateTo("patients"));
+        getUI().get().navigateTo("patients");
     }
 
     public interface LoginViewModel extends TemplateModel {
