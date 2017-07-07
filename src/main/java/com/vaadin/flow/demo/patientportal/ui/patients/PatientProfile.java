@@ -16,18 +16,8 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
-import com.vaadin.demo.entities.Patient;
-import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.demo.patientportal.ui.PatientsView;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
-import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
@@ -40,36 +30,6 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 @Route("patients/{id}/")
 @ParentView(PatientDetails.class)
 public class PatientProfile extends
-        PolymerTemplate<PatientProfile.PatientProfileModel> implements View {
+        AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
-    @Autowired
-    private PatientService patientService;
-
-    public PatientProfile() {
-    }
-
-    public interface PatientProfileModel extends TemplateModel {
-
-        @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
-                "doctor.lastName", "pictureUrl" })
-        void setPatient(Patient p);
-    }
-
-    @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        try {
-            long id = Long
-                    .parseLong(locationChangeEvent.getPathParameter("id"));
-            Patient p = patientService.getPatient(id);
-            if (p != null) {
-                getModel().setPatient(p);
-            } else {
-                System.out.println("Patient with id " + id + " not found");
-                locationChangeEvent.rerouteTo(PatientsView.class);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Couldn't parse id from the path");
-            locationChangeEvent.rerouteTo(PatientsView.class);
-        }
-    }
 }

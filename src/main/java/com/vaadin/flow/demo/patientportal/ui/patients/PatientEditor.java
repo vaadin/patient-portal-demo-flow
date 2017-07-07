@@ -16,19 +16,9 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
-import com.vaadin.demo.entities.Patient;
-import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.demo.patientportal.ui.PatientsView;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
-import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
@@ -41,46 +31,15 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 @Route("patients/{id}/edit")
 @ParentView(PatientDetails.class)
 public class PatientEditor extends
-        PolymerTemplate<PatientEditor.PatientEditorModel> implements View {
-
-    @Autowired
-    private PatientService patientService;
-
-    public PatientEditor() {
-    }
+        AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
     @EventHandler
     private void close() {
-        System.out.println("close");
+
     }
 
     @EventHandler
     private void save() {
-        System.out.println("save");
-    }
 
-    public interface PatientEditorModel extends TemplateModel {
-
-        @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
-                "doctor.lastName", "pictureUrl" })
-        void setPatient(Patient p);
-    }
-
-    @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        try {
-            long id = Long
-                    .parseLong(locationChangeEvent.getPathParameter("id"));
-            Patient p = patientService.getPatient(id);
-            if (p != null) {
-                getModel().setPatient(p);
-            } else {
-                System.out.println("Patient with id " + id + " not found");
-                locationChangeEvent.rerouteTo(PatientsView.class);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Couldn't parse id from the path");
-            locationChangeEvent.rerouteTo(PatientsView.class);
-        }
     }
 }
