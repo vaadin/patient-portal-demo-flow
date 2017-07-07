@@ -45,10 +45,6 @@ public abstract class ParentPolymerTemplate<M extends TemplateModel>
 
     private View childView;
 
-    public ParentPolymerTemplate() {
-        super();
-    }
-
     @Override
     public void setChildView(View childView) {
         if (this.childView != null) {
