@@ -30,6 +30,7 @@ import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
+import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
@@ -39,6 +40,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 @Tag("analytics-view")
 @HtmlImport("/components/main/analytics/analytics.html")
 @Route(value = "analytics/*")
+@ParentView(MainView.class)
 public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
         implements View {
 

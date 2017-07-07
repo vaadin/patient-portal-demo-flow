@@ -14,36 +14,22 @@
  * the License.
  */
 
-package com.vaadin.flow.demo.patientportal.ui;
+package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
-import com.vaadin.flow.router.HasChildView;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
+import com.vaadin.flow.demo.patientportal.ui.ParentPolymerTemplate;
+import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
+import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 
 /**
  * @author Vaadin Ltd
  *
  */
-@SuppressWarnings("serial")
-@UIScope
-@Tag("main-view")
-@HtmlImport("/components/main/main-view.html")
-public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
-
-    public interface MainViewModel extends TemplateModel {
-
-        public void setPage(String page);
-
-    }
-
-    @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        getModel().setPage(locationChangeEvent.getLocation().getFirstSegment());
-    }
+@Tag("patient-details")
+@HtmlImport("/components/main/patients/patient-details.html")
+@ParentView(PatientsView.class)
+public class PatientDetails extends ParentPolymerTemplate<TemplateModel> {
 
 }
