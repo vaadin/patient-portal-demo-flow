@@ -59,8 +59,8 @@
     </style>
 
     <nav class="menu">
-      <a router-link href="/patients" class$="[[_isActive('patients')]]">Patients</a>
-      <a router-link href="/analytics" class$="[[_isActive('analytics')]]">Analytics</a>
+      <a router-link href="/patients" class$="[[_isActive('patients', page)]]">Patients</a>
+      <a router-link href="/analytics" class$="[[_isActive('analytics', page)]]">Analytics</a>
 
       <a class="right" on-tap="_logout">
         <iron-icon icon="sign-out"></iron-icon>
@@ -75,10 +75,13 @@
     Polymer({
       is: 'main-view',
       properties: {
+        page: {
+          type: String
+        }
       },
 
-      _isActive: function(link) {
-        return link === 'patients' ? 'active' : '';
+      _isActive: function(link, page) {
+        return link === page ? 'active' : '';
       }
     });
   </script>

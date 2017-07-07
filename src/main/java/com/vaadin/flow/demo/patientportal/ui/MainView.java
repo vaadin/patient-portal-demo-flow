@@ -19,6 +19,7 @@ package com.vaadin.flow.demo.patientportal.ui;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
 import com.vaadin.flow.router.HasChildView;
+import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
@@ -32,6 +33,17 @@ import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
 @UIScope
 @Tag("main-view")
 @HtmlImport("/components/main/main-view.html")
-public class MainView extends ParentPolymerTemplate<TemplateModel> {
+public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
+
+    public interface MainViewModel extends TemplateModel {
+
+        public void setPage(String page);
+
+    }
+
+    @Override
+    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        getModel().setPage(locationChangeEvent.getLocation().getFirstSegment());
+    }
 
 }
