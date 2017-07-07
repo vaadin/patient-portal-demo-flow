@@ -17,6 +17,7 @@
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,11 +59,13 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
             if (patient.isPresent()) {
                 getModel().setPatient(patient.get());
             } else {
-                // Patient with that id was not found
+                Logger.getLogger(AbstractPatientTemplate.class.getName())
+                        .info("Patient with id " + id + " was not found.");
                 locationChangeEvent.rerouteToErrorView();
             }
         } catch (NumberFormatException e) {
-            // Couldn't parse id from the path
+            Logger.getLogger(AbstractPatientTemplate.class.getName())
+                    .info("Failed to parse patient's id from the url.");
             locationChangeEvent.rerouteToErrorView();
         }
     }
