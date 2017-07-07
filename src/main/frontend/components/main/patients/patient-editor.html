@@ -158,47 +158,6 @@
         },
         doctors: Array,
         valid: Boolean
-      },
-
-      observers: [
-        '_checkFormValidity(model.*)'
-      ],
-
-      ready: function () {
-        // this._getDoctors();
-        // Polymer.dom(this.root).querySelectorAll('.input').forEach(field => field.autoValidate = true);
-      },
-
-      _getDoctors: function () {
-        // PatientPortal.http.get('/doctors')
-        // // add fullName property for combobox
-        //   .then(doctors => {
-        //     this.doctors = doctors.map(this._addFullNameToDoctor);
-        //     this.setDoctor();
-        //   });
-      },
-
-      _patientChanged: function () {
-        // if (this.patient) {
-        //   this.model = Object.assign({}, this.patient);
-        //   this.set('model.birthDate', moment(this.patient.birthDate).format('YYYY-MM-DD'));
-        //   this.setDoctor();
-        // }
-      },
-
-      setDoctor: function () {
-        // if (this.patient) {
-        //   this.set('model.doctor', this._addFullNameToDoctor(this.patient.doctor));
-        // }
-      },
-
-      _addFullNameToDoctor: function (doc) {
-        // doc.fullName = `${doc.lastName}, ${doc.firstName}`;
-        // return doc;
-      },
-
-      _checkFormValidity: function () {
-        // this.valid = !Polymer.dom(this.root).querySelectorAll('.input').find(input => input.invalid);
       }
 
     });
