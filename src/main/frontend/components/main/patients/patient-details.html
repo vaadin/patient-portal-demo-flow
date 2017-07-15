@@ -1,10 +1,4 @@
-
-<link rel="import" href="../../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../shared/navigation-helpers.html">
-<link rel="import" href="patient-profile.html">
-<link rel="import" href="patient-editor.html">
-<link rel="import" href="patient-journal.html">
-<link rel="import" href="journal-editor.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <dom-module id="patient-details">
   <template>
@@ -12,8 +6,16 @@
       :host {
         display: flex;
         flex-direction: column;
+        position: absolute;
+        box-sizing: border-box;
+        padding: 16px;
         height: 100vh;
-        position: relative;
+        top: 0;
+        background: #fff;
+        border-left: 5px solid #434D54;
+        left: 25%;
+        right: 0;
+        box-shadow: 2px 2px 10px 8px rgba(0, 0, 0, 0.2);
       }
 
       nav[hidden].details-nav {
@@ -63,108 +65,31 @@
         }
       }
     </style>
-    <app-route route="{{route}}" active="{{active}}" pattern="/:page" data="{{routeData}}"
-               tail="{{subroute}}"></app-route>
 
-    <nav class="details-nav" hidden="[[pageActive(page, 'edit', 'new-entry')]]">
-      <a on-tap="goBack">
+    <nav class="details-nav">
+      <a router-link href="patients">
         <iron-icon icon="arrow-long-left"></iron-icon>
         <span class="linktext">All patients</span></a>
       <div class="sub-pages">
-        <a href$="[[route.prefix]]/profile"
-           class$="[[_getItemClasses('profile', page)]]">Profile</a>
-        <a href$="[[route.prefix]]/journal"
-           class$="[[_getItemClasses('journal', page)]]">Journal</a>
+        <a router-link href="patients/1" class$="[[_getItemClasses('profile', page)]]">Profile</a>
+        <a router-link href="patients/1/journal" class$="[[_getItemClasses('journal', page)]]">Journal</a>
       </div>
-      <a href$="[[route.prefix]]/edit">Edit patient</a>
+      <a router-link href="patients/1/edit">Edit patient</a>
     </nav>
-    <iron-pages class="content" selected="[[page]]" fallback-selection="profile" attr-for-selected="name" role="main">
-      <patient-profile name="profile" patient="[[patient]]" route="{{route}}"></patient-profile>
-      <patient-journal name="journal" patient="[[patient]]" route="{{route}}" entries="[[journalEntries]]"></patient-journal>
-      <patient-editor name="edit" patient="[[patient]]" route="{{route}}"></patient-editor>
-      <journal-editor name="new-entry" patient="[[patient]]" route="{{route}}"></journal-editor>
-    </iron-pages>
+
+    <slot></slot>
 
   </template>
   <script>
     Polymer({
       is: 'patient-details',
-      behaviors: [PatientPortal.NavHelpers],
       properties: {
         patient: {
           type: Object,
-          notify: true,
-          observer: '_updateJournalEntries'
+          notify: true
         },
-        journalEntries: Array,
-        route: {
-          type: Object,
-          notify: true,
-          observer: 'routeChanged',
-          value: function () {
-            return {}
-          }
-        },
-        page: {
-          type: String
-        }
-      },
-
-      created: function () {
-        this.routing = new Map([
-          ['profile', 'patient-profile.html'],
-          ['journal', 'patient-journal.html'],
-          ['new', 'patient-editor.html'],
-          ['edit', 'patient-editor.html'],
-          ['new-entry', 'journal-editor.html'],
-        ]);
-      },
-
-      observers: [
-        '_routePageChanged(routeData.page)'
-      ],
-
-      listeners: {
-        'new-entry': '_updateJournalEntries'
-      },
-
-      routeChanged: function () {
-        if (this.route.path === '' && !this.page) {
-          this.set('route.path', '/profile');
-        }
-      },
-
-      goBack: function () {
-        this.patient = null;
-      },
-
-      _updateEntries: function () {
-        if(this.patient){
-          PatientPortal.http.get(`/patients/${this.patient.id}/journalentries`)
-            .then(entries => this.entries = entries);
-        }
-      },
-
-      _routePageChanged: function (page) {
-        if (page) {
-          this.page = page;
-        }
-      },
-
-      _updateJournalEntries: function () {
-        if(this.patient){
-          PatientPortal.http.get(`/patients/${this.patient.id}/journalentries`)
-            .then(entries => this.journalEntries = entries);
-        }
-      },
-
-      _getItemClasses: function (link, page) {
-        return 'item ' + (link === page ? 'active' : '');
-      },
-
-      _editing: function () {
-        return this.page.indexOf('edit') >= 0 || this.page.indexOf('new') >= 0;
+        journalEntries: Array
       }
-    });
+    })
   </script>
 </dom-module>

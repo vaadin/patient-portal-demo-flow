@@ -1,5 +1,4 @@
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../shared/navigation-helpers.html">
 <link rel="import" href="../../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 <link rel="import" href="../../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 
@@ -123,7 +122,6 @@
         model: {
           type: Object
         },
-        route: Object,
         doctors: Array,
         appointmentTypes: {
           type: Array,
@@ -145,42 +143,6 @@
             ]
           }
         }
-      },
-
-      ready: function () {
-        this._getDoctors();
-      },
-
-      _resetModel: function () {
-        this.model = {
-          date: moment().format('YYYY-MM-DD'),
-          entry: ''
-        };
-      },
-
-      _getDoctors: function () {
-        PatientPortal.http.get('/doctors')
-        // add fullName property for combobox
-          .then(doctors => {
-            this.doctors = doctors.map(doc => {
-              doc.fullName = `${doc.lastName}, ${doc.firstName}`;
-              return doc;
-            });
-          });
-      },
-
-      save: function () {
-        PatientPortal.http.put(`${this.route.prefix}/journalentries`, this.model)
-          .then(() => {
-            this.fire('new-entry');
-            this.set('route.path', '/journal');
-            this._resetModel();
-          })
-          .catch(err => console.log(err));
-      },
-
-      close: function () {
-        this.set('route.path', '/journal');
       }
     });
   </script>
