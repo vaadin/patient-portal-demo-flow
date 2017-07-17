@@ -126,40 +126,9 @@
     </div>
   </template>
   <script>
-    Polymer({
-      is: 'patient-editor',
-      properties: {
-        patient: {
-          type: Object,
-          notify: true,
-          observer: '_patientChanged'
-        },
-        model: Object,
-        titles: {
-          type: Array,
-          value: function () {
-            return ['Miss', 'Ms', 'Mrs', 'Mr'];
-          }
-        },
-        genders: {
-          type: Array,
-          value: function () {
-            return [{
-              label: 'Male',
-              value: 'MALE'
-            }, {
-              label: 'Female',
-              value: 'FEMALE'
-            }, {
-              label: 'Other',
-              value: 'OTHER'
-            }]
-          }
-        },
-        doctors: Array,
-        valid: Boolean
-      }
-
-    });
+    class PatientEditor extends Polymer.Element {
+      static get is() { return 'patient-editor' }
+    }
+    customElements.define(PatientEditor.is, PatientEditor);
   </script>
 </dom-module>

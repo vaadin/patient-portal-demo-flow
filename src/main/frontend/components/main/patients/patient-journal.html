@@ -129,21 +129,14 @@
     </vaadin-grid>
   </template>
   <script>
-    Polymer({
-      is: 'patient-journal',
-      properties: {
-        patient: {
-          type: Object,
-          notify: true
-        },
-        entries: Array
-      },
+    class PatientJournal extends Polymer.Element {
+      static get is() { return 'patient-journal' }
 
-      _expandIcon: function(expanded){
+      _expandIcon(expanded) {
         return expanded ? 'chevron-down' : 'chevron-right';
-      },
+      }
 
-      _toggleExpand: function(evt) {
+      _toggleExpand(evt) {
         const item = evt.model.item;
         if(this.$.grid.expandedItems && this.$.grid.expandedItems.includes(item)){
           this.$.grid.expandedItems = [];
@@ -151,6 +144,7 @@
           this.$.grid.expandedItems = [item];
         }
       }
-    });
+    }
+    customElements.define(PatientJournal.is, PatientJournal);
   </script>
 </dom-module>
