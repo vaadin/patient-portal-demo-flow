@@ -80,23 +80,9 @@
     </div>
   </template>
   <script>
-    Polymer({
-      is: 'login-view',
-      properties: {
-        errorMsg: String,
-        username: {
-          type: String,
-          value: 'user'
-        },
-        password: {
-          type: String,
-          value: 'password'
-        },
-        loggedIn: {
-          type: Boolean,
-          notify: true
-        }
-      }
-    });
+    class LoginView extends Polymer.Element {
+      static get is() { return 'login-view' }
+    }
+    customElements.define(LoginView.is, LoginView);
   </script>
 </dom-module>

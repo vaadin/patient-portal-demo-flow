@@ -113,30 +113,20 @@
     <slot></slot>
   </template>
   <script>
-    Polymer({
-      is: 'patients-view',
-      properties: {
-        patients: {
-          type: Array,
-          notify: true
-        },
-        currentPatient: {
-          type: Object,
-          notify: true,
-          observer: '_patientChanged'
-        },
-        narrow: Boolean
-      },
+    class PatientsView extends Polymer.Element {
+      static get is() { return 'patients-view' }
 
-      ready: function () {
-        this._updatePatients();
-      },
+      static get properties() {
+        return {
+          currentPatient: {
+            type: Object,
+            notify: true,
+            observer: '_patientChanged'
+          }
+        }
+      }
 
-      listeners: {
-        'patients-updated': '_updatePatients'
-      },
-
-      _patientChanged: function (patient) {
+      _patientChanged(patient) {
         // Grid fires an initial null selection when initialized which messes up everything
         if (!this.gridInited) {
           this.gridInited = true;
@@ -144,26 +134,21 @@
         }
 
         this._selectPatient(patient);
-      },
+      }
 
-      _updatePatients: function () {
-        this.$.patientsGrid.clearCache();
-        // TODO: re-select selected item
-      },
-
-      _selectPatient: function (patient) {
+      _selectPatient(patient) {
         this.$.patientsGrid.selectedItems = patient ? [patient] : [];
-      },
+      }
 
-      _detailsOpen: function (currentPatient) {
+      _detailsOpen(currentPatient) {
         return currentPatient ? 'open' : '';
-      },
+      }
 
-      _expandIcon: function (expanded) {
+      _expandIcon(expanded) {
         return expanded ? 'chevron-down' : 'chevron-right'
-      },
+      }
 
-      _toggleExpand: function (evt) {
+      _toggleExpand(evt) {
         const item = evt.model.item;
         if (this.$.patientsGrid.expandedItems && this.$.patientsGrid.expandedItems.includes(item)) {
           this.$.patientsGrid.expandedItems = [];
@@ -171,6 +156,7 @@
           this.$.patientsGrid.expandedItems = [item];
         }
       }
-    });
+    }
+    customElements.define(PatientsView.is, PatientsView);
   </script>
 </dom-module>

@@ -72,17 +72,14 @@
 
   </template>
   <script>
-    Polymer({
-      is: 'main-view',
-      properties: {
-        page: {
-          type: String
-        }
-      },
+    class MainView extends Polymer.Element {
+      static get is() { return 'main-view' }
 
-      _isActive: function(link, page) {
+      _isActive(link, page) {
         return link === page ? 'active' : '';
       }
-    });
+
+    }
+    customElements.define(MainView.is, MainView);
   </script>
 </dom-module>

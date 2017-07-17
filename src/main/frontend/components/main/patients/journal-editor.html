@@ -111,39 +111,9 @@
     </div>
   </template>
   <script>
-    Polymer({
-      is: 'journal-editor',
-      properties: {
-        patient: {
-          type: Object,
-          notify: true,
-          observer: '_resetModel'
-        },
-        model: {
-          type: Object
-        },
-        doctors: Array,
-        appointmentTypes: {
-          type: Array,
-          value: function () {
-            return [
-              {
-                label: 'New patient',
-                value: 'NEW_PATIENT'
-              }, {
-                label: 'X-ray',
-                value: 'X_RAY'
-              }, {
-                label: 'Surgery',
-                value: 'SURGERY'
-              }, {
-                label: 'Follow up',
-                value: 'FOLLOW_UP'
-              }
-            ]
-          }
-        }
-      }
-    });
+    class JournalEditor extends Polymer.Element {
+      static get is() { return 'journal-editor' }
+    }
+    customElements.define(JournalEditor.is, JournalEditor);
   </script>
 </dom-module>
