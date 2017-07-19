@@ -15,7 +15,10 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.testutil.ChromeBrowserTest;
 
@@ -23,6 +26,68 @@ public class PatientPortalIT extends ChromeBrowserTest {
 
     @Test
     public void testNavigation() {
+        open();
+
+        getInShadowRoot(By.tagName("login-view"), By.id("login-button"))
+                .click();
+        assertLocation("patients");
+
+        // Click on the first cell that actually contains patient-data:
+        getInShadowRoot(By.tagName("patients-view"),
+                By.id("vaadin-grid-cell-content-13")).click();
+        assertLocation("patients/1");
+
+        getInShadowRoot(By.tagName("patient-details"), By.linkText("JOURNAL"))
+                .click();
+        assertLocation("patients/1/journal");
+
+        getInShadowRoot(By.tagName("patient-journal"),
+                By.partialLinkText("NEW ENTRY")).click();
+        assertLocation("patients/1/new-entry");
+
+        getInShadowRoot(By.tagName("patient-details"),
+                By.linkText("EDIT PATIENT")).click();
+        assertLocation("patients/1/edit");
+
+        getInShadowRoot(By.tagName("patient-details"), By.linkText("PROFILE"))
+                .click();
+        assertLocation("patients/1");
+
+        getInShadowRoot(By.tagName("patient-details"),
+                By.linkText("ALL PATIENTS")).click();
+        assertLocation("patients");
+
+        getInShadowRoot(By.tagName("main-view"), By.linkText("ANALYTICS"))
+                .click();
+        assertLocation("analytics");
+
+        getInShadowRoot(By.tagName("vaadin-license-dialog"),
+                By.id("licenseDialogClose")).click();
+
+        getInShadowRoot(By.tagName("analytics-view"), By.linkText("DOCTOR"))
+                .click();
+        assertLocation("analytics/doctor");
+
+        getInShadowRoot(By.tagName("analytics-view"), By.linkText("GENDER"))
+                .click();
+        assertLocation("analytics/gender");
+
+        getInShadowRoot(By.tagName("analytics-view"), By.linkText("AGE"))
+                .click();
+        assertLocation("analytics/age");
+
+        getInShadowRoot(By.tagName("main-view"), By.linkText("PATIENTS"))
+                .click();
+        assertLocation("patients");
+    }
+
+    private void assertLocation(String expectedLocation) {
+        Assert.assertTrue(getDriver().getCurrentUrl()
+                .matches("^" + getRootURL() + "/" + expectedLocation + "/?$"));
+    }
+
+    private WebElement getInShadowRoot(By shadowHost, By by) {
+        return getInShadowRoot(findElement(shadowHost), by);
     }
 
     @Override
