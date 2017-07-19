@@ -22,12 +22,12 @@
 
         <!-- Dependencies -->
         <flow.version>0.1.14-SNAPSHOT</flow.version>
-        <testbench.version>5.0.0</testbench.version>
+        <selenium.server.version>3.4.0</selenium.server.version>
 
         <!-- Plugins -->
         <frontend.maven.plugin.version>1.4</frontend.maven.plugin.version>
         <jetty.version>9.3.7.v20160115</jetty.version>
-        <driver.binary.downloader.maven.plugin.version>1.0.13</driver.binary.downloader.maven.plugin.version>
+        <driver.binary.downloader.maven.plugin.version>1.0.14</driver.binary.downloader.maven.plugin.version>
         <maven.failsafe.plugin.version>2.20</maven.failsafe.plugin.version>
         <maven.war.plugin.version>3.0.0</maven.war.plugin.version>
         <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
@@ -65,7 +65,7 @@
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-        
+
     </repositories>
 
     <dependencies>
@@ -79,6 +79,19 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${selenium.server.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-test-util</artifactId>
+            <version>${flow.version}</version>
         </dependency>
 
         <dependency>
@@ -108,7 +121,6 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -132,12 +144,28 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
-
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.failsafe.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -158,7 +186,6 @@
                     </webResources>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -242,25 +269,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <systemPropertyVariables>
-                        <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-            
+
             <plugin>
                 <groupId>com.lazerycode.selenium</groupId>
                 <artifactId>driver-binary-downloader-maven-plugin</artifactId>
@@ -282,7 +291,6 @@
                     </execution>
                 </executions>
             </plugin>
-            
         </plugins>
     </build>
 </project>
