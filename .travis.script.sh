@@ -13,7 +13,7 @@ then
     # Pull request inside repository, secure vars available (needed for Sonar and TestBench tests)
     # Run verify + Sonar analysis
     mvn -B -e -V \
-        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo
+        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
         -Dmaven.javadoc.skip=false \
         -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
         -Dtest.excludegroup= \
@@ -31,7 +31,7 @@ then
     # master build
     mvn -B -e -V \
         -Pall-tests \
-        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo
+        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
         -Dvaadin.productionMode=true \
         -Dmaven.javadoc.skip=false \
         -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
@@ -43,7 +43,7 @@ then
         # run sonar
         echo "Running Sonar"
         mvn -B -e -V \
-            -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo
+            -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
             -Dmaven.javadoc.skip=false \
             -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
             -Dsonar.analysis.mode=publish \
@@ -60,7 +60,7 @@ then
 else
     # Branch build, secure vars available (needed for TestBench tests)
     mvn -B -e -V \
-        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo
+        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
         -Dmaven.javadoc.skip=false \
         -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
         -Dsonar.exclusions=$SONAR_EXCLUSIONS \
