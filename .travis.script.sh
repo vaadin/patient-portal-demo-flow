@@ -10,22 +10,33 @@ SONAR_EXCLUSIONS=**/bower_components/**,**/node_modules/**,**/node/**
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]
 then
-    # Pull request inside repository, secure vars available (needed for Sonar and TestBench tests)
-    # Run verify + Sonar analysis
-    mvn -B -e -V \
-        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
-        -Dmaven.javadoc.skip=false \
-        -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
-        -Dtest.excludegroup= \
-        -Dsonar.verbose=true \
-        -Dsonar.analysis.mode=issues \
-        -Dsonar.github.repository=$TRAVIS_REPO_SLUG \
-        -Dsonar.host.url=$SONAR_HOST \
-        -Dsonar.github.oauth=$SONAR_GITHUB_OAUTH \
-        -Dsonar.login=$SONAR_LOGIN \
-        -Dsonar.github.pullRequest=$TRAVIS_PULL_REQUEST \
-        -Dsonar.exclusions=$SONAR_EXCLUSIONS \
-        clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
+    if [ "$SKIP_SONAR" != "true" ]
+    then
+        # Pull request inside repository, secure vars available (needed for Sonar and TestBench tests)
+        # Run verify + Sonar analysis
+        mvn -B -e -V \
+            -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
+            -Dmaven.javadoc.skip=false \
+            -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
+            -Dtest.excludegroup= \
+            -Dsonar.verbose=true \
+            -Dsonar.analysis.mode=issues \
+            -Dsonar.github.repository=$TRAVIS_REPO_SLUG \
+            -Dsonar.host.url=$SONAR_HOST \
+            -Dsonar.github.oauth=$SONAR_GITHUB_OAUTH \
+            -Dsonar.login=$SONAR_LOGIN \
+            -Dsonar.github.pullRequest=$TRAVIS_PULL_REQUEST \
+            -Dsonar.exclusions=$SONAR_EXCLUSIONS \
+            clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
+    else
+        # Run verify (skip sonar)
+        mvn -B -e -V \
+            -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
+            -Dmaven.javadoc.skip=false \
+            -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
+            -Dtest.excludegroup= \
+            clean org.jacoco:jacoco-maven-plugin:prepare-agent verify
+    fi
 elif [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]
 then
     # master build
@@ -40,19 +51,24 @@ then
     STATUS=$?
     if [ $STATUS -eq 0 ]
     then
-        # run sonar
-        echo "Running Sonar"
-        mvn -B -e -V \
-            -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
-            -Dmaven.javadoc.skip=false \
-            -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
-            -Dsonar.analysis.mode=publish \
-            -Dsonar.exclusions=$SONAR_EXCLUSIONS \
-            -Dsonar.verbose=true \
-            -Dsonar.host.url=$SONAR_HOST \
-            -Dsonar.login=$SONAR_LOGIN \
-            -DskipTests \
-            compile sonar:sonar
+        if [ "$SKIP_SONAR" != "true" ]
+        then
+            # run sonar
+            echo "Running Sonar"
+            mvn -B -e -V \
+                -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
+                -Dmaven.javadoc.skip=false \
+                -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
+                -Dsonar.analysis.mode=publish \
+                -Dsonar.exclusions=$SONAR_EXCLUSIONS \
+                -Dsonar.verbose=true \
+                -Dsonar.host.url=$SONAR_HOST \
+                -Dsonar.login=$SONAR_LOGIN \
+                -DskipTests \
+                compile sonar:sonar
+        else
+            echo "Skipping sonar."
+        fi
     else
         echo "Build failed, skipping sonar."
         exit 1
