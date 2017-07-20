@@ -65,9 +65,9 @@ public class PatientsViewIT extends AbstractChromeTest {
         String lastVisit = getCellText(17);
         Assert.assertTrue(
                 "Grid should contain the last visit date of the first patient.\n"
-                        + "Expected format: yyyy-mm-dd or an empty string\n"
+                        + "Expected format: yyyy/MM/dd or an empty string\n"
                         + "Actual value: '" + lastVisit + "'",
-                lastVisit.matches("(\\d{4}-\\d{2}-\\d{2})|^$"));
+                lastVisit.matches("(\\d{4}/\\d{2}/\\d{2})|^$"));
 
     }
 
