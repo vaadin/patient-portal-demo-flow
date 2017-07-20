@@ -25,16 +25,6 @@ import com.vaadin.flow.template.model.ModelConverter;
 public class LongToStringConverter implements ModelConverter<Long, String> {
 
     @Override
-    public Class<Long> getApplicationType() {
-        return Long.class;
-    }
-
-    @Override
-    public Class<String> getModelType() {
-        return String.class;
-    }
-
-    @Override
     public String toModel(Long applicationValue) {
         if (applicationValue == null)
             return "";

@@ -27,16 +27,6 @@ import com.vaadin.flow.template.model.ModelConverter;
 public class DateToStringConverter implements ModelConverter<Date, String> {
 
     @Override
-    public Class<Date> getApplicationType() {
-        return Date.class;
-    }
-
-    @Override
-    public Class<String> getModelType() {
-        return String.class;
-    }
-
-    @Override
     public String toModel(Date applicationValue) {
         return applicationValue == null ? ""
                 : applicationValue.toString().split(" ")[0];
