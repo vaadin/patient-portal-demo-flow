@@ -15,11 +15,16 @@
  */
 package com.vaadin.flow.demo.patientportal.converters;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.vaadin.flow.template.model.ModelConverter;
 
 /**
+ * Converts between Date-objects and their String-representations in format
+ * 'yyyy-mm-dd'.
+ * 
  * @author Vaadin Ltd
  *
  */
@@ -34,7 +39,11 @@ public class DateToStringConverter implements ModelConverter<Date, String> {
 
     @Override
     public Date toApplication(String modelValue) {
-        return new Date();
+        try {
+            return new SimpleDateFormat("yyyy-mm-dd").parse(modelValue);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
 }
