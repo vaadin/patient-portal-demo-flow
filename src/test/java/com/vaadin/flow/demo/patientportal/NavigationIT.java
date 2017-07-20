@@ -15,14 +15,12 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import com.vaadin.flow.testutil.ChromeBrowserTest;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
-public class PatientPortalIT extends ChromeBrowserTest {
+public class NavigationIT extends AbstractChromeTest {
 
     @Test
     public void testNavigation() {
@@ -82,21 +80,8 @@ public class PatientPortalIT extends ChromeBrowserTest {
     }
 
     private void assertLocation(String expectedLocation) {
-        Assert.assertThat("Got incorrect page location", getDriver().getCurrentUrl(),
-                CoreMatchers.containsString(getRootURL() + '/' + expectedLocation));
-    }
-
-    private WebElement getInShadowRoot(By shadowHost, By by) {
-        return getInShadowRoot(findElement(shadowHost), by);
-    }
-
-    @Override
-    protected String getTestPath() {
-        return "/";
-    }
-
-    @Override
-    protected int getDeploymentPort() {
-        return 8080;
+        Assert.assertThat("Got incorrect page location",
+                getDriver().getCurrentUrl(), CoreMatchers
+                        .containsString(getRootURL() + '/' + expectedLocation));
     }
 }
