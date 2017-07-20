@@ -27,13 +27,17 @@ public class LongToStringConverter implements ModelConverter<Long, String> {
     @Override
     public String toModel(Long applicationValue) {
         if (applicationValue == null)
-            return "";
+            return null;
         return applicationValue.toString();
     }
 
     @Override
     public Long toApplication(String modelValue) {
-        return Long.parseLong(modelValue);
+        try {
+            return Long.parseLong(modelValue);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
     }
 
 }
