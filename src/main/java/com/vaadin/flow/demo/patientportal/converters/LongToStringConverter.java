@@ -33,11 +33,9 @@ public class LongToStringConverter implements ModelConverter<Long, String> {
 
     @Override
     public Long toApplication(String modelValue) {
-        try {
-            return Long.parseLong(modelValue);
-        } catch (NumberFormatException exception) {
+        if (modelValue == null)
             return null;
-        }
+        return Long.parseLong(modelValue);
     }
 
 }
