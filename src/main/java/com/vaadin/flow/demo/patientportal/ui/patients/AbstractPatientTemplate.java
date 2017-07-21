@@ -21,8 +21,12 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.annotations.Convert;
 import com.vaadin.annotations.Include;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
+import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
+import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
@@ -45,9 +49,17 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
 
     public interface PatientTemplateModel extends TemplateModel {
 
-        @Include({ "firstName", "middleName", "lastName", "doctor.firstName",
-                "doctor.lastName", "pictureUrl" })
-        void setPatient(Patient p);
+        @Include({ "firstName", "middleName", "lastName", "gender", "birthDate",
+                "ssn", "id", "doctor.firstName", "doctor.lastName",
+                "medicalRecord", "lastVisit", "pictureUrl" })
+        @Convert(value = LongToStringConverter.class, path = "id")
+        @Convert(value = LongToStringConverter.class, path = "medicalRecord")
+        @Convert(value = DateToStringConverter.class, path = "birthDate")
+        @Convert(value = DateToStringConverter.class, path = "lastVisit")
+        @Convert(value = GenderToStringConverter.class, path = "gender")
+        void setPatient(Patient patient);
+
+        Patient getPatient();
     }
 
     @Override
