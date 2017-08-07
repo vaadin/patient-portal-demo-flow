@@ -16,8 +16,11 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import javax.transaction.Transactional;
+
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
+import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
@@ -31,5 +34,12 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 @ParentView(PatientDetails.class)
 public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
+
+    @Override
+    @Transactional
+    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        super.onLocationChange(locationChangeEvent);
+        getModel().setEntries(getPatient().getJournalEntries());
+    }
 
 }
