@@ -46,6 +46,7 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
         return patientRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Patient> getPatient(Long id) {
         return Optional.ofNullable(patientRepository.findOne(id));
     }
@@ -54,6 +55,7 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
         patientRepository.saveAndFlush(patient);
     }
 
+    @Transactional(readOnly = true)
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
     }
