@@ -50,6 +50,10 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
         return Optional.ofNullable(patientRepository.findOne(id));
     }
 
+    public void savePatient(Patient patient) {
+        patientRepository.saveAndFlush(patient);
+    }
+
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
     }
