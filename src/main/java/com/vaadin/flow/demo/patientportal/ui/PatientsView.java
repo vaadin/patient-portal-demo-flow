@@ -53,11 +53,17 @@ public class PatientsView
     private Element grid;
 
     public PatientsView() {
-        getElement().addPropertyChangeListener("currentPatient", event -> {
-            Patient current = getModel().getCurrentPatient();
-            getUI().get().navigateTo(
-                    "patients/" + (current != null ? current.getId() : ""));
-        });
+        getElement().addPropertyChangeListener("currentPatient",
+                event -> navigateToCurrentPatient());
+    }
+
+    /**
+     * If no patient is selected, navigates back to this view.
+     */
+    private void navigateToCurrentPatient() {
+        Patient current = getModel().getCurrentPatient();
+        getUI().get().navigateTo(
+                "patients/" + (current != null ? current.getId() : ""));
     }
 
     public interface PatientsViewModel extends TemplateModel {
