@@ -16,8 +16,17 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
+import com.vaadin.demo.entities.AppointmentType;
+import com.vaadin.demo.entities.JournalEntry;
+import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
@@ -32,4 +41,25 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 public class JournalEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
+    private List<JournalEntry> journalEntries;
+
+    @EventHandler
+    private void save() {
+        // TODO: get real data from the template, this is just to test that new
+        // entries are saved to the database.
+        JournalEntry e = new JournalEntry(new Date(), "test entry",
+                AppointmentType.FOLLOW_UP);
+        journalEntries.add(e);
+        patientService.savePatient(getPatient());
+        getUI().get()
+                .navigateTo("patients/" + getPatient().getId() + "/journal");
+    }
+
+    @Override
+    @Transactional
+    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        super.onLocationChange(locationChangeEvent);
+        this.journalEntries = getPatient().getJournalEntries();
+        journalEntries.size(); // to initialize the list
+    }
 }

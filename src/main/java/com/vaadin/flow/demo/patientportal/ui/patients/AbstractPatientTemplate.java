@@ -45,7 +45,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         extends PolymerTemplate<M> implements View {
 
     @Autowired
-    private PatientService patientService;
+    protected PatientService patientService;
 
     private Patient patient;
 
