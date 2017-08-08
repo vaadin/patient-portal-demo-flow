@@ -21,8 +21,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Dependencies -->
-        <flow.version>0.1.14-SNAPSHOT</flow.version>
-        <selenium.server.version>3.4.0</selenium.server.version>
+        <flow.version>0.1.17-SNAPSHOT</flow.version>
 
         <!-- Plugins -->
         <frontend.maven.plugin.version>1.4</frontend.maven.plugin.version>
@@ -79,13 +78,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-server</artifactId>
-            <version>${selenium.server.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

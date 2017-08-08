@@ -35,15 +35,14 @@ public class DateToStringConverter implements ModelConverter<Date, String> {
             "yyyy/MM/dd");
 
     @Override
-    public String toModel(Date applicationValue) {
-        return applicationValue == null ? null
-                : dateFormat.format(applicationValue);
+    public String toPresentation(Date modelValue) {
+        return modelValue == null ? null : dateFormat.format(modelValue);
     }
 
     @Override
-    public Date toApplication(String modelValue) {
+    public Date toModel(String presentationValue) {
         try {
-            return dateFormat.parse(modelValue);
+            return dateFormat.parse(presentationValue);
         } catch (ParseException e) {
             return null;
         }
