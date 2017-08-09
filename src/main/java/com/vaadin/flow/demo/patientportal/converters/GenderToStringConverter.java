@@ -31,15 +31,7 @@ public class GenderToStringConverter implements ModelConverter<Gender, String> {
 
     @Override
     public Gender toModel(String presentationValue) {
-        if (presentationValue != null) {
-            for (Gender gender : Gender.values()) {
-                if (presentationValue.toLowerCase()
-                        .equals(gender.name().toLowerCase()))
-                    return gender;
-            }
-        }
-        throw new IllegalArgumentException(
-                "Unable to parse Gender from parameter String.");
+        return Gender.valueOf(presentationValue.toUpperCase());
     }
 
 }
