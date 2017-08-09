@@ -65,10 +65,10 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
-            Optional<Patient> patient = patientService.getPatient(id);
-            if (patient.isPresent()) {
-                this.patient = patient.get();
-                getModel().setPatient(this.patient);
+            Optional<Patient> optionalPatient = patientService.getPatient(id);
+            if (optionalPatient.isPresent()) {
+                patient = optionalPatient.get();
+                getModel().setPatient(patient);
             } else {
                 Logger.getLogger(AbstractPatientTemplate.class.getName())
                         .info("Patient with id " + id + " was not found.");
