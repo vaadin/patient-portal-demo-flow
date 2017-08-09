@@ -20,7 +20,7 @@ import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Tag;
-import com.vaadin.flow.html.Button;
+import com.vaadin.flow.html.NativeButton;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
@@ -38,7 +38,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
         implements View {
 
     @Id("login-button")
-    private Button loginButton;
+    private NativeButton loginButton;
 
     public LoginView() {
 
