@@ -16,6 +16,7 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.annotations.Convert;
 import com.vaadin.annotations.Include;
+import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
@@ -45,7 +47,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         extends PolymerTemplate<M> implements View {
 
     @Autowired
-    private PatientService patientService;
+    protected PatientService patientService;
+
+    private Patient patient;
 
     public interface PatientTemplateModel extends TemplateModel {
 
@@ -59,7 +63,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         @Convert(value = GenderToStringConverter.class, path = "gender")
         void setPatient(Patient patient);
 
-        Patient getPatient();
+        @Convert(value = DateToStringConverter.class, path = "date")
+        @Include({ "entry", "doctor.firstName", "doctor.lastName", "date" })
+        void setEntries(List<JournalEntry> entries);
     }
 
     @Override
@@ -67,9 +73,10 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
-            Optional<Patient> patient = patientService.getPatient(id);
-            if (patient.isPresent()) {
-                getModel().setPatient(patient.get());
+            Optional<Patient> optionalPatient = patientService.getPatient(id);
+            if (optionalPatient.isPresent()) {
+                patient = optionalPatient.get();
+                getModel().setPatient(patient);
             } else {
                 Logger.getLogger(AbstractPatientTemplate.class.getName())
                         .info("Patient with id " + id + " was not found.");
@@ -80,5 +87,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
                     .info("Failed to parse patient's id from the url.");
             locationChangeEvent.rerouteToErrorView();
         }
+    }
+
+    public Patient getPatient() {
+        return patient;
     }
 }

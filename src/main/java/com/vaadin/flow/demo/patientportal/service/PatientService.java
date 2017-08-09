@@ -22,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vaadin.demo.entities.Doctor;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.demo.repositories.DoctorRepository;
 import com.vaadin.demo.repositories.PatientRepository;
 
 /**
@@ -36,12 +38,25 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
+
     @Transactional(readOnly = true)
     public List<Patient> getPatients() {
         return patientRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Patient> getPatient(Long id) {
         return Optional.ofNullable(patientRepository.findOne(id));
+    }
+
+    public void savePatient(Patient patient) {
+        patientRepository.saveAndFlush(patient);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Doctor> getAllDoctors() {
+        return doctorRepository.findAll();
     }
 }

@@ -25,21 +25,21 @@ import com.vaadin.flow.template.model.ModelConverter;
 public class GenderToStringConverter implements ModelConverter<Gender, String> {
 
     @Override
-    public String toModel(Gender applicationValue) {
-        return applicationValue.name().toLowerCase();
+    public String toPresentation(Gender modelValue) {
+        return modelValue.name().toLowerCase();
     }
 
     @Override
-    public Gender toApplication(String modelValue) {
-        if (modelValue != null) {
+    public Gender toModel(String presentationValue) {
+        if (presentationValue != null) {
             for (Gender gender : Gender.values()) {
-                if (modelValue.toLowerCase()
+                if (presentationValue.toLowerCase()
                         .equals(gender.name().toLowerCase()))
                     return gender;
             }
         }
         throw new IllegalArgumentException(
-                "Unable parse Gender from parameter String.");
+                "Unable to parse Gender from parameter String.");
     }
 
 }

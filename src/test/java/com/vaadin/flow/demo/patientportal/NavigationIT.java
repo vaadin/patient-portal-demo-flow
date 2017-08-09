@@ -77,6 +77,8 @@ public class NavigationIT extends AbstractChromeTest {
         getInShadowRoot(By.tagName("main-view"), By.linkText("PATIENTS"))
                 .click();
         assertLocation("patients");
+
+        getInShadowRoot(By.tagName("patients-view"), By.id("patientsGrid"));
     }
 
     private void assertLocation(String expectedLocation) {

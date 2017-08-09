@@ -25,17 +25,17 @@ import com.vaadin.flow.template.model.ModelConverter;
 public class LongToStringConverter implements ModelConverter<Long, String> {
 
     @Override
-    public String toModel(Long applicationValue) {
-        if (applicationValue == null)
+    public String toPresentation(Long modelValue) {
+        if (modelValue == null)
             return null;
-        return applicationValue.toString();
+        return modelValue.toString();
     }
 
     @Override
-    public Long toApplication(String modelValue) {
-        if (modelValue == null)
+    public Long toModel(String presentationValue) {
+        if (presentationValue == null)
             return null;
-        return Long.parseLong(modelValue);
+        return Long.parseLong(presentationValue);
     }
 
 }
