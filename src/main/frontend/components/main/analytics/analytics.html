@@ -49,7 +49,7 @@
         flex: 1;
       }
     </style>
-    
+
     <div class="nav">
         <a href="/analytics/age" class$="[[_isActive('age', route)]]" router-link>Age</a>
         <a href="/analytics/doctor" class$="[[_isActive('doctor', route)]]" router-link>Doctor</a>
@@ -82,10 +82,6 @@
                 type: Array,
                 value: [],
                 observer: '_categoriesSet'
-              },
-              route :{
-            	  type: String,
-            	  value: ""
               }
             }
           }
@@ -105,8 +101,8 @@
         }
 
         _isActive(link, route) {
-            return link === route ? 'active' : '';
-          }
+          return link === route ? 'active' : '';
+        }
       }
 
     customElements.define(Analytics.is, Analytics);

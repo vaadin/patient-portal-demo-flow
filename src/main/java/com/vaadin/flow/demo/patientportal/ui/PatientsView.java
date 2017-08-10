@@ -20,11 +20,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.annotations.Convert;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Include;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
+import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.template.model.TemplateModel;
@@ -58,7 +61,11 @@ public class PatientsView
 
     public interface PatientsViewModel extends TemplateModel {
 
-        @Include({ "firstName", "lastName" })
+        @Include({ "firstName", "lastName", "id", "medicalRecord",
+                "doctor.firstName", "doctor.lastName", "lastVisit" })
+        @Convert(value = DateToStringConverter.class, path = "lastVisit")
+        @Convert(value = LongToStringConverter.class, path = "medicalRecord")
+        @Convert(value = LongToStringConverter.class, path = "id")
         void setPatients(List<Patient> patients);
     }
 

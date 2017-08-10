@@ -142,13 +142,9 @@
     <img class="profile-pic" src="[[patient.pictureUrl]]">
   </template>
   <script>
-    Polymer({
-      is: 'patient-profile',
-      properties: {
-        patient: {
-          type: Object
-        }
-      }
-    });
+    class PatientProfile extends Polymer.Element {
+      static get is() { return 'patient-profile' }
+    }
+    customElements.define(PatientProfile.is, PatientProfile);
   </script>
 </dom-module>

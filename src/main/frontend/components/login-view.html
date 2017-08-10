@@ -3,7 +3,6 @@
 <link rel="import" href="my-icons.html">
 <link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="shared-styles.html">
-<link rel="import" href="helpers.html">
 <dom-module id="login-view">
   <template>
     <style include="shared-styles">
@@ -80,23 +79,9 @@
     </div>
   </template>
   <script>
-    Polymer({
-      is: 'login-view',
-      properties: {
-        errorMsg: String,
-        username: {
-          type: String,
-          value: 'user'
-        },
-        password: {
-          type: String,
-          value: 'password'
-        },
-        loggedIn: {
-          type: Boolean,
-          notify: true
-        }
-      }
-    });
+    class LoginView extends Polymer.Element {
+      static get is() { return 'login-view' }
+    }
+    customElements.define(LoginView.is, LoginView);
   </script>
 </dom-module>

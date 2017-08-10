@@ -81,15 +81,9 @@
 
   </template>
   <script>
-    Polymer({
-      is: 'patient-details',
-      properties: {
-        patient: {
-          type: Object,
-          notify: true
-        },
-        journalEntries: Array
-      }
-    })
+    class PatientDetails extends Polymer.Element {
+      static get is() { return 'patient-details' }
+    }
+    customElements.define(PatientDetails.is, PatientDetails);
   </script>
 </dom-module>
