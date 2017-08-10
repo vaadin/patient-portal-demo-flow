@@ -53,10 +53,17 @@ public class PatientsView
     private Element grid;
 
     public PatientsView() {
+        getElement().addPropertyChangeListener("currentPatient",
+                event -> navigateToCurrentPatient());
+    }
 
-        // TODO: Remove this when proper patient-navigation can be implemented.
-        grid.addEventListener("click",
-                event -> getUI().get().navigateTo("patients/1"));
+    /**
+     * If no patient is selected, navigates back to this view.
+     */
+    private void navigateToCurrentPatient() {
+        Patient current = getModel().getCurrentPatient();
+        getUI().get().navigateTo(
+                "patients/" + (current != null ? current.getId() : ""));
     }
 
     public interface PatientsViewModel extends TemplateModel {
@@ -67,6 +74,12 @@ public class PatientsView
         @Convert(value = LongToStringConverter.class, path = "medicalRecord")
         @Convert(value = LongToStringConverter.class, path = "id")
         void setPatients(List<Patient> patients);
+
+        @Include("id")
+        @Convert(value = LongToStringConverter.class, path = "id")
+        void setCurrentPatient(Patient patient);
+
+        Patient getCurrentPatient();
     }
 
     @Override

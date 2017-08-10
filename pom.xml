@@ -220,7 +220,7 @@
                     </webAppConfig>
                 </configuration>
                 <executions>
-                    <!-- start and stop jetty (running our app) when running 
+                    <!-- start and stop jetty (running our app) when running
                         integration tests -->
                     <execution>
                         <id>start-jetty</id>
