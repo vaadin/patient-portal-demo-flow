@@ -93,6 +93,11 @@ public class JournalEditor extends
         journalEntries.add(journalEntry);
         patientService.savePatient(getPatient());
 
+        close();
+    }
+
+    @EventHandler
+    private void close() {
         getUI().get()
                 .navigateTo("patients/" + getPatient().getId() + "/journal");
     }
