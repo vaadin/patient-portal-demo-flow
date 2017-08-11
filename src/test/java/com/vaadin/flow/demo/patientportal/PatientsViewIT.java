@@ -38,6 +38,8 @@ public class PatientsViewIT extends AbstractChromeTest {
     public void testPatientData() {
         open();
 
+        waitForElementPresent(By.id("patients-view"));
+
         Assert.assertThat(
                 "Grid should contain the first name of the first patient.",
                 getCellText(13), containsString("Frederick"));
