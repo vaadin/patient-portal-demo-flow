@@ -102,6 +102,6 @@ public class NavigationIT extends AbstractChromeTest {
     }
 
     private void waitLocation(String expectedLocation) {
-        waitUntil(new LocationCondition(expectedLocation));
+        waitUntil(new LocationCondition(expectedLocation), 20);
     }
 }
