@@ -15,75 +15,93 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class NavigationIT extends AbstractChromeTest {
+
+    private class LocationCondition implements ExpectedCondition<Boolean> {
+
+        private final String location;
+
+        LocationCondition(String location) {
+            this.location = location;
+        }
+
+        @Override
+        public Boolean apply(WebDriver driver) {
+            return driver.getCurrentUrl()
+                    .contains(getRootURL() + '/' + location);
+        }
+
+        @Override
+        public String toString() {
+            return "Page location '" + getRootURL() + '/' + location + "'";
+        }
+    }
 
     @Test
     public void testNavigation() {
         open();
 
         getInShadowRoot(By.tagName("login-view"), By.id("login-button"))
-                .click();
-        assertLocation("patients");
+        .click();
+        waitLocation("patients");
 
         // Click on the first cell that actually contains patient-data:
         getInShadowRoot(By.tagName("patients-view"),
                 By.id("vaadin-grid-cell-content-13")).click();
-        assertLocation("patients/1");
+        waitLocation("patients/1");
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("JOURNAL"))
-                .click();
-        assertLocation("patients/1/journal");
+        .click();
+        waitLocation("patients/1/journal");
 
         getInShadowRoot(By.tagName("patient-journal"),
                 By.partialLinkText("NEW ENTRY")).click();
-        assertLocation("patients/1/new-entry");
+        waitLocation("patients/1/new-entry");
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("EDIT PATIENT")).click();
-        assertLocation("patients/1/edit");
+        waitLocation("patients/1/edit");
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("PROFILE"))
-                .click();
-        assertLocation("patients/1");
+        .click();
+        waitLocation("patients/1");
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("ALL PATIENTS")).click();
-        assertLocation("patients");
+        waitLocation("patients");
 
         getInShadowRoot(By.tagName("main-view"), By.linkText("ANALYTICS"))
-                .click();
-        assertLocation("analytics");
+        .click();
+        waitLocation("analytics");
 
         getInShadowRoot(By.tagName("vaadin-license-dialog"),
                 By.id("licenseDialogClose")).click();
 
         getInShadowRoot(By.tagName("analytics-view"), By.linkText("DOCTOR"))
-                .click();
-        assertLocation("analytics/doctor");
+        .click();
+        waitLocation("analytics/doctor");
 
         getInShadowRoot(By.tagName("analytics-view"), By.linkText("GENDER"))
-                .click();
-        assertLocation("analytics/gender");
+        .click();
+        waitLocation("analytics/gender");
 
         getInShadowRoot(By.tagName("analytics-view"), By.linkText("AGE"))
-                .click();
-        assertLocation("analytics/age");
+        .click();
+        waitLocation("analytics/age");
 
         getInShadowRoot(By.tagName("main-view"), By.linkText("PATIENTS"))
-                .click();
-        assertLocation("patients");
+        .click();
+        waitLocation("patients");
 
         getInShadowRoot(By.tagName("patients-view"), By.id("patientsGrid"));
     }
 
-    private void assertLocation(String expectedLocation) {
-        Assert.assertThat("Got incorrect page location",
-                getDriver().getCurrentUrl(), CoreMatchers
-                        .containsString(getRootURL() + '/' + expectedLocation));
+    private void waitLocation(String expectedLocation) {
+        waitUntil(new LocationCondition(expectedLocation), 20);
     }
 }
