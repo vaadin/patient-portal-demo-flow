@@ -16,19 +16,29 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.AppointmentType;
 import com.vaadin.demo.entities.JournalEntry;
+import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
+import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DatePicker;
+import com.vaadin.ui.TextField;
 
 /**
  * @author Vaadin Ltd
@@ -43,14 +53,46 @@ public class JournalEditor extends
 
     private List<JournalEntry> journalEntries;
 
+    @Id("date")
+    private DatePicker datePicker;
+
+    @Id("appointment")
+    private ComboBox<String> appointmentTypeComboBox;
+
+    @Id("doctor")
+    private ComboBox<DoctorDTO> doctorComboBox;
+
+    @Id("entry")
+    private TextField entryField;
+
+    @Autowired
+    public JournalEditor(PatientService patientService) {
+        datePicker.setValue(LocalDate.now());
+
+        appointmentTypeComboBox.setItems(Arrays.stream(AppointmentType.values())
+                .map(type -> type.name()).collect(Collectors.toList()));
+
+        doctorComboBox.setItems(patientService.getAllDoctors().stream()
+                .map(doc -> new DoctorDTO(doc)).collect(Collectors.toList()));
+        doctorComboBox.setItemLabelPath("fullName");
+    }
+
     @EventHandler
     private void save() {
-        // TODO: get real data from the template, this is just to test that new
-        // entries are saved to the database.
-        JournalEntry e = new JournalEntry(new Date(), "test entry",
-                AppointmentType.FOLLOW_UP);
-        journalEntries.add(e);
+        Date date = java.sql.Date.valueOf(datePicker.getValue());
+        AppointmentType appointmentType = AppointmentType
+                .valueOf(appointmentTypeComboBox.getValue());
+        String entry = entryField.getValue();
+
+        JournalEntry journalEntry = new JournalEntry(date, entry,
+                appointmentType);
+
+        Long docId = doctorComboBox.getSelectedItem().getId();
+        journalEntry.setDoctor(patientService.getDoctor(docId).get());
+
+        journalEntries.add(journalEntry);
         patientService.savePatient(getPatient());
+
         getUI().get()
                 .navigateTo("patients/" + getPatient().getId() + "/journal");
     }
@@ -59,7 +101,7 @@ public class JournalEditor extends
     @Transactional
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         super.onLocationChange(locationChangeEvent);
-        this.journalEntries = getPatient().getJournalEntries();
+        journalEntries = getPatient().getJournalEntries();
         journalEntries.size(); // to initialize the list
     }
 }

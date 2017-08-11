@@ -80,19 +80,17 @@
 
         <div class="field">
           <label for="date">Date</label>
-          <vaadin-date-picker id="date" required value="{{model.date}}"></vaadin-date-picker>
+          <vaadin-date-picker id="date"></vaadin-date-picker>
         </div>
 
         <div class="field">
           <label for="appointment">Appointment</label>
-          <vaadin-combo-box id="appointment" required value="{{model.appointmentType}}" items="[[appointmentTypes]]">
-          </vaadin-combo-box>
+          <vaadin-combo-box id="appointment"></vaadin-combo-box>
         </div>
 
         <div class="field">
           <label for="doctor">Doctor</label>
-          <vaadin-combo-box id="doctor" items="[[doctors]]" item-label-path="fullName" item-value-path="id"
-                            selected-item="{{model.doctor}}" class="input" required></vaadin-combo-box>
+          <vaadin-combo-box id="doctor"></vaadin-combo-box>
         </div>
       </div>
 
