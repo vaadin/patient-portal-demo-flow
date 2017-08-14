@@ -67,8 +67,4 @@ public class DoctorDTO {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
 }
