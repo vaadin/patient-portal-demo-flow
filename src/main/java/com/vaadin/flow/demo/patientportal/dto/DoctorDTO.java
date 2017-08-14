@@ -23,7 +23,9 @@ import com.vaadin.demo.entities.Doctor;
  */
 public class DoctorDTO {
     private Long id;
-    private String firstName, lastName, fullName;
+    private String firstName;
+    private String lastName;
+    private String fullName;
 
     public DoctorDTO() {
     }
