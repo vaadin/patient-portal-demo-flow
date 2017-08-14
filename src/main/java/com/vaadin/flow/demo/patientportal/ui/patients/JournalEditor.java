@@ -70,10 +70,10 @@ public class JournalEditor extends
         datePicker.setValue(LocalDate.now());
 
         appointmentTypeComboBox.setItems(Arrays.stream(AppointmentType.values())
-                .map(type -> type.name()).collect(Collectors.toList()));
+                .map(AppointmentType::name).collect(Collectors.toList()));
 
         doctorComboBox.setItems(patientService.getAllDoctors().stream()
-                .map(doc -> new DoctorDTO(doc)).collect(Collectors.toList()));
+                .map(DoctorDTO::new).collect(Collectors.toList()));
         doctorComboBox.setItemLabelPath("fullName");
     }
 
