@@ -25,7 +25,6 @@ public class DoctorDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private String fullName;
 
     public DoctorDTO() {
     }
@@ -34,7 +33,6 @@ public class DoctorDTO {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.fullName = lastName + ", " + firstName;
     }
 
     public DoctorDTO(Doctor doctor) {
@@ -66,7 +64,7 @@ public class DoctorDTO {
     }
 
     public String getFullName() {
-        return fullName;
+        return lastName + ", " + firstName;
     }
 
 }
