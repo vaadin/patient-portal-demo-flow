@@ -31,8 +31,10 @@ import com.vaadin.flow.template.model.ModelConverter;
 
 public class DateToStringConverter implements ModelConverter<Date, String> {
 
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-            "yyyy/MM/dd");
+            DATE_FORMAT);
 
     @Override
     public String toPresentation(Date modelValue) {
