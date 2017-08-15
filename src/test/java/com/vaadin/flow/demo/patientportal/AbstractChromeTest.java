@@ -42,7 +42,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         return 8080;
     }
 
-    protected List<WebElement> getChildrenOf(WebElement parent) {
+    protected List<WebElement> getChildren(WebElement parent) {
         return (List<WebElement>) getCommandExecutor()
                 .executeScript("return arguments[0].children", parent);
     }

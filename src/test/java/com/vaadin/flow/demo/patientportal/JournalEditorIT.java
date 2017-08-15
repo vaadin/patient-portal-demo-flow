@@ -68,7 +68,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         layout = findElement(By.tagName("patient-journal"));
 
         WebElement grid = getInShadowRoot(layout, By.id("grid"));
-        List<WebElement> cells = getChildrenOf(grid);
+        List<WebElement> cells = getChildren(grid);
         int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
                 cells.get(index++).getText(), is(DATE));
