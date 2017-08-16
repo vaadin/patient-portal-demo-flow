@@ -48,12 +48,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         waitForElementPresent(By.tagName("journal-editor"));
         WebElement layout = findElement(By.tagName("journal-editor"));
 
-        WebElement datePicker = getInShadowRoot(layout, By.id("date"));
-        WebElement dateField = getInShadowRoot(datePicker, By.id("input"));
-        dateField = getInShadowRoot(dateField, By.id("input"));
-        dateField.clear();
-        dateField.sendKeys(DATE);
-        dateField.sendKeys(Keys.ENTER);
+        setDate(layout, "date", DATE);
 
         selectFromComboBox("appointment", APPOINTMENT);
 

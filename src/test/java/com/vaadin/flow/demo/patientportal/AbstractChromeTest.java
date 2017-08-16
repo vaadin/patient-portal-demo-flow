@@ -18,6 +18,7 @@ package com.vaadin.flow.demo.patientportal;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.testutil.ChromeBrowserTest;
@@ -45,5 +46,25 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     protected List<WebElement> getChildren(WebElement parent) {
         return (List<WebElement>) getCommandExecutor()
                 .executeScript("return arguments[0].children", parent);
+    }
+
+    /**
+     * Inputs a given date-string to a vaadin-date-picker.
+     * 
+     * @param layout
+     *            vaadin-date-picker should be in the shadow-dom of this element
+     * @param datePickerId
+     *            id-property of the vaadin-date-picker
+     * @param date
+     *            in format MM/dd/yyyy
+     */
+    protected void setDate(WebElement layout, String datePickerId,
+            String date) {
+        WebElement datePicker = getInShadowRoot(layout, By.id(datePickerId));
+        WebElement dateField = getInShadowRoot(datePicker, By.id("input"));
+        dateField = getInShadowRoot(dateField, By.id("input"));
+        dateField.clear();
+        dateField.sendKeys(date);
+        dateField.sendKeys(Keys.ENTER);
     }
 }
