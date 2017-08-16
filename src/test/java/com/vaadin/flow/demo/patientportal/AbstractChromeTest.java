@@ -15,6 +15,8 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -38,5 +40,10 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     @Override
     protected int getDeploymentPort() {
         return 8080;
+    }
+
+    protected List<WebElement> getChildren(WebElement parent) {
+        return (List<WebElement>) getCommandExecutor()
+                .executeScript("return arguments[0].children", parent);
     }
 }

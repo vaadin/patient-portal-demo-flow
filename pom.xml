@@ -73,6 +73,12 @@
             <artifactId>flow</artifactId>
             <version>${flow.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-components</artifactId>
+            <version>${flow.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -83,7 +89,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>flow-test-util</artifactId>
-            <version>${flow.version}</version>
+            <version>0.1.17</version>
         </dependency>
 
         <dependency>

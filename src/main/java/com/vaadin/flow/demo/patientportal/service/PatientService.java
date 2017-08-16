@@ -59,4 +59,9 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public Optional<Doctor> getDoctor(Long id) {
+        return Optional.ofNullable(doctorRepository.findOne(id));
+    }
 }

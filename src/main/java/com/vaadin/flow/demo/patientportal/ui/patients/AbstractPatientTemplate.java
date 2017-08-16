@@ -26,6 +26,7 @@ import com.vaadin.annotations.Convert;
 import com.vaadin.annotations.Include;
 import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.converters.AppointmentTypeToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
@@ -64,7 +65,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         void setPatient(Patient patient);
 
         @Convert(value = DateToStringConverter.class, path = "date")
-        @Include({ "entry", "doctor.firstName", "doctor.lastName", "date" })
+        @Convert(value = AppointmentTypeToStringConverter.class, path = "appointmentType")
+        @Include({ "entry", "doctor.firstName", "doctor.lastName", "date",
+                "appointmentType" })
         void setEntries(List<JournalEntry> entries);
     }
 

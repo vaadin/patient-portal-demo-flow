@@ -15,39 +15,24 @@
  */
 package com.vaadin.flow.demo.patientportal.converters;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.vaadin.demo.entities.AppointmentType;
 import com.vaadin.flow.template.model.ModelConverter;
 
 /**
- * Converts between Date-objects and their String-representations in format
- * 'yyyy/MM/dd'.
- * 
  * @author Vaadin Ltd
  *
  */
-
-public class DateToStringConverter implements ModelConverter<Date, String> {
-
-    public static final String DATE_FORMAT = "MM/dd/yyyy";
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-            DATE_FORMAT);
+public class AppointmentTypeToStringConverter
+        implements ModelConverter<AppointmentType, String> {
 
     @Override
-    public String toPresentation(Date modelValue) {
-        return modelValue == null ? null : dateFormat.format(modelValue);
+    public String toPresentation(AppointmentType modelValue) {
+        return modelValue.name();
     }
 
     @Override
-    public Date toModel(String presentationValue) {
-        try {
-            return dateFormat.parse(presentationValue);
-        } catch (ParseException e) {
-            return null;
-        }
+    public AppointmentType toModel(String presentationValue) {
+        return AppointmentType.valueOf(presentationValue);
     }
 
 }
