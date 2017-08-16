@@ -50,7 +50,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
     @Autowired
     protected PatientService patientService;
 
-    private Patient patient;
+    protected Patient patient;
 
     public interface PatientTemplateModel extends TemplateModel {
 
@@ -90,9 +90,5 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
                     .info("Failed to parse patient's id from the url.");
             locationChangeEvent.rerouteToErrorView();
         }
-    }
-
-    public Patient getPatient() {
-        return patient;
     }
 }

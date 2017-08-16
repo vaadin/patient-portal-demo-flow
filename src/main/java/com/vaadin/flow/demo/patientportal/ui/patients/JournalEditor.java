@@ -91,22 +91,21 @@ public class JournalEditor extends
         journalEntry.setDoctor(patientService.getDoctor(docId).get());
 
         journalEntries.add(journalEntry);
-        patientService.savePatient(getPatient());
+        patientService.savePatient(patient);
 
         close();
     }
 
     @EventHandler
     private void close() {
-        getUI().get()
-                .navigateTo("patients/" + getPatient().getId() + "/journal");
+        getUI().get().navigateTo("patients/" + patient.getId() + "/journal");
     }
 
     @Override
     @Transactional
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         super.onLocationChange(locationChangeEvent);
-        journalEntries = getPatient().getJournalEntries();
+        journalEntries = patient.getJournalEntries();
         journalEntries.size(); // to initialize the list
     }
 }
