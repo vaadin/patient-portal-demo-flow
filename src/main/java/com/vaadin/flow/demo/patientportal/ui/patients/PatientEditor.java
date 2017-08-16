@@ -134,7 +134,7 @@ public class PatientEditor extends
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        super.onLocationChange(locationChangeEvent);
+        getPatientFromURL(locationChangeEvent);
         setValues(patient);
     }
 

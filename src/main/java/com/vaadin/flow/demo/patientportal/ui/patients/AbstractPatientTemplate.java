@@ -73,13 +73,18 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        getPatientFromURL(locationChangeEvent);
+        if (patient != null)
+            getModel().setPatient(patient);
+    }
+
+    protected void getPatientFromURL(LocationChangeEvent locationChangeEvent) {
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
             Optional<Patient> optionalPatient = patientService.getPatient(id);
             if (optionalPatient.isPresent()) {
                 patient = optionalPatient.get();
-                getModel().setPatient(patient);
             } else {
                 Logger.getLogger(AbstractPatientTemplate.class.getName())
                         .info("Patient with id " + id + " was not found.");
