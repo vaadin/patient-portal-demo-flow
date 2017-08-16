@@ -67,4 +67,21 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         dateField.sendKeys(date);
         dateField.sendKeys(Keys.ENTER);
     }
+
+    /**
+     * Selects a given value from a vaadin-combo-box.
+     * 
+     * @param layout
+     *            vaadin-combo-box should be in the shadow-dom of this element
+     * @param comboBoxId
+     *            id-property of the vaadin-combo-box
+     * @param value
+     *            item to be selected
+     */
+    protected void selectFromComboBox(WebElement layout, String comboBoxId,
+            String value) {
+        WebElement comboBox = getInShadowRoot(layout, By.id(comboBoxId));
+        comboBox.sendKeys(value);
+        comboBox.sendKeys(Keys.ENTER);
+    }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -50,9 +49,9 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         setDate(layout, "date", DATE);
 
-        selectFromComboBox("appointment", APPOINTMENT);
+        selectFromComboBox(layout, "appointment", APPOINTMENT);
 
-        selectFromComboBox("doctor", DOCTOR);
+        selectFromComboBox(layout, "doctor", DOCTOR);
 
         WebElement entryField = getInShadowRoot(layout, By.id("entry"));
         entryField.sendKeys(ENTRY);
@@ -77,12 +76,5 @@ public class JournalEditorIT extends AbstractChromeTest {
                 "Entry-notes of the new journal-entry should be displayed.",
                 cells.get(index++).getText(), is(ENTRY));
 
-    }
-
-    private void selectFromComboBox(String id, String value) {
-        WebElement comboBox = getInShadowRoot(By.tagName("journal-editor"),
-                By.id(id));
-        comboBox.sendKeys(value);
-        comboBox.sendKeys(Keys.ENTER);
     }
 }
