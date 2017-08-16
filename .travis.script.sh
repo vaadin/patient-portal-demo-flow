@@ -33,24 +33,19 @@ function getSonarDetails {
 }
 
 function runSonar {
-    if [ "$SKIP_SONAR" != "true" ]
-    then
-        # Sonar should be run after the project is built so that findbugs can analyze compiled sources
-        echo "Running Sonar"
-        mvn -B -e -V \
-            -Dmaven.javadoc.skip=false \
-            -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
-            -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
-            -Dsonar.exclusions=$SONAR_EXCLUSIONS \
-            -Dsonar.verbose=true \
-            -Dsonar.host.url=$SONAR_HOST \
-            -Dsonar.login=$SONAR_LOGIN \
-            $(getSonarDetails) \
-            -DskipTests \
-            compile sonar:sonar
-    else
-        echo "SKIP_SONAR env variable is set to 'true', skipping sonar."
-    fi
+    # Sonar should be run after the project is built so that findbugs can analyze compiled sources
+    echo "Running Sonar"
+    mvn -B -e -V \
+        -Dmaven.javadoc.skip=false \
+        -Dvaadin.testbench.developer.license=$TESTBENCH_LICENSE \
+        -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
+        -Dsonar.exclusions=$SONAR_EXCLUSIONS \
+        -Dsonar.verbose=true \
+        -Dsonar.host.url=$SONAR_HOST \
+        -Dsonar.login=$SONAR_LOGIN \
+        $(getSonarDetails) \
+        -DskipTests \
+        compile sonar:sonar
 }
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]
