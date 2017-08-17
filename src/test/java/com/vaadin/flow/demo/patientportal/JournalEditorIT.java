@@ -45,16 +45,15 @@ public class JournalEditorIT extends AbstractChromeTest {
         open();
 
         waitForElementPresent(By.tagName("journal-editor"));
-        WebElement layout = findElement(By.tagName("journal-editor"));
+        layout = findElement(By.tagName("journal-editor"));
 
-        setDate(layout, "date", DATE);
+        setDate("date", DATE);
 
-        selectFromComboBox(layout, "appointment", APPOINTMENT);
+        selectFromComboBox("appointment", APPOINTMENT);
 
-        selectFromComboBox(layout, "doctor", DOCTOR);
+        selectFromComboBox("doctor", DOCTOR);
 
-        WebElement entryField = getInShadowRoot(layout, By.id("entry"));
-        entryField.sendKeys(ENTRY);
+        setTextFieldValue("entry", ENTRY);
 
         getInShadowRoot(layout, By.id("save")).click();
 

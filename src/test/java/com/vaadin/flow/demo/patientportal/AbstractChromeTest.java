@@ -29,6 +29,8 @@ import com.vaadin.flow.testutil.ChromeBrowserTest;
  */
 public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
+    protected WebElement layout;
+
     protected WebElement getInShadowRoot(By shadowHost, By by) {
         return getInShadowRoot(findElement(shadowHost), by);
     }
@@ -49,17 +51,15 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     }
 
     /**
-     * Inputs a given date-string to a vaadin-date-picker.
+     * Inputs a given date-string to a vaadin-date-picker that is in the
+     * shadow-dom of the {@link #layout}.
      * 
-     * @param layout
-     *            vaadin-date-picker should be in the shadow-dom of this element
      * @param datePickerId
      *            id-property of the vaadin-date-picker
      * @param date
-     *            in format MM/dd/yyyy
+     *            date that will be picked, in format MM/dd/yyyy
      */
-    protected void setDate(WebElement layout, String datePickerId,
-            String date) {
+    protected void setDate(String datePickerId, String date) {
         WebElement datePicker = getInShadowRoot(layout, By.id(datePickerId));
         WebElement dateField = getInShadowRoot(datePicker, By.id("input"));
         dateField = getInShadowRoot(dateField, By.id("input"));
@@ -69,19 +69,33 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     }
 
     /**
-     * Selects a given value from a vaadin-combo-box.
+     * Selects a given value from a vaadin-combo-box that is in the shadow-dom
+     * of the {@link #layout}.
      * 
-     * @param layout
-     *            vaadin-combo-box should be in the shadow-dom of this element
      * @param comboBoxId
      *            id-property of the vaadin-combo-box
      * @param value
      *            item to be selected
      */
-    protected void selectFromComboBox(WebElement layout, String comboBoxId,
-            String value) {
+    protected void selectFromComboBox(String comboBoxId, String value) {
         WebElement comboBox = getInShadowRoot(layout, By.id(comboBoxId));
+        getInShadowRoot(comboBox, By.id("input")).clear();
         comboBox.sendKeys(value);
         comboBox.sendKeys(Keys.ENTER);
+    }
+
+    /**
+     * Inputs a given value to a text-field that is in the shadow-dom of the
+     * {@link #layout}.
+     *
+     * @param fieldId
+     *            id-property of the text-field
+     * @param value
+     *            text to be written into the field
+     */
+    protected void setTextFieldValue(String fieldId, String value) {
+        WebElement field = getInShadowRoot(layout, By.id(fieldId));
+        getInShadowRoot(field, By.id("input")).clear();
+        field.sendKeys(value);
     }
 }
