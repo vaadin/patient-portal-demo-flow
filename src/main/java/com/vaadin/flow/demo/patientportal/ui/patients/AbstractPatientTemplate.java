@@ -74,8 +74,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         getPatientFromURL(locationChangeEvent);
-        if (patient != null)
+        if (patient != null) {
             getModel().setPatient(patient);
+        }
     }
 
     protected void getPatientFromURL(LocationChangeEvent locationChangeEvent) {

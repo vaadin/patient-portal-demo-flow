@@ -50,7 +50,7 @@ public class PatientEditorIT extends AbstractChromeTest {
         open();
 
         waitForElementPresent(By.tagName("patient-editor"));
-        layout = findElement(By.tagName("patient-editor"));
+        setLayout("patient-editor");
 
         selectFromComboBox("title", TITLE);
         setTextFieldValue("firstName", FIRST_NAME);
@@ -61,9 +61,9 @@ public class PatientEditorIT extends AbstractChromeTest {
         setTextFieldValue("ssn", SSN);
         selectFromComboBox("doctor", DOCTOR);
 
-        getInShadowRoot(layout, By.id("save")).click();
+        getInShadowRoot(getLayout(), By.id("save")).click();
         waitForElementPresent(By.tagName("patient-profile"));
-        layout = findElement(By.tagName("patient-profile"));
+        setLayout("patient-profile");
 
         assertValue("firstName", FIRST_NAME);
         assertValue("middleName", MIDDLE_NAME);
@@ -74,30 +74,30 @@ public class PatientEditorIT extends AbstractChromeTest {
         assertValue("doctor", DOCTOR);
     }
 
-    private void assertValue(String elementId, String expectedValue) {
-        Assert.assertThat("Edited " + elementId + " should be displayed.",
-                getInShadowRoot(layout, By.id(elementId)).getText(),
-                is(expectedValue));
-    }
-
     @Test
     public void testDeletingPatient() {
         open();
 
         waitForElementPresent(By.tagName("patient-editor"));
-        layout = findElement(By.tagName("patient-editor"));
+        setLayout("patient-editor");
 
-        getInShadowRoot(layout, By.id("delete")).click();
+        getInShadowRoot(getLayout(), By.id("delete")).click();
 
         waitForElementPresent(By.tagName("patients-view"));
-        layout = findElement(By.tagName("patients-view"));
+        setLayout("patients-view");
 
-        WebElement grid = getInShadowRoot(layout, By.id("patientsGrid"));
+        WebElement grid = getInShadowRoot(getLayout(), By.id("patientsGrid"));
 
         Assert.assertFalse(
                 "Id of the deleted patient was still found in the patients-grid.",
                 getChildren(grid).stream().anyMatch(
                         gridCell -> gridCell.getText().equals(id + "")));
 
+    }
+
+    private void assertValue(String elementId, String expectedValue) {
+        Assert.assertThat("Edited " + elementId + " should be displayed.",
+                getInShadowRoot(getLayout(), By.id(elementId)).getText(),
+                is(expectedValue));
     }
 }

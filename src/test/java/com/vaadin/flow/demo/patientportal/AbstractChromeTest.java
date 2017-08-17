@@ -29,7 +29,15 @@ import com.vaadin.flow.testutil.ChromeBrowserTest;
  */
 public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
-    protected WebElement layout;
+    private WebElement layout;
+
+    protected void setLayout(String tagName) {
+        layout = findElement(By.tagName(tagName));
+    }
+
+    protected WebElement getLayout() {
+        return layout;
+    }
 
     protected WebElement getInShadowRoot(By shadowHost, By by) {
         return getInShadowRoot(findElement(shadowHost), by);

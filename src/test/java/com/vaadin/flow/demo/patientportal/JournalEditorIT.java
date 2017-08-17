@@ -45,7 +45,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         open();
 
         waitForElementPresent(By.tagName("journal-editor"));
-        layout = findElement(By.tagName("journal-editor"));
+        setLayout("journal-editor");
 
         setDate("date", DATE);
 
@@ -55,12 +55,12 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         setTextFieldValue("entry", ENTRY);
 
-        getInShadowRoot(layout, By.id("save")).click();
+        getInShadowRoot(getLayout(), By.id("save")).click();
 
         waitForElementPresent(By.tagName("patient-journal"));
-        layout = findElement(By.tagName("patient-journal"));
+        setLayout("patient-journal");
 
-        WebElement grid = getInShadowRoot(layout, By.id("grid"));
+        WebElement grid = getInShadowRoot(getLayout(), By.id("grid"));
         List<WebElement> cells = getChildren(grid);
         int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",

@@ -124,7 +124,7 @@ public class PatientEditor extends
         getUI().get().navigateTo("patients/" + patient.getId());
     }
 
-    public void setValues(Patient patient) {
+    public void fillPatientData(Patient patient) {
         idComponent.setText(patient.getId().toString());
         titleComboBox.setValue(patient.getTitle());
         firstNameField.setValue(patient.getFirstName());
@@ -141,7 +141,7 @@ public class PatientEditor extends
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         getPatientFromURL(locationChangeEvent);
-        setValues(patient);
+        fillPatientData(patient);
     }
 
 }
