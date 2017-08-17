@@ -39,7 +39,7 @@ public class PatientJournal extends
     @Transactional
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         super.onLocationChange(locationChangeEvent);
-        getModel().setEntries(patient.getJournalEntries());
+        getModel().setEntries(getPatient().getJournalEntries());
     }
 
 }

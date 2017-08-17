@@ -101,6 +101,7 @@ public class PatientEditor extends
     }
 
     public void savePatient() {
+        Patient patient = getPatient();
         patient.setTitle(titleComboBox.getValue());
         patient.setFirstName(firstNameField.getValue());
         patient.setMiddleName(middleNameField.getValue());
@@ -115,13 +116,13 @@ public class PatientEditor extends
     }
 
     private void deletePatient() {
-        patientService.deletePatient(patient);
+        patientService.deletePatient(getPatient());
         getUI().get().navigateTo("patients");
     }
 
     @EventHandler
     private void close() {
-        getUI().get().navigateTo("patients/" + patient.getId());
+        getUI().get().navigateTo("patients/" + getPatient().getId());
     }
 
     public void fillPatientData(Patient patient) {
@@ -140,8 +141,8 @@ public class PatientEditor extends
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        getPatientFromURL(locationChangeEvent);
-        fillPatientData(patient);
+        fetchPatient(locationChangeEvent);
+        fillPatientData(getPatient());
     }
 
 }

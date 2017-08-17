@@ -50,7 +50,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
     @Autowired
     protected PatientService patientService;
 
-    protected Patient patient;
+    private Patient patient;
 
     public interface PatientTemplateModel extends TemplateModel {
 
@@ -73,13 +73,17 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        getPatientFromURL(locationChangeEvent);
+        fetchPatient(locationChangeEvent);
         if (patient != null) {
             getModel().setPatient(patient);
         }
     }
 
-    protected void getPatientFromURL(LocationChangeEvent locationChangeEvent) {
+    protected Patient getPatient() {
+        return patient;
+    }
+
+    protected void fetchPatient(LocationChangeEvent locationChangeEvent) {
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
