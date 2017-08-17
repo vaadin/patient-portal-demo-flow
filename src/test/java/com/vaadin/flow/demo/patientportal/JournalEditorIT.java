@@ -41,7 +41,7 @@ public class JournalEditorIT extends AbstractChromeTest {
     }
 
     @Test
-    public void testCreatingJournalEntry() {
+    public void createJournalEntry() {
         open();
 
         waitForElementPresent(By.tagName("journal-editor"));

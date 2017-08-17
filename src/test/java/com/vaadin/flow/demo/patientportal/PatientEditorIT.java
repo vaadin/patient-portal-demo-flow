@@ -45,7 +45,7 @@ public class PatientEditorIT extends AbstractChromeTest {
     }
 
     @Test
-    public void testEditingPatient() {
+    public void editPatient() {
         id++; // in case testDeletingPatient was run already
         open();
 
@@ -75,7 +75,7 @@ public class PatientEditorIT extends AbstractChromeTest {
     }
 
     @Test
-    public void testDeletingPatient() {
+    public void deletePatient() {
         open();
 
         waitForElementPresent(By.tagName("patient-editor"));
