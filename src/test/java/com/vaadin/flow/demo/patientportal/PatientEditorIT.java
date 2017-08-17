@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Vaadin Ltd
@@ -36,13 +37,16 @@ public class PatientEditorIT extends AbstractChromeTest {
     public static final String SSN = "453-87-1829";
     public static final String DOCTOR = "Burns, Gail";
 
+    private int id = 5;
+
     @Override
     protected String getTestPath() {
-        return "/patients/5/edit";
+        return "/patients/" + id + "/edit";
     }
 
     @Test
     public void testEditingPatient() {
+        id++; // in case testDeletingPatient was run already
         open();
 
         waitForElementPresent(By.tagName("patient-editor"));
@@ -74,5 +78,26 @@ public class PatientEditorIT extends AbstractChromeTest {
         Assert.assertThat("Edited " + elementId + " should be displayed.",
                 getInShadowRoot(layout, By.id(elementId)).getText(),
                 is(expectedValue));
+    }
+
+    @Test
+    public void testDeletingPatient() {
+        open();
+
+        waitForElementPresent(By.tagName("patient-editor"));
+        layout = findElement(By.tagName("patient-editor"));
+
+        getInShadowRoot(layout, By.id("delete")).click();
+
+        waitForElementPresent(By.tagName("patients-view"));
+        layout = findElement(By.tagName("patients-view"));
+
+        WebElement grid = getInShadowRoot(layout, By.id("patientsGrid"));
+
+        Assert.assertFalse(
+                "Id of the deleted patient was still found in the patients-grid.",
+                getChildren(grid).stream().anyMatch(
+                        gridCell -> gridCell.getText().equals(id + "")));
+
     }
 }
