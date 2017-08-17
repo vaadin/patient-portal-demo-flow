@@ -97,6 +97,7 @@ public class PatientEditor extends
 
         saveButton.addClickListener(event -> savePatient());
         cancelButton.addClickListener(event -> close());
+        deleteButton.addClickListener(event -> deletePatient());
     }
 
     public void savePatient() {
@@ -111,6 +112,11 @@ public class PatientEditor extends
                 .getDoctor(doctorComboBox.getSelectedItem().getId()).get());
         patientService.savePatient(patient);
         close();
+    }
+
+    private void deletePatient() {
+        patientService.deletePatient(patient);
+        getUI().get().navigateTo("patients");
     }
 
     @EventHandler

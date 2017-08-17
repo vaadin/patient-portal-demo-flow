@@ -30,10 +30,10 @@ import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
-import com.vaadin.ui.AttachEvent;
 
 /**
  * @author Vaadin Ltd
@@ -44,7 +44,7 @@ import com.vaadin.ui.AttachEvent;
 @Route("patients")
 @ParentView(MainView.class)
 public class PatientsView
-extends ParentPolymerTemplate<PatientsView.PatientsViewModel> {
+        extends ParentPolymerTemplate<PatientsView.PatientsViewModel> {
 
     @Autowired
     private PatientService patientService;
@@ -63,7 +63,7 @@ extends ParentPolymerTemplate<PatientsView.PatientsViewModel> {
     public interface PatientsViewModel extends TemplateModel {
 
         @Include({ "firstName", "lastName", "id", "medicalRecord",
-            "doctor.firstName", "doctor.lastName", "lastVisit" })
+                "doctor.firstName", "doctor.lastName", "lastVisit" })
         @Convert(value = DateToStringConverter.class, path = "lastVisit")
         @Convert(value = LongToStringConverter.class, path = "medicalRecord")
         @Convert(value = LongToStringConverter.class, path = "id")
@@ -71,7 +71,7 @@ extends ParentPolymerTemplate<PatientsView.PatientsViewModel> {
     }
 
     @Override
-    protected void onAttach(AttachEvent attachEvent) {
+    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         getModel().setPatients(patientService.getPatients());
     }
 
