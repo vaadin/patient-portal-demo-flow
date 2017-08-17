@@ -20,6 +20,7 @@ import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
 import com.vaadin.flow.demo.patientportal.ui.ParentPolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
+import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 
@@ -30,6 +31,16 @@ import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 @Tag("patient-details")
 @HtmlImport("/components/main/patients/patient-details.html")
 @ParentView(PatientsView.class)
-public class PatientDetails extends ParentPolymerTemplate<TemplateModel> {
+public class PatientDetails
+        extends ParentPolymerTemplate<PatientDetails.PatientDetailsModel> {
+
+    public interface PatientDetailsModel extends TemplateModel {
+        void setPatientId(String patientId);
+    }
+
+    @Override
+    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        getModel().setPatientId(locationChangeEvent.getPathParameter("id"));
+    }
 
 }

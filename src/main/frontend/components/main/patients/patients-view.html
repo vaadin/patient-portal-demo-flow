@@ -122,6 +122,11 @@
             type: Object,
             notify: true,
             observer: '_patientChanged'
+          },
+          currentPatientId: {
+            type: String,
+            value: "",
+            notify: true
           }
         }
       }
@@ -133,6 +138,7 @@
           return;
         }
 
+        this.currentPatientId = patient ? patient.id : "";
         this._selectPatient(patient);
       }
 
