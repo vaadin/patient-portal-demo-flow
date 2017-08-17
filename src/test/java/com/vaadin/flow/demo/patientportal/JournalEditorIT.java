@@ -22,7 +22,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -42,32 +41,26 @@ public class JournalEditorIT extends AbstractChromeTest {
     }
 
     @Test
-    public void testCreatingJournalEntry() {
+    public void createJournalEntry() {
         open();
 
         waitForElementPresent(By.tagName("journal-editor"));
-        WebElement layout = findElement(By.tagName("journal-editor"));
+        setLayout("journal-editor");
 
-        WebElement datePicker = getInShadowRoot(layout, By.id("date"));
-        WebElement dateField = getInShadowRoot(datePicker, By.id("input"));
-        dateField = getInShadowRoot(dateField, By.id("input"));
-        dateField.clear();
-        dateField.sendKeys(DATE);
-        dateField.sendKeys(Keys.ENTER);
+        setDate("date", DATE);
 
         selectFromComboBox("appointment", APPOINTMENT);
 
         selectFromComboBox("doctor", DOCTOR);
 
-        WebElement entryField = getInShadowRoot(layout, By.id("entry"));
-        entryField.sendKeys(ENTRY);
+        setTextFieldValue("entry", ENTRY);
 
-        getInShadowRoot(layout, By.id("save")).click();
+        getInShadowRoot(getLayout(), By.id("save")).click();
 
         waitForElementPresent(By.tagName("patient-journal"));
-        layout = findElement(By.tagName("patient-journal"));
+        setLayout("patient-journal");
 
-        WebElement grid = getInShadowRoot(layout, By.id("grid"));
+        WebElement grid = getInShadowRoot(getLayout(), By.id("grid"));
         List<WebElement> cells = getChildren(grid);
         int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
@@ -82,12 +75,5 @@ public class JournalEditorIT extends AbstractChromeTest {
                 "Entry-notes of the new journal-entry should be displayed.",
                 cells.get(index++).getText(), is(ENTRY));
 
-    }
-
-    private void selectFromComboBox(String id, String value) {
-        WebElement comboBox = getInShadowRoot(By.tagName("journal-editor"),
-                By.id(id));
-        comboBox.sendKeys(value);
-        comboBox.sendKeys(Keys.ENTER);
     }
 }

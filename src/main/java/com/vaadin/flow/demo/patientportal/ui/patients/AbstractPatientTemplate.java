@@ -73,13 +73,23 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        fetchPatient(locationChangeEvent);
+        if (patient != null) {
+            getModel().setPatient(patient);
+        }
+    }
+
+    protected Patient getPatient() {
+        return patient;
+    }
+
+    protected void fetchPatient(LocationChangeEvent locationChangeEvent) {
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
             Optional<Patient> optionalPatient = patientService.getPatient(id);
             if (optionalPatient.isPresent()) {
                 patient = optionalPatient.get();
-                getModel().setPatient(patient);
             } else {
                 Logger.getLogger(AbstractPatientTemplate.class.getName())
                         .info("Patient with id " + id + " was not found.");
@@ -90,9 +100,5 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
                     .info("Failed to parse patient's id from the url.");
             locationChangeEvent.rerouteToErrorView();
         }
-    }
-
-    public Patient getPatient() {
-        return patient;
     }
 }
