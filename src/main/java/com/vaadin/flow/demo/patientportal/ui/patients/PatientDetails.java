@@ -28,7 +28,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
  *
  */
 @Tag("patient-details")
-@HtmlImport("/components/main/patients/patient-details.html")
+@HtmlImport("frontend://components/main/patients/patient-details.html")
 @ParentView(PatientsView.class)
 public class PatientDetails extends ParentPolymerTemplate<TemplateModel> {
 

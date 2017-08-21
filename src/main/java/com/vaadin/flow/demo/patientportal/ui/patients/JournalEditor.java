@@ -35,7 +35,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  *
  */
 @Tag("journal-editor")
-@HtmlImport("/components/main/patients/journal-editor.html")
+@HtmlImport("frontend://components/main/patients/journal-editor.html")
 @Route("patients/{id}/new-entry")
 @ParentView(PatientDetails.class)
 public class JournalEditor extends

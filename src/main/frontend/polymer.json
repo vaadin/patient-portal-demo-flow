@@ -1,0 +1,25 @@
+{
+  "entrypoint": "index.html",
+  "sources": [
+   "bower.json"
+  ],
+  "sources": [
+    "bower_components/**/*",
+    "components/**/*"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/webcomponents-loader.js"
+  ],
+  "builds": [{
+    "name": "es5",
+    "js": {"compile": true, "minify": true},
+    "css": {"minify": true},
+    "html": {"minify": true}
+  },
+  {
+    "name": "es6",
+    "js": {"minify": true},
+    "css": {"minify": true},
+    "html": {"minify": true}
+  }]
+}

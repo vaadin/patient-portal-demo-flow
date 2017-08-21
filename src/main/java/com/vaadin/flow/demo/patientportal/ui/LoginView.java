@@ -31,7 +31,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  *
  */
 @Tag("login-view")
-@HtmlImport("/components/login-view.html")
+@HtmlImport("frontend://components/login-view.html")
 @Route("")
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
         implements View {
