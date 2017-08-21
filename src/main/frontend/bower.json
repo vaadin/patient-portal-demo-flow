@@ -34,6 +34,8 @@
     "vaadin-date-picker": "2.0.0-alpha2",
     "vaadin-combo-box": "2.0.0-alpha4",
     "vaadin-charts": "5.0.0-alpha1",
+    "vaadin-text-field": "~1.1.0-alpha2",
+    "vaadin-button": "~1.0.0",
 
     "moment": "^2.17.1",
     "fetch": "^2.0.1"

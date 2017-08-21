@@ -23,6 +23,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
+
 /**
  * @author Vaadin Ltd
  *
@@ -55,21 +57,23 @@ public class PatientsViewIT extends AbstractChromeTest {
                 "Grid should contain the medical record of the first patient.\n"
                         + "Expected: an integer value\n" + "Actual value: '"
                         + medicalRecord + "'",
-                        medicalRecord.matches("\\d+"));
+                medicalRecord.matches("\\d+"));
 
         String doctorName = getCellText(16);
         Assert.assertTrue(
                 "Grid should contain the name of the first patient's doctor.\n"
                         + "Expected format: Lastname, Firstname\n"
                         + "Actual value: '" + doctorName + "'",
-                        doctorName.matches("\\w+, \\w+"));
+                doctorName.matches("\\w+, \\w+"));
 
         String lastVisit = getCellText(17);
         Assert.assertTrue(
                 "Grid should contain the last visit date of the first patient.\n"
-                        + "Expected format: yyyy/MM/dd or an empty string\n"
-                        + "Actual value: '" + lastVisit + "'",
-                        lastVisit.matches("(\\d{4}/\\d{2}/\\d{2})|^$"));
+                        + "Expected format: "
+                        + DateToStringConverter.DATE_FORMAT
+                        + " or an empty string\n" + "Actual value: '"
+                        + lastVisit + "'",
+                lastVisit.matches("(\\d{2}/\\d{2}/\\d{4})|^$"));
 
     }
 

@@ -26,6 +26,7 @@ import com.vaadin.annotations.Convert;
 import com.vaadin.annotations.Include;
 import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.converters.AppointmentTypeToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
@@ -64,19 +65,31 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         void setPatient(Patient patient);
 
         @Convert(value = DateToStringConverter.class, path = "date")
-        @Include({ "entry", "doctor.firstName", "doctor.lastName", "date" })
+        @Convert(value = AppointmentTypeToStringConverter.class, path = "appointmentType")
+        @Include({ "entry", "doctor.firstName", "doctor.lastName", "date",
+                "appointmentType" })
         void setEntries(List<JournalEntry> entries);
     }
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        fetchPatient(locationChangeEvent);
+        if (patient != null) {
+            getModel().setPatient(patient);
+        }
+    }
+
+    protected Patient getPatient() {
+        return patient;
+    }
+
+    protected void fetchPatient(LocationChangeEvent locationChangeEvent) {
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
             Optional<Patient> optionalPatient = patientService.getPatient(id);
             if (optionalPatient.isPresent()) {
                 patient = optionalPatient.get();
-                getModel().setPatient(patient);
             } else {
                 Logger.getLogger(AbstractPatientTemplate.class.getName())
                         .info("Patient with id " + id + " was not found.");
@@ -87,9 +100,5 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
                     .info("Failed to parse patient's id from the url.");
             locationChangeEvent.rerouteToErrorView();
         }
-    }
-
-    public Patient getPatient() {
-        return patient;
     }
 }

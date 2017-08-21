@@ -55,8 +55,17 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
         patientRepository.saveAndFlush(patient);
     }
 
+    public void deletePatient(Patient patient) {
+        patientRepository.delete(patient);
+    }
+
     @Transactional(readOnly = true)
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Doctor> getDoctor(Long id) {
+        return Optional.ofNullable(doctorRepository.findOne(id));
     }
 }
