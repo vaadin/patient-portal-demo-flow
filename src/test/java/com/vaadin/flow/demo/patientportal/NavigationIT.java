@@ -22,6 +22,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class NavigationIT extends AbstractChromeTest {
 
+    private final int patientId = 2;
+
     private class LocationCondition implements ExpectedCondition<Boolean> {
 
         private final String location;
@@ -47,55 +49,55 @@ public class NavigationIT extends AbstractChromeTest {
         open();
 
         getInShadowRoot(By.tagName("login-view"), By.id("login-button"))
-        .click();
+                .click();
         waitLocation("patients");
 
         // Click on the first cell that actually contains patient-data:
         getInShadowRoot(By.tagName("patients-view"),
-                By.id("vaadin-grid-cell-content-13")).click();
-        waitLocation("patients/1");
+                By.id("vaadin-grid-cell-content-19")).click();
+        waitLocation("patients/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("JOURNAL"))
-        .click();
-        waitLocation("patients/1/journal");
+                .click();
+        waitLocation("patients/" + patientId + "/journal");
 
         getInShadowRoot(By.tagName("patient-journal"),
                 By.partialLinkText("NEW ENTRY")).click();
-        waitLocation("patients/1/new-entry");
+        waitLocation("patients/" + patientId + "/new-entry");
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("EDIT PATIENT")).click();
-        waitLocation("patients/1/edit");
+        waitLocation("patients/" + patientId + "/edit");
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("PROFILE"))
-        .click();
-        waitLocation("patients/1");
+                .click();
+        waitLocation("patients/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("ALL PATIENTS")).click();
         waitLocation("patients");
 
         getInShadowRoot(By.tagName("main-view"), By.linkText("ANALYTICS"))
-        .click();
+                .click();
         waitLocation("analytics");
 
         getInShadowRoot(By.tagName("vaadin-license-dialog"),
                 By.id("licenseDialogClose")).click();
 
         getInShadowRoot(By.tagName("analytics-view"), By.linkText("DOCTOR"))
-        .click();
+                .click();
         waitLocation("analytics/doctor");
 
         getInShadowRoot(By.tagName("analytics-view"), By.linkText("GENDER"))
-        .click();
+                .click();
         waitLocation("analytics/gender");
 
         getInShadowRoot(By.tagName("analytics-view"), By.linkText("AGE"))
-        .click();
+                .click();
         waitLocation("analytics/age");
 
         getInShadowRoot(By.tagName("main-view"), By.linkText("PATIENTS"))
-        .click();
+                .click();
         waitLocation("patients");
 
         getInShadowRoot(By.tagName("patients-view"), By.id("patientsGrid"));

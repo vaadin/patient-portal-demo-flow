@@ -53,10 +53,8 @@ public class PatientsView
     private Element grid;
 
     public PatientsView() {
-
-        // TODO: Remove this when proper patient-navigation can be implemented.
-        grid.addEventListener("click",
-                event -> getUI().get().navigateTo("patients/1"));
+        grid.addEventListener("click", event -> getUI().get()
+                .navigateTo("patients/" + getModel().getCurrentPatientId()));
         setId("patients-view");
     }
 
@@ -68,6 +66,8 @@ public class PatientsView
         @Convert(value = LongToStringConverter.class, path = "medicalRecord")
         @Convert(value = LongToStringConverter.class, path = "id")
         void setPatients(List<Patient> patients);
+
+        String getCurrentPatientId();
     }
 
     @Override
