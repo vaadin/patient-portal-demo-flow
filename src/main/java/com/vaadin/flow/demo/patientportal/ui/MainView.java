@@ -16,18 +16,16 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
-import com.vaadin.flow.router.HasChildView;
 import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
- *
  */
 @SuppressWarnings("serial")
 @UIScope
@@ -46,4 +44,8 @@ public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
         getModel().setPage(locationChangeEvent.getLocation().getFirstSegment());
     }
 
+    @EventHandler
+    private void logout() {
+        UI.getCurrent().navigateTo("");
+    }
 }
