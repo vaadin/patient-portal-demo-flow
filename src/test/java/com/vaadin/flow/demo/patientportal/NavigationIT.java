@@ -101,6 +101,11 @@ public class NavigationIT extends AbstractChromeTest {
         waitLocation("patients");
 
         getInShadowRoot(By.tagName("patients-view"), By.id("patientsGrid"));
+
+        getInShadowRoot(By.tagName("main-view"), By.id("logout")).click();
+        waitLocation("");
+
+        getInShadowRoot(By.tagName("login-view"), By.id("login-button"));
     }
 
     private void waitLocation(String expectedLocation) {
