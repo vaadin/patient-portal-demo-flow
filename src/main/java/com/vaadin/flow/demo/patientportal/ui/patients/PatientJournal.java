@@ -29,7 +29,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  *
  */
 @Tag("patient-journal")
-@HtmlImport("/components/main/patients/patient-journal.html")
+@HtmlImport("frontend://components/main/patients/patient-journal.html")
 @Route("patients/{id}/journal")
 @ParentView(PatientDetails.class)
 public class PatientJournal extends

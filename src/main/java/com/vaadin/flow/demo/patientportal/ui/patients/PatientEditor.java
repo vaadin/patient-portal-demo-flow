@@ -43,7 +43,7 @@ import com.vaadin.ui.TextField;
  *
  */
 @Tag("patient-editor")
-@HtmlImport("/components/main/patients/patient-editor.html")
+@HtmlImport("frontend://components/main/patients/patient-editor.html")
 @Route("patients/{id}/edit")
 @ParentView(PatientDetails.class)
 public class PatientEditor extends

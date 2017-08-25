@@ -30,7 +30,7 @@ import com.vaadin.ui.UI;
 @SuppressWarnings("serial")
 @UIScope
 @Tag("main-view")
-@HtmlImport("/components/main/main-view.html")
+@HtmlImport("frontend://components/main/main-view.html")
 public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
 
     public interface MainViewModel extends TemplateModel {
