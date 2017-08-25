@@ -22,6 +22,7 @@ import com.vaadin.annotations.Tag;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
+import com.vaadin.ui.Page;
 import com.vaadin.ui.UI;
 
 /**
@@ -41,11 +42,19 @@ public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
         getModel().setPage(locationChangeEvent.getLocation().getFirstSegment());
     }
 
     @EventHandler
     private void logout() {
-        UI.getCurrent().navigateTo("");
+        UI.getCurrent().getSession().setAttribute("login", null);
+        UI.getCurrent().close();
+        UI.getCurrent().getPage().executeJavaScript("window.location.href=''");
     }
 }

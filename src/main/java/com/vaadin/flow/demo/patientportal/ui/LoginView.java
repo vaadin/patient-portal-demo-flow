@@ -20,11 +20,13 @@ import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Tag;
+import com.vaadin.flow.html.Label;
 import com.vaadin.flow.html.NativeButton;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
@@ -49,7 +51,16 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
 
     @EventHandler
     private void login() {
-        getUI().get().navigateTo("patients");
+        if("user".equals(getModel().getUsername()) && "password".equals(getModel().getPassword())) {
+            UI.getCurrent().getSession().setAttribute("login", true);
+            getUI().get().navigateTo("patients");
+        } else {
+            Label error = new Label("Faulty login credentials!");
+            error.setClassName("alert error");
+            error.getStyle().set("color", "red");
+            error.getStyle().set("fontSize", "18px");
+            getElement().appendChild(error.getElement());
+        }
     }
 
     public interface LoginViewModel extends TemplateModel {
