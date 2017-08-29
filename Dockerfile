@@ -4,4 +4,5 @@ ARG jpaAuto=none
 ENV spring.datasource.url=jdbc:mysql://$datasourceUrl/pp
 ENV spring.jpa.hibernate.ddl-auto=$jpaAuto
 EXPOSE 8080
-COPY target/patient-portal-flow-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/portal.war
+RUN rm -fr /usr/local/tomcat/webapps/ROOT
+COPY target/patient-portal-flow-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
