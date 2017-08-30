@@ -3,7 +3,7 @@ services:
   flow-patient-portal:
     build: .
     environment:
-       - spring.datasource.url=jdbc:mysql://$datasourceUrl/pp
+       - spring.datasource.url=jdbc:mysql://$datasourceUrl:3306/pp
     image:
       'repo.vaadin.com:5001/flow-patient-portal:tomcat'
       
