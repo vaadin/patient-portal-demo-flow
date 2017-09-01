@@ -18,8 +18,12 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
+import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
@@ -35,11 +39,15 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
+    @Autowired
+    PatientService patientService;
+
     @Override
     @Transactional
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
         super.onLocationChange(locationChangeEvent);
-        getModel().setEntries(getPatient().getJournalEntries());
+        Patient patient = patientService.findAttached(getPatient());
+        getModel().setEntries(patient.getJournalEntries());
     }
 
 }

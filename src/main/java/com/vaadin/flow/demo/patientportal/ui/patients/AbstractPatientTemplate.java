@@ -31,10 +31,13 @@ import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.LoginView;
+import com.vaadin.flow.demo.patientportal.ui.PatientsHolder;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
 import com.vaadin.flow.template.model.TemplateModel;
+import com.vaadin.ui.UI;
 
 /**
  * Superclass for all of the patient-specific {@link PolymerTemplate}-views,
@@ -46,9 +49,6 @@ import com.vaadin.flow.template.model.TemplateModel;
  */
 public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.PatientTemplateModel>
         extends PolymerTemplate<M> implements View {
-
-    @Autowired
-    protected PatientService patientService;
 
     private Patient patient;
 
@@ -73,6 +73,12 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
+
         fetchPatient(locationChangeEvent);
         if (patient != null) {
             getModel().setPatient(patient);
@@ -87,7 +93,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
-            Optional<Patient> optionalPatient = patientService.getPatient(id);
+            Optional<Patient> optionalPatient = PatientsHolder.getInstance().getPatient(id);
             if (optionalPatient.isPresent()) {
                 patient = optionalPatient.get();
             } else {

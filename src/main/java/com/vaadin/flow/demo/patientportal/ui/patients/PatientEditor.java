@@ -85,8 +85,12 @@ public class PatientEditor extends
     @Id("delete")
     private Button deleteButton;
 
+    PatientService patientService;
+
     @Autowired
     public PatientEditor(PatientService patientService) {
+        this.patientService = patientService;
+
         titleComboBox.setItems("Miss", "Ms", "Mrs", "Mr");
         genderComboBox.setItems(Arrays.stream(Gender.values())
                 .map(gender -> gender.name()).collect(Collectors.toList()));

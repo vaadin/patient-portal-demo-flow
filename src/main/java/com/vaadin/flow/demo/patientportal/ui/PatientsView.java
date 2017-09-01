@@ -37,7 +37,6 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
  * @author Vaadin Ltd
- *
  */
 @Tag("patients-view")
 @HtmlImport("frontend://components/main/patients/patients-view.html")
@@ -67,12 +66,19 @@ public class PatientsView
         @Convert(value = LongToStringConverter.class, path = "id")
         void setPatients(List<Patient> patients);
 
+        List<Patient> getPatients();
+
         String getCurrentPatientId();
     }
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        getModel().setPatients(patientService.getPatients());
-    }
+        List<Patient> patients = patientService.getPatients();
 
+        if (getModel().getPatients() == null || getModel().getPatients()
+                .isEmpty()) {
+            getModel().setPatients(patients);
+            PatientsHolder.getInstance().setPatients(patients);
+        }
+    }
 }
