@@ -68,4 +68,8 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
     public Optional<Doctor> getDoctor(Long id) {
         return Optional.ofNullable(doctorRepository.findOne(id));
     }
+
+    public long getPatientsCount() {
+        return patientRepository.count();
+    }
 }

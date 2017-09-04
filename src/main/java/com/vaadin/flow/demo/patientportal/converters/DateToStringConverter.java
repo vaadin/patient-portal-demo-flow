@@ -24,27 +24,24 @@ import com.vaadin.flow.template.model.ModelConverter;
 /**
  * Converts between Date-objects and their String-representations in format
  * 'yyyy/MM/dd'.
- * 
- * @author Vaadin Ltd
  *
+ * @author Vaadin Ltd
  */
 
 public class DateToStringConverter implements ModelConverter<Date, String> {
 
     public static final String DATE_FORMAT = "MM/dd/yyyy";
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-            DATE_FORMAT);
+    private final SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 
     @Override
     public String toPresentation(Date modelValue) {
-        return modelValue == null ? null : dateFormat.format(modelValue);
+        return modelValue == null ? null : format.format(modelValue);
     }
 
     @Override
     public Date toModel(String presentationValue) {
         try {
-            return dateFormat.parse(presentationValue);
+            return format.parse(presentationValue);
         } catch (ParseException e) {
             return null;
         }

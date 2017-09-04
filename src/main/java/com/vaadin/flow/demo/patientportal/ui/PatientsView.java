@@ -73,11 +73,11 @@ public class PatientsView
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        List<Patient> patients = patientService.getPatients();
-
         if (getModel().getPatients() == null || getModel().getPatients()
-                .isEmpty() || PatientsView.class.equals(locationChangeEvent.getView())) {
-            getModel().setPatients(patients);
+                .isEmpty() || (locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients"))) {
+            if(patientService.getPatientsCount() != getModel().getPatients().size()) {
+                getModel().setPatients(patientService.getPatients());
+            }
         }
     }
 }
