@@ -76,9 +76,8 @@ public class PatientsView
         List<Patient> patients = patientService.getPatients();
 
         if (getModel().getPatients() == null || getModel().getPatients()
-                .isEmpty()) {
+                .isEmpty() || PatientsView.class.equals(locationChangeEvent.getView())) {
             getModel().setPatients(patients);
-            PatientsHolder.getInstance().setPatients(patients);
         }
     }
 }

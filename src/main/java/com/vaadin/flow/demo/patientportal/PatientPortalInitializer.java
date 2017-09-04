@@ -15,6 +15,7 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -27,7 +28,6 @@ import org.springframework.web.WebApplicationInitializer;
  * The initializer registers the {@link PatientServlet} Vaadin servlet.
  *
  * @author Vaadin Ltd
- *
  */
 @SpringBootApplication
 /*
@@ -40,9 +40,12 @@ import org.springframework.web.WebApplicationInitializer;
 public class PatientPortalInitializer extends SpringBootServletInitializer
         implements WebApplicationInitializer {
 
+    public static void main(String[] args) {
+        SpringApplication.run(PatientPortalInitializer.class, args);
+    }
+
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
         return new ServletRegistrationBean(new PatientServlet(), "/*");
     }
-
 }

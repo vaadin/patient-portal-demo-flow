@@ -32,7 +32,6 @@ import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.demo.patientportal.ui.LoginView;
-import com.vaadin.flow.demo.patientportal.ui.PatientsHolder;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.View;
 import com.vaadin.flow.template.PolymerTemplate;
@@ -51,6 +50,9 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         extends PolymerTemplate<M> implements View {
 
     private Patient patient;
+
+    @Autowired
+    private PatientService patientService;
 
     public interface PatientTemplateModel extends TemplateModel {
 
@@ -93,7 +95,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         try {
             long id = Long
                     .parseLong(locationChangeEvent.getPathParameter("id"));
-            Optional<Patient> optionalPatient = PatientsHolder.getInstance().getPatient(id);
+            Optional<Patient> optionalPatient = patientService.getPatient(id);
             if (optionalPatient.isPresent()) {
                 patient = optionalPatient.get();
             } else {
