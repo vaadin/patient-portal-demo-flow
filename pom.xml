@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>1.5.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -35,7 +35,7 @@
         <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
         <maven.clean.plugin.version>3.0.0</maven.clean.plugin.version>
 
-        <spring-boot.version>1.5.4.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Frontend -->
