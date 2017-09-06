@@ -24,9 +24,11 @@ import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.LoginView;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
@@ -45,6 +47,11 @@ public class PatientJournal extends
     @Override
     @Transactional
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
         super.onLocationChange(locationChangeEvent);
         Patient patient = patientService.findAttached(getPatient());
         getModel().setEntries(patient.getJournalEntries());

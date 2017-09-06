@@ -34,6 +34,7 @@ import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
@@ -73,6 +74,12 @@ public class PatientsView
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
+
         if (getModel().getPatients() == null || getModel().getPatients()
                 .isEmpty() || (locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients"))) {
             if(patientService.getPatientsCount() != getModel().getPatients().size()) {
