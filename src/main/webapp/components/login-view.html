@@ -70,12 +70,7 @@
         </div>
         <button id="login-button" class="primary">Login</button>
       </div>
-      <template is="dom-if" if="{{errorMsg}}">
-        <div role="alert" class="alert error">
-          <iron-icon icon="lock"></iron-icon>
-          {{errorMsg}}
-        </div>
-      </template>
+      <slot></slot>
     </div>
   </template>
   <script>

@@ -18,28 +18,43 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Tag;
+import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.LoginView;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
  *
  */
 @Tag("patient-journal")
-@HtmlImport("/components/main/patients/patient-journal.html")
+@HtmlImport("frontend://components/main/patients/patient-journal.html")
 @Route("patients/{id}/journal")
 @ParentView(PatientDetails.class)
 public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
+    @Autowired
+    private transient PatientService patientService;
+
     @Override
     @Transactional
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
         super.onLocationChange(locationChangeEvent);
-        getModel().setEntries(getPatient().getJournalEntries());
+        Patient patient = patientService.findAttached(getPatient());
+        getModel().setEntries(patient.getJournalEntries());
     }
 
 }

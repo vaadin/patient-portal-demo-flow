@@ -38,7 +38,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  *
  */
 @Tag("analytics-view")
-@HtmlImport("/components/main/analytics/analytics.html")
+@HtmlImport("frontend://components/main/analytics/analytics.html")
 @Route(value = "analytics/*")
 @ParentView(MainView.class)
 public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>

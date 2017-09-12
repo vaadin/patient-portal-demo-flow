@@ -139,7 +139,9 @@
       </tr>
     </table>
 
-    <img class="profile-pic" src="[[patient.pictureUrl]]">
+    <template is="dom-if" if="[[patient.pictureUrl]]">
+      <img class="profile-pic" src="[[patient.pictureUrl]]" alt="Patient photo">
+    </template>
   </template>
   <script>
     class PatientProfile extends Polymer.Element {

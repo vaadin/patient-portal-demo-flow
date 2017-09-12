@@ -34,13 +34,13 @@ import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 import com.vaadin.hummingbird.ext.spring.annotations.Route;
+import com.vaadin.ui.UI;
 
 /**
  * @author Vaadin Ltd
- *
  */
 @Tag("patients-view")
-@HtmlImport("/components/main/patients/patients-view.html")
+@HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route("patients")
 @ParentView(MainView.class)
 public class PatientsView
@@ -60,19 +60,41 @@ public class PatientsView
 
     public interface PatientsViewModel extends TemplateModel {
 
-        @Include({ "firstName", "lastName", "id", "medicalRecord",
-                "doctor.firstName", "doctor.lastName", "lastVisit" })
+        @Include({"firstName", "lastName", "id", "medicalRecord",
+                "doctor.firstName", "doctor.lastName", "lastVisit"})
         @Convert(value = DateToStringConverter.class, path = "lastVisit")
         @Convert(value = LongToStringConverter.class, path = "medicalRecord")
         @Convert(value = LongToStringConverter.class, path = "id")
         void setPatients(List<Patient> patients);
+
+        List<Patient> getPatients();
 
         String getCurrentPatientId();
     }
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        getModel().setPatients(patientService.getPatients());
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
+
+        if ((noPatientsInTheModel() || locationChangedToSameView(locationChangeEvent)) && outOfSyncWithPatientService()) {
+            getModel().setPatients(patientService.getPatients());
+        }
     }
 
+    private boolean locationChangedToSameView(LocationChangeEvent locationChangeEvent) {
+        return locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients");
+    }
+
+    private boolean outOfSyncWithPatientService() {
+        return patientService.getPatientsCount() != getModel().getPatients().size();
+    }
+
+    private boolean noPatientsInTheModel() {
+        return getModel().getPatients() == null || getModel().getPatients()
+                .isEmpty();
+    }
 }

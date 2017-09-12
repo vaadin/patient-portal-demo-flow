@@ -30,22 +30,27 @@ import com.vaadin.ui.UI;
 @SuppressWarnings("serial")
 @UIScope
 @Tag("main-view")
-@HtmlImport("/components/main/main-view.html")
+@HtmlImport("frontend://components/main/main-view.html")
 public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
-
     public interface MainViewModel extends TemplateModel {
-
-        public void setPage(String page);
-
+        void setPage(String page);
     }
 
     @Override
     public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+
+        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+            locationChangeEvent.rerouteTo(LoginView.class);
+            UI.getCurrent().navigateTo("");
+            return;
+        }
         getModel().setPage(locationChangeEvent.getLocation().getFirstSegment());
     }
 
     @EventHandler
     private void logout() {
-        UI.getCurrent().navigateTo("");
+        UI.getCurrent().getSession().setAttribute("login", null);
+        UI.getCurrent().close();
+        UI.getCurrent().getPage().executeJavaScript("window.location.href=''");
     }
 }

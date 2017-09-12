@@ -45,7 +45,7 @@ import com.vaadin.ui.TextField;
  *
  */
 @Tag("journal-editor")
-@HtmlImport("/components/main/patients/journal-editor.html")
+@HtmlImport("frontend://components/main/patients/journal-editor.html")
 @Route("patients/{id}/new-entry")
 @ParentView(PatientDetails.class)
 public class JournalEditor extends
@@ -65,8 +65,12 @@ public class JournalEditor extends
     @Id("entry")
     private TextField entryField;
 
+    private transient PatientService patientService;
+
     @Autowired
     public JournalEditor(PatientService patientService) {
+        this.patientService = patientService;
+
         datePicker.setValue(LocalDate.now());
 
         appointmentTypeComboBox.setItems(Arrays.stream(AppointmentType.values())
