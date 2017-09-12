@@ -8,4 +8,3 @@ services:
       - spring.datasource.url=jdbc:mysql://$datasourceUrl:3306/pp
     image:
       'repo.vaadin.com:5001/flow-patient-portal:tomcat'
-      

@@ -34,7 +34,7 @@ import com.vaadin.ui.UI;
  */
 @Tag("login-view")
 @HtmlImport("frontend://components/login-view.html")
-@Route("")
+@Route()
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
         implements View {
 

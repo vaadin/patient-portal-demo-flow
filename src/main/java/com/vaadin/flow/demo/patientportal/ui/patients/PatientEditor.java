@@ -85,7 +85,7 @@ public class PatientEditor extends
     @Id("delete")
     private Button deleteButton;
 
-    PatientService patientService;
+    private PatientService patientService;
 
     @Autowired
     public PatientEditor(PatientService patientService) {
@@ -93,7 +93,7 @@ public class PatientEditor extends
 
         titleComboBox.setItems("Miss", "Ms", "Mrs", "Mr");
         genderComboBox.setItems(Arrays.stream(Gender.values())
-                .map(gender -> gender.name()).collect(Collectors.toList()));
+                .map(Enum::name).collect(Collectors.toList()));
 
         doctorComboBox.setItems(patientService.getAllDoctors().stream()
                 .map(DoctorDTO::new).collect(Collectors.toList()));
@@ -148,5 +148,4 @@ public class PatientEditor extends
         fetchPatient(locationChangeEvent);
         fillPatientData(getPatient());
     }
-
 }

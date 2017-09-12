@@ -28,15 +28,12 @@
         <!-- Plugins -->
         <frontend.maven.plugin.version>1.4</frontend.maven.plugin.version>
         <jetty.version>9.3.7.v20160115</jetty.version>
-        <driver.binary.downloader.maven.plugin.version>1.0.14
-        </driver.binary.downloader.maven.plugin.version>
         <maven.failsafe.plugin.version>2.20</maven.failsafe.plugin.version>
         <maven.war.plugin.version>3.0.0</maven.war.plugin.version>
         <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
         <maven.clean.plugin.version>3.0.0</maven.clean.plugin.version>
 
         <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Frontend -->
         <node.version>v7.10.1</node.version>
@@ -135,12 +132,6 @@
             <version>1.1.1</version>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.hsqldb</groupId>-->
-        <!--<artifactId>hsqldb</artifactId>-->
-        <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>com.vaadin.demo</groupId>
             <artifactId>patient-portal-backend</artifactId>
@@ -229,53 +220,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-
-            <!--<plugin>-->
-            <!--<artifactId>maven-failsafe-plugin</artifactId>-->
-            <!--<version>${maven.failsafe.plugin.version}</version>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<goals>-->
-            <!--<goal>integration-test</goal>-->
-            <!--<goal>verify</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--<configuration>-->
-            <!--<systemPropertyVariables>-->
-            <!--<webdriver.chrome.driver>${webdriver.chrome.driver}-->
-            <!--</webdriver.chrome.driver>-->
-            <!--</systemPropertyVariables>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-war-plugin</artifactId>-->
-            <!--<configuration>-->
-            <!--<archive>-->
-            <!--<manifestEntries>-->
-            <!--<Implementation-Title>${project.name}-->
-            <!--</Implementation-Title>-->
-            <!--<Implementation-Version>${project.version}-->
-            <!--</Implementation-Version>-->
-            <!--</manifestEntries>-->
-            <!--</archive>-->
-            <!--<webResources>-->
-            <!--<resource>-->
-            <!--<directory>${frontend.working.directory}</directory>-->
-            <!--<include>bower_components/**</include>-->
-            <!--<include>components/**</include>-->
-            <!--</resource>-->
-            <!--</webResources>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-            <!--<artifactId>maven-clean-plugin</artifactId>-->
-            <!--<version>${maven.clean.plugin.version}</version>-->
-            <!--</plugin>-->
-            <!-- (1): Configures the cleanup process for JS dependencies and build -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -306,117 +250,6 @@
                     </filesets>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.eclipse.jetty</groupId>-->
-            <!--<artifactId>jetty-maven-plugin</artifactId>-->
-            <!--<version>${jetty.version}</version>-->
-            <!--<configuration>-->
-            <!--<scanIntervalSeconds>-1</scanIntervalSeconds>-->
-            <!--<stopPort>8081</stopPort>-->
-            <!--<stopWait>5</stopWait>-->
-            <!--<stopKey>foo</stopKey>-->
-            <!--&lt;!&ndash; Prevent Jetty from scanning the classpath. &ndash;&gt;-->
-            <!--&lt;!&ndash; Speeds up startup time significantly &ndash;&gt;-->
-            <!--<webAppConfig>-->
-            <!--<webInfIncludeJarPattern>-->
-            <!--.*/flow-.*.jar$|.*/test-resources-.*.jar$-->
-            <!--</webInfIncludeJarPattern>-->
-            <!--<containerIncludeJarPattern>^$-->
-            <!--</containerIncludeJarPattern>-->
-            <!--<resourceBases>-->
-            <!--<resourceBase>${frontend.working.directory}-->
-            <!--</resourceBase>-->
-            <!--</resourceBases>-->
-            <!--</webAppConfig>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--&lt;!&ndash; start and stop jetty (running our app) when running -->
-            <!--integration tests &ndash;&gt;-->
-            <!--<execution>-->
-            <!--<id>start-jetty</id>-->
-            <!--<phase>pre-integration-test</phase>-->
-            <!--<goals>-->
-            <!--<goal>start</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--<execution>-->
-            <!--<id>stop-jetty</id>-->
-            <!--<phase>post-integration-test</phase>-->
-            <!--<goals>-->
-            <!--<goal>stop</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-            <!--<groupId>com.github.eirslett</groupId>-->
-            <!--<artifactId>frontend-maven-plugin</artifactId>-->
-            <!--<version>${frontend.maven.plugin.version}</version>-->
-            <!--<configuration>-->
-            <!--<nodeVersion>${node.version}</nodeVersion>-->
-            <!--<yarnVersion>${yarn.version}</yarnVersion>-->
-            <!--<workingDirectory>${frontend.working.directory}-->
-            <!--</workingDirectory>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<phase>generate-resources</phase>-->
-            <!--<id>install node and yarn</id>-->
-            <!--<goals>-->
-            <!--<goal>install-node-and-yarn</goal>-->
-            <!--</goals>-->
-            <!--<configuration></configuration>-->
-            <!--</execution>-->
-            <!--<execution>-->
-            <!--<phase>generate-resources</phase>-->
-            <!--<id>add bower</id>-->
-            <!--<goals>-->
-            <!--<goal>yarn</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-            <!--<arguments>add bower</arguments>-->
-            <!--</configuration>-->
-            <!--</execution>-->
-            <!--<execution>-->
-            <!--<phase>generate-resources</phase>-->
-            <!--<id>yarn install</id>-->
-            <!--<goals>-->
-            <!--<goal>yarn</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-            <!--<arguments>${yarn.build.goal}</arguments>-->
-            <!--</configuration>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-            <!--<groupId>com.lazerycode.selenium</groupId>-->
-            <!--<artifactId>driver-binary-downloader-maven-plugin</artifactId>-->
-            <!--<version>${driver.binary.downloader.maven.plugin.version}-->
-            <!--</version>-->
-            <!--<configuration>-->
-            <!--<onlyGetDriversForHostOperatingSystem>true-->
-            <!--</onlyGetDriversForHostOperatingSystem>-->
-            <!--<rootStandaloneServerDirectory>-->
-            <!--${project.build.directory}/driver-->
-            <!--</rootStandaloneServerDirectory>-->
-            <!--<downloadedZipFileDirectory>-->
-            <!--${project.build.directory}/driver_zips-->
-            <!--</downloadedZipFileDirectory>-->
-            <!--<customRepositoryMap>${project.basedir}/drivers.xml-->
-            <!--</customRepositoryMap>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<phase>pre-integration-test</phase>-->
-            <!--<goals>-->
-            <!--<goal>selenium</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 

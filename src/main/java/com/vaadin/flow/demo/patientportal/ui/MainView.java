@@ -22,7 +22,6 @@ import com.vaadin.annotations.Tag;
 import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.template.model.TemplateModel;
 import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
-import com.vaadin.ui.Page;
 import com.vaadin.ui.UI;
 
 /**
@@ -33,11 +32,8 @@ import com.vaadin.ui.UI;
 @Tag("main-view")
 @HtmlImport("frontend://components/main/main-view.html")
 public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
-
     public interface MainViewModel extends TemplateModel {
-
-        public void setPage(String page);
-
+        void setPage(String page);
     }
 
     @Override

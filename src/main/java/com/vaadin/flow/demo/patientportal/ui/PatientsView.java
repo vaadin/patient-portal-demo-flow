@@ -60,8 +60,8 @@ public class PatientsView
 
     public interface PatientsViewModel extends TemplateModel {
 
-        @Include({ "firstName", "lastName", "id", "medicalRecord",
-                "doctor.firstName", "doctor.lastName", "lastVisit" })
+        @Include({"firstName", "lastName", "id", "medicalRecord",
+                "doctor.firstName", "doctor.lastName", "lastVisit"})
         @Convert(value = DateToStringConverter.class, path = "lastVisit")
         @Convert(value = LongToStringConverter.class, path = "medicalRecord")
         @Convert(value = LongToStringConverter.class, path = "id")
@@ -80,11 +80,21 @@ public class PatientsView
             return;
         }
 
-        if (getModel().getPatients() == null || getModel().getPatients()
-                .isEmpty() || (locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients"))) {
-            if(patientService.getPatientsCount() != getModel().getPatients().size()) {
-                getModel().setPatients(patientService.getPatients());
-            }
+        if ((noPatientsInTheModel() || locationChangedToSameView(locationChangeEvent)) && outOfSyncWithPatientService()) {
+            getModel().setPatients(patientService.getPatients());
         }
+    }
+
+    private boolean locationChangedToSameView(LocationChangeEvent locationChangeEvent) {
+        return locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients");
+    }
+
+    private boolean outOfSyncWithPatientService() {
+        return patientService.getPatientsCount() != getModel().getPatients().size();
+    }
+
+    private boolean noPatientsInTheModel() {
+        return getModel().getPatients() == null || getModel().getPatients()
+                .isEmpty();
     }
 }
