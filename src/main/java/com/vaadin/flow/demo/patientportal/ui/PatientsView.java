@@ -40,7 +40,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  *
  */
 @Tag("patients-view")
-@HtmlImport("/components/main/patients/patients-view.html")
+@HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route("patients")
 @ParentView(MainView.class)
 public class PatientsView
