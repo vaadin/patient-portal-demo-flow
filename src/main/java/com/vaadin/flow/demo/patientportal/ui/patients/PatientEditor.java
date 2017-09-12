@@ -17,6 +17,7 @@
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import com.vaadin.annotations.EventHandler;
 import com.vaadin.annotations.HtmlImport;
 import com.vaadin.annotations.Id;
 import com.vaadin.annotations.Tag;
+import com.vaadin.demo.entities.Doctor;
 import com.vaadin.demo.entities.Gender;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
@@ -40,7 +42,6 @@ import com.vaadin.ui.TextField;
 
 /**
  * @author Vaadin Ltd
- *
  */
 @Tag("patient-editor")
 @HtmlImport("frontend://components/main/patients/patient-editor.html")
@@ -85,18 +86,19 @@ public class PatientEditor extends
     @Id("delete")
     private Button deleteButton;
 
-    private PatientService patientService;
+    private transient PatientService patientService;
 
     @Autowired
     public PatientEditor(PatientService patientService) {
         this.patientService = patientService;
 
         titleComboBox.setItems("Miss", "Ms", "Mrs", "Mr");
-        genderComboBox.setItems(Arrays.stream(Gender.values())
-                .map(Enum::name).collect(Collectors.toList()));
+        genderComboBox.setItems(Arrays.stream(Gender.values()).map(Enum::name)
+                .collect(Collectors.toList()));
 
-        doctorComboBox.setItems(patientService.getAllDoctors().stream()
-                .map(DoctorDTO::new).collect(Collectors.toList()));
+        doctorComboBox.setItems(
+                patientService.getAllDoctors().stream().map(DoctorDTO::new)
+                        .collect(Collectors.toList()));
         doctorComboBox.setItemLabelPath("fullName");
 
         saveButton.addClickListener(event -> savePatient());
@@ -113,20 +115,22 @@ public class PatientEditor extends
         patient.setGender(Gender.valueOf(genderComboBox.getValue()));
         patient.setBirthDate(java.sql.Date.valueOf(birthDatePicker.getValue()));
         patient.setSsn(ssnField.getValue());
-        patient.setDoctor(patientService
-                .getDoctor(doctorComboBox.getSelectedItem().getId()).get());
+        Optional<Doctor> doctor = patientService
+                .getDoctor(doctorComboBox.getSelectedItem().getId());
+        if (doctor.isPresent())
+            patient.setDoctor(doctor.get());
         patientService.savePatient(patient);
         close();
     }
 
     private void deletePatient() {
         patientService.deletePatient(getPatient());
-        getUI().get().navigateTo("patients");
+        getUI().ifPresent(ui -> ui.navigateTo("patients"));
     }
 
     @EventHandler
     private void close() {
-        getUI().get().navigateTo("patients/" + getPatient().getId());
+        getUI().ifPresent(ui -> ui.navigateTo("patients/" + getPatient().getId()));
     }
 
     public void fillPatientData(Patient patient) {
@@ -136,8 +140,8 @@ public class PatientEditor extends
         middleNameField.setValue(patient.getMiddleName());
         lastNameField.setValue(patient.getLastName());
         genderComboBox.setValue(patient.getGender().name());
-        birthDatePicker
-                .setValue(new java.sql.Date(patient.getBirthDate().getTime())
+        birthDatePicker.setValue(
+                new java.sql.Date(patient.getBirthDate().getTime())
                         .toLocalDate());
         ssnField.setValue(patient.getSsn());
         doctorComboBox.setSelectedItem(new DoctorDTO(patient.getDoctor()));

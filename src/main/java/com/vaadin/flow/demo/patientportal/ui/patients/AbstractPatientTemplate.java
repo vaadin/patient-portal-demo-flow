@@ -52,7 +52,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
     private Patient patient;
 
     @Autowired
-    private PatientService patientService;
+    private transient PatientService patientService;
 
     public interface PatientTemplateModel extends TemplateModel {
 

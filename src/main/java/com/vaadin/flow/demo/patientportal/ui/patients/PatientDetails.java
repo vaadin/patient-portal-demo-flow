@@ -34,6 +34,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
 public class PatientDetails
         extends ParentPolymerTemplate<PatientDetails.PatientDetailsModel> {
 
+    @FunctionalInterface
     public interface PatientDetailsModel extends TemplateModel {
         void setPatientId(String patientId);
     }

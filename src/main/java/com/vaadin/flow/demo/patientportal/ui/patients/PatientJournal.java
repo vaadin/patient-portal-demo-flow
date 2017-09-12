@@ -42,7 +42,7 @@ public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
     @Autowired
-    private PatientService patientService;
+    private transient PatientService patientService;
 
     @Override
     @Transactional

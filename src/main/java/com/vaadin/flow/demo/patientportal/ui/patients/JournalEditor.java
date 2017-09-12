@@ -65,7 +65,7 @@ public class JournalEditor extends
     @Id("entry")
     private TextField entryField;
 
-    private PatientService patientService;
+    private transient PatientService patientService;
 
     @Autowired
     public JournalEditor(PatientService patientService) {
