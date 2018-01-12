@@ -16,16 +16,17 @@
 package com.vaadin.flow.demo.patientportal;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.web.WebApplicationInitializer;
 
 /**
  * Spring boot web appplication initializer.
  * <p>
- * The initializer registers the {@link PatientServlet} Vaadin servlet.
  *
  * @author Vaadin Ltd
  */
@@ -37,6 +38,8 @@ import org.springframework.web.WebApplicationInitializer;
  * org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.
  * class })
  */
+@EnableAutoConfiguration(exclude = {WebMvcAutoConfiguration.class,
+        SpringDataWebAutoConfiguration.class})
 public class PatientPortalInitializer extends SpringBootServletInitializer
         implements WebApplicationInitializer {
 
@@ -44,8 +47,4 @@ public class PatientPortalInitializer extends SpringBootServletInitializer
         SpringApplication.run(PatientPortalInitializer.class, args);
     }
 
-    @Bean
-    public ServletRegistrationBean servletRegistrationBean() {
-        return new ServletRegistrationBean(new PatientServlet(), "/*");
-    }
 }

@@ -16,12 +16,12 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Tag;
-import com.vaadin.flow.router.HasChildView;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
-import com.vaadin.flow.template.model.TemplateModel;
+
+import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * {@link PolymerTemplate} that acts as a {@link HasChildView}. The HTML markup
@@ -41,12 +41,14 @@ import com.vaadin.flow.template.model.TemplateModel;
  *
  */
 public abstract class ParentPolymerTemplate<M extends TemplateModel>
-        extends PolymerTemplate<M> implements HasChildView {
+        extends PolymerTemplate<M> /*implements HasChildView */{
 
-    private View childView;
+    private HasElement childView;
 
+/* todo what is was?
     @Override
-    public void setChildView(View childView) {
+    public void setChildView(com.vaadin.flow.router.legacy.View childView) {
+
         if (this.childView != null) {
             getElement().removeChild(this.childView.getElement());
         }
@@ -56,4 +58,5 @@ public abstract class ParentPolymerTemplate<M extends TemplateModel>
             getElement().appendChild(this.childView.getElement());
         }
     }
+*/
 }

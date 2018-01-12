@@ -16,13 +16,15 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
-import com.vaadin.annotations.EventHandler;
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Tag;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.spring.annotation.UIScope;
+import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * @author Vaadin Ltd
@@ -31,20 +33,20 @@ import com.vaadin.ui.UI;
 @UIScope
 @Tag("main-view")
 @HtmlImport("frontend://components/main/main-view.html")
-public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> {
+public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> implements RouterLayout, BeforeEnterObserver{
     public interface MainViewModel extends TemplateModel {
         void setPage(String page);
     }
 
-    @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
 
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
-            locationChangeEvent.rerouteTo(LoginView.class);
+            event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
             return;
         }
-        getModel().setPage(locationChangeEvent.getLocation().getFirstSegment());
+        getModel().setPage(event.getLocation().getFirstSegment());
     }
 
     @EventHandler

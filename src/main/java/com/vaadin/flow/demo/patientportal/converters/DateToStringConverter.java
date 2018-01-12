@@ -15,13 +15,14 @@
  */
 package com.vaadin.flow.demo.patientportal.converters;
 
+import com.vaadin.flow.templatemodel.ModelConverter;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
-import com.vaadin.flow.template.model.ModelConverter;
 
 /**
  * Converts between Date-objects and their String-representations in format

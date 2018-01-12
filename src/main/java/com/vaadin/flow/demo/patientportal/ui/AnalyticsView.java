@@ -20,18 +20,17 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.legacy.LocationChangeEvent;
+import com.vaadin.flow.router.legacy.View;
+import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Tag;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.demo.service.AnalyticsService;
 import com.vaadin.demo.service.StringLongPair;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
-import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
 
 /**
  * @author Vaadin Ltd
@@ -39,10 +38,9 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  */
 @Tag("analytics-view")
 @HtmlImport("frontend://components/main/analytics/analytics.html")
-@Route(value = "analytics/*")
-@ParentView(MainView.class)
+@Route(value = "analytics/*", layout = MainView.class)
 public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
-        implements View {
+        implements HasUrlParameter<String>{
 
     private static final String AGE_ROUTE = "age";
     private static final String DOCTOR_ROUTE = "doctor";
@@ -61,8 +59,7 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
     }
 
     @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        String path = locationChangeEvent.getPathWildcard();
+    public void setParameter(BeforeEvent event, @WildcardParameter String path) {
         if (path.isEmpty() || path.equals(AGE_ROUTE)) {
             setChartData(this::getDataByAge);
             getModel().setRoute(AGE_ROUTE);

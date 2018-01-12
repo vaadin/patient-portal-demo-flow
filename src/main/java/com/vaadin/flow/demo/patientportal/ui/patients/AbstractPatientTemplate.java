@@ -16,27 +16,26 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.annotations.Convert;
-import com.vaadin.annotations.Include;
 import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.converters.AppointmentTypeToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.demo.patientportal.ui.LoginView;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
-import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.templatemodel.Convert;
+import com.vaadin.flow.templatemodel.Include;
+import com.vaadin.flow.templatemodel.TemplateModel;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * Superclass for all of the patient-specific {@link PolymerTemplate}-views,
@@ -47,7 +46,7 @@ import com.vaadin.ui.UI;
  *
  */
 public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.PatientTemplateModel>
-        extends PolymerTemplate<M> implements View {
+        extends PolymerTemplate<M> implements HasUrlParameter<Long> {
 
     private Patient patient;
 
@@ -73,40 +72,31 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         void setEntries(List<JournalEntry> entries);
     }
 
+
     @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+    public void setParameter(BeforeEvent event, Long patientId) {
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
-            locationChangeEvent.rerouteTo(LoginView.class);
+            event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
             return;
         }
-
-        fetchPatient(locationChangeEvent);
-        if (patient != null) {
-            getModel().setPatient(patient);
+        Optional<Patient> optionalPatient = patientService.getPatient(patientId);
+        if (optionalPatient.isPresent()) {
+            loadPatient(optionalPatient.get());
+        } else {
+            String msg = "Patient with id " + patientId + " was not found.";
+            Logger.getLogger(AbstractPatientTemplate.class.getName())
+                    .info(msg);
+            event.rerouteToError(IllegalArgumentException.class,msg);
         }
+    }
+
+    protected void loadPatient(Patient aPatient) {
+        patient = aPatient;
+        getModel().setPatient(aPatient);
     }
 
     protected Patient getPatient() {
         return patient;
-    }
-
-    protected void fetchPatient(LocationChangeEvent locationChangeEvent) {
-        try {
-            long id = Long
-                    .parseLong(locationChangeEvent.getPathParameter("id"));
-            Optional<Patient> optionalPatient = patientService.getPatient(id);
-            if (optionalPatient.isPresent()) {
-                patient = optionalPatient.get();
-            } else {
-                Logger.getLogger(AbstractPatientTemplate.class.getName())
-                        .info("Patient with id " + id + " was not found.");
-                locationChangeEvent.rerouteToErrorView();
-            }
-        } catch (NumberFormatException e) {
-            Logger.getLogger(AbstractPatientTemplate.class.getName())
-                    .info("Failed to parse patient's id from the url.");
-            locationChangeEvent.rerouteToErrorView();
-        }
     }
 }

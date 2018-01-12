@@ -22,23 +22,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.vaadin.annotations.EventHandler;
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Id;
-import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.AppointmentType;
 import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DatePicker;
-import com.vaadin.ui.TextField;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Vaadin Ltd
@@ -46,8 +45,7 @@ import com.vaadin.ui.TextField;
  */
 @Tag("journal-editor")
 @HtmlImport("frontend://components/main/patients/journal-editor.html")
-@Route("patients/{id}/new-entry")
-@ParentView(PatientDetails.class)
+@Route(value = "new-entry", layout = PatientDetails.class)
 public class JournalEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
@@ -78,7 +76,7 @@ public class JournalEditor extends
 
         doctorComboBox.setItems(patientService.getAllDoctors().stream()
                 .map(DoctorDTO::new).collect(Collectors.toList()));
-        doctorComboBox.setItemLabelPath("fullName");
+        doctorComboBox.setItemLabelGenerator(DoctorDTO::getFullName);
     }
 
     @EventHandler
@@ -91,7 +89,7 @@ public class JournalEditor extends
         JournalEntry journalEntry = new JournalEntry(date, entry,
                 appointmentType);
 
-        Long docId = doctorComboBox.getSelectedItem().getId();
+        Long docId = doctorComboBox.getValue().getId();
         journalEntry.setDoctor(patientService.getDoctor(docId).get());
 
         journalEntries.add(journalEntry);
@@ -103,13 +101,14 @@ public class JournalEditor extends
     @EventHandler
     private void close() {
         getUI().get()
-                .navigateTo("patients/" + getPatient().getId() + "/journal");
+                .navigateTo("patient/journal/" + getPatient().getId());
     }
 
     @Override
     @Transactional
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        super.onLocationChange(locationChangeEvent);
+    protected void loadPatient(Patient aPatient) {
+        Patient patient = patientService.getPatient(aPatient.getId()).get();
+        super.loadPatient(patient);
         journalEntries = getPatient().getJournalEntries();
         journalEntries.size(); // to initialize the list
     }

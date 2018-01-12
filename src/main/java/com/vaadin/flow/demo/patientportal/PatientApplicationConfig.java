@@ -20,6 +20,7 @@ import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 
+import com.vaadin.flow.spring.scopes.VaadinUIScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -35,10 +36,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 
 import com.vaadin.demo.service.DBInitService;
-import com.vaadin.flow.router.RouterConfigurator;
-import com.vaadin.hummingbird.ext.spring.SpringAwareConfigurator;
-import com.vaadin.hummingbird.ext.spring.VaadinUIScope;
-import com.vaadin.hummingbird.ext.spring.annotations.UIScope;
 
 /**
  * Spring boot application configuration class.

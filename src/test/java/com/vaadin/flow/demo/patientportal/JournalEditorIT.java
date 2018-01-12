@@ -37,7 +37,7 @@ public class JournalEditorIT extends AbstractChromeTest {
 
     @Override
     protected String getTestPath() {
-        return "/patients/1/new-entry";
+        return "/patient/new-entry/1";
     }
 
     @Test

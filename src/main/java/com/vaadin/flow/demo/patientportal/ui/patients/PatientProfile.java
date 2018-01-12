@@ -16,10 +16,10 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Tag;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
+
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.router.Route;
 
 /**
  * @author Vaadin Ltd
@@ -27,8 +27,7 @@ import com.vaadin.hummingbird.ext.spring.annotations.Route;
  */
 @Tag("patient-profile")
 @HtmlImport("frontend://components/main/patients/patient-profile.html")
-@Route("patients/{id}/")
-@ParentView(PatientDetails.class)
+@Route(value = "", layout = PatientDetails.class)
 public class PatientProfile extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 

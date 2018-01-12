@@ -1,88 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.vaadin.flow.demo</groupId>
     <artifactId>patient-portal-flow</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8
-        </project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Dependencies -->
-        <flow.version>0.1-SNAPSHOT</flow.version>
+        <vaadin.version>10.0.0.alpha12</vaadin.version>
+        <servlet.api.version>3.1.0</servlet.api.version>
+        <selenium.server.version>3.4.0</selenium.server.version>
+        <slf4j.version>1.7.25</slf4j.version>
 
-        <!-- Plugins -->
-        <frontend.maven.plugin.version>1.4</frontend.maven.plugin.version>
-        <jetty.version>9.3.7.v20160115</jetty.version>
-        <maven.failsafe.plugin.version>2.20</maven.failsafe.plugin.version>
-        <maven.war.plugin.version>3.0.0</maven.war.plugin.version>
-        <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
-        <maven.clean.plugin.version>3.0.0</maven.clean.plugin.version>
-
-        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
-
-        <!-- Frontend -->
-        <node.version>v7.10.1</node.version>
-        <npm.version>5.3.0</npm.version>
-        <yarn.version>v0.28.1</yarn.version>
-        <frontend.working.directory>src/main/webapp</frontend.working.directory>
-        <vaadin.frontend.path>VAADIN/static/frontend</vaadin.frontend.path>
-        <skipFrontendBuild>false</skipFrontendBuild>
+        <spring-boot.version>2.0.0.M7</spring-boot.version>
+        <spring.version>5.0.0.RELEASE</spring.version>
     </properties>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestone</id>
+            <url>https://repo.spring.io/milestone/</url>
+        </pluginRepository>
+    </pluginRepositories>
     <repositories>
         <repository>
-            <id>flow-internal-release</id>
-            <url>https://repo.vaadin.com/nexus/content/repositories/flow</url>
+            <id>vaadin-prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
         </repository>
-
-        <repository>
-            <id>vaadin-snapshots</id>
-            <url>
-                https://oss.sonatype.org/content/repositories/vaadin-snapshots/
-            </url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>repo-vaadin-com-snapshots</id>
-            <url>
-                https://repo.vaadin.com/nexus/content/repositories/website-snapshots/
-            </url>
-        </repository>
-
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
 
+        <repository>
+            <id>webjars</id>
+            <url>https://dl.bintray.com/webjars/maven</url>
+        </repository>
+        <repository>
+            <id>spring-milestone</id>
+            <url>https://repo.spring.io/milestone/</url>
+        </repository>
     </repositories>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -92,44 +64,25 @@
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>flow</artifactId>
-            <version>${flow.version}</version>
+            <artifactId>vaadin</artifactId>
+            <version>${vaadin.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>flow-components</artifactId>
-            <version>${flow.version}</version>
+            <artifactId>flow-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring-boot.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-test-util</artifactId>
-            <version>0.1.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>hummingbird-ext</artifactId>
-            <version>4.0.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>flow</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>polymer</artifactId>
         </dependency>
 
         <dependency>
@@ -144,267 +97,102 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Fix version conflicts between various dependencies -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+<!--
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 
         <!-- Spring -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-juli</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.version}</version>
         </dependency>
-        <!-- End Spring -->
+        <dependency>
+
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-test-util</artifactId>
+            <version>1.0-SNAPSHOT<!--todo variable--></version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.4.0</version>
+        </dependency>
     </dependencies>
 
     <build>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven.clean.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven.resources.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${maven.war.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <version>${frontend.maven.plugin.version}</version>
-                    <configuration>
-                        <nodeVersion>${node.version}</nodeVersion>
-                        <yarnVersion>${yarn.version}</yarnVersion>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>
-                                ${frontend.working.directory}/bower_components
-                            </directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${frontend.working.directory}/build
-                            </directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${frontend.working.directory}/etc
-                            </directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${frontend.working.directory}/node
-                            </directory>
-                        </fileset>
-                        <fileset>
-                            <directory>
-                                ${frontend.working.directory}/node_modules
-                            </directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>production</id>
+            <id>productionMode</id>
             <activation>
                 <property>
                     <name>vaadin.productionMode</name>
                 </property>
             </activation>
 
-            <properties>
-                <yarn.build.goal>run build</yarn.build.goal>
-            </properties>
-
-
-            <!-- (4): Makes the package run in production mode when deployed, without the need of setting extra
-                      properties on the server -->
             <dependencies>
                 <dependency>
                     <groupId>com.vaadin</groupId>
                     <artifactId>flow-server-production-mode</artifactId>
-                    <version>${flow.version}</version>
                 </dependency>
             </dependencies>
-
-            <build>
-                <plugins>
-                    <!-- (5): Copies the files compiled by polymer-build to a directory from where they can be
-                              served when in production mode (root of the WAR) -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <archive>
-                                <manifestEntries>
-                                    <Implementation-Title>${project.name}
-                                    </Implementation-Title>
-                                    <Implementation-Version>${project.version}
-                                    </Implementation-Version>
-                                </manifestEntries>
-                            </archive>
-                            <webResources>
-                                <resource>
-                                    <directory>
-                                        ${frontend.working.directory}/build
-                                    </directory>
-                                    <targetPath>${vaadin.frontend.path}
-                                    </targetPath>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <version>${spring-boot.version}</version>
-                        <configuration>
-                            <jvmArguments>
-                                -Dvaadin.frontend.url.es5=context://build/es5/
-                                -Dvaadin.frontend.url.es6=context://build/es6/
-                            </jvmArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
-
-        <profile>
-            <id>development</id>
-            <activation>
-                <property>
-                    <name>!vaadin.productionMode</name>
-                </property>
-            </activation>
-
-            <properties>
-                <yarn.build.goal>run skip-build</yarn.build.goal>
-            </properties>
-
-            <build>
-                <plugins>
-                    <!-- (7): Adds the files from src/main/frontend directly into the WAR when in development mode -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <webResources>
-                                <resource>
-                                    <directory>${frontend.working.directory}
-                                    </directory>
-                                    <excludes>
-                                        <exclude>build/**</exclude>
-                                        <exclude>node/**</exclude>
-                                        <exclude>node_modules/**</exclude>
-                                        <exclude>etc/**</exclude>
-                                    </excludes>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <version>${spring-boot.version}</version>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>frontend-build</id>
-            <activation>
-                <property>
-                    <name>!skipFrontendBuild</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <!-- (2): Configures the frontend plugin to compile the web components source -->
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>install-node-and-yarn</id>
-                                <goals>
-                                    <goal>install-node-and-yarn</goal>
-                                    <goal>yarn
-                                    </goal> <!-- runs 'install' by default -->
-                                </goals>
-                                <configuration>
-                                    <workingDirectory>
-                                        ${frontend.working.directory}
-                                    </workingDirectory>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>run-polymer-build</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <workingDirectory>
-                                        ${frontend.working.directory}
-                                    </workingDirectory>
-                                    <arguments>${yarn.build.goal}</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
     </profiles>
 </project>

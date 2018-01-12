@@ -16,7 +16,7 @@
 package com.vaadin.flow.demo.patientportal.converters;
 
 import com.vaadin.demo.entities.Gender;
-import com.vaadin.flow.template.model.ModelConverter;
+import com.vaadin.flow.templatemodel.ModelConverter;
 
 /**
  * @author Vaadin Ltd

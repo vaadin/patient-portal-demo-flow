@@ -41,7 +41,7 @@ public class PatientEditorIT extends AbstractChromeTest {
 
     @Override
     protected String getTestPath() {
-        return "/patients/" + id + "/edit";
+        return "/patient/edit/" + id;
     }
 
     @Test
