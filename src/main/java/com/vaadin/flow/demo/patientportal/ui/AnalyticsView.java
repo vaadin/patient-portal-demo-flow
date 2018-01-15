@@ -15,22 +15,22 @@
  */
 package com.vaadin.flow.demo.patientportal.ui;
 
+import com.vaadin.demo.service.AnalyticsService;
+import com.vaadin.demo.service.StringLongPair;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.WildcardParameter;
+import com.vaadin.flow.templatemodel.TemplateModel;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
-import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.router.*;
-import com.vaadin.flow.router.legacy.LocationChangeEvent;
-import com.vaadin.flow.router.legacy.View;
-import com.vaadin.flow.templatemodel.TemplateModel;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.flow.component.Tag;
-import com.vaadin.demo.service.AnalyticsService;
-import com.vaadin.demo.service.StringLongPair;
 
 /**
  * @author Vaadin Ltd
@@ -40,7 +40,7 @@ import com.vaadin.demo.service.StringLongPair;
 @HtmlImport("frontend://components/main/analytics/analytics.html")
 @Route(value = "analytics/*", layout = MainView.class)
 public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
-        implements HasUrlParameter<String>{
+        implements HasUrlParameter<String> {
 
     private static final String AGE_ROUTE = "age";
     private static final String DOCTOR_ROUTE = "doctor";
@@ -49,17 +49,18 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
     @Autowired
     private AnalyticsService analyticsService;
 
-    public static interface AnalyticsModel extends TemplateModel {
+    public interface AnalyticsModel extends TemplateModel {
 
-        public void setData(List<Integer> data);
+        void setData(List<Integer> data);
 
-        public void setCategories(List<String> categories);
+        void setCategories(List<String> categories);
 
-        public void setRoute(String route);
+        void setRoute(String route);
     }
 
     @Override
-    public void setParameter(BeforeEvent event, @WildcardParameter String path) {
+    public void setParameter(BeforeEvent event,
+            @WildcardParameter String path) {
         if (path.isEmpty() || path.equals(AGE_ROUTE)) {
             setChartData(this::getDataByAge);
             getModel().setRoute(AGE_ROUTE);
@@ -86,8 +87,7 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
     }
 
     private List<StringLongPair> getDataByGender() {
-        return analyticsService.getStatsByGender().stream()
-                .collect(Collectors.toList());
+        return new ArrayList<>(analyticsService.getStatsByGender());
     }
 
     private void setChartData(Supplier<List<StringLongPair>> dataSupplier) {

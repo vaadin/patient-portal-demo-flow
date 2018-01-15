@@ -105,7 +105,6 @@ public class JournalEditor extends
     }
 
     @Override
-    @Transactional
     protected void loadPatient(Patient aPatient) {
         Patient patient = patientService.findAttached(aPatient);
         super.loadPatient(patient);

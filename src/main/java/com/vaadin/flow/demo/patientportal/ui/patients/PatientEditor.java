@@ -45,9 +45,6 @@ import java.util.stream.Collectors;
 @Route(value = "edit", layout = PatientDetails.class)
 public class PatientEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
-//todo fix title
-//todo fix gender
-//todo fix doctor
     @Id("id")
     private Span idComponent;
 
@@ -94,10 +91,10 @@ public class PatientEditor extends
         genderComboBox.setItems(Arrays.stream(Gender.values()).map(Enum::name)
                 .collect(Collectors.toList()));
 
-        doctorComboBox.setItems(
-                patientService.getAllDoctors().stream().map(DoctorDTO::new)
-                        .collect(Collectors.toList()));
+        doctorComboBox.setItems(patientService.getAllDoctors().stream()
+                .map(DoctorDTO::new).collect(Collectors.toList()));
         doctorComboBox.setItemLabelGenerator(DoctorDTO::getFullName);
+        doctorComboBox.setAllowCustomValue(false);
 
         saveButton.addClickListener(event -> savePatient());
         cancelButton.addClickListener(event -> close());
@@ -118,8 +115,7 @@ public class PatientEditor extends
         Optional<Doctor> doctor;
         if (doctorDTO == null) {
             doctor = Optional.empty();
-        }
-        else {
+        } else {
             doctor = patientService.getDoctor(doctorDTO.getId());
         }
         patient.setDoctor(doctor.orElse(null));
@@ -134,9 +130,9 @@ public class PatientEditor extends
 
     @EventHandler
     private void close() {
-        getUI().ifPresent(ui -> ui.navigateTo("patient/" + getPatient().getId()));
+        getUI().ifPresent(
+                ui -> ui.navigateTo("patient/" + getPatient().getId()));
     }
-
 
     @Override
     protected void loadPatient(Patient aPatient) {
@@ -147,10 +143,12 @@ public class PatientEditor extends
         middleNameField.setValue(aPatient.getMiddleName());
         lastNameField.setValue(aPatient.getLastName());
         genderComboBox.setValue(aPatient.getGender().name());
-        birthDatePicker.setValue(
-                new java.sql.Date(aPatient.getBirthDate().getTime())
+        birthDatePicker
+                .setValue(new java.sql.Date(aPatient.getBirthDate().getTime())
                         .toLocalDate());
         ssnField.setValue(aPatient.getSsn());
-        doctorComboBox.setValue(new DoctorDTO(aPatient.getDoctor()));//todo fix emty doctor combobox
+        Doctor doctor = aPatient.getDoctor();
+        DoctorDTO doctorDTO = doctor == null ? null : new DoctorDTO(doctor);
+        doctorComboBox.setValue(doctorDTO);
     }
 }

@@ -23,6 +23,9 @@
 
         <spring-boot.version>2.0.0.M7</spring-boot.version>
         <spring.version>5.0.0.RELEASE</spring.version>
+        <flow.snapshot.repo.url>
+            https://oss.sonatype.org/content/repositories/vaadin-snapshots/
+        </flow.snapshot.repo.url>
     </properties>
     <pluginRepositories>
         <pluginRepository>
@@ -48,6 +51,13 @@
             <id>spring-milestone</id>
             <url>https://repo.spring.io/milestone/</url>
         </repository>
+        <repository>
+            <id>flow-snapshots</id>
+            <url>${flow.snapshot.repo.url}</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <dependencyManagement>
@@ -67,6 +77,12 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin</artifactId>
             <version>${vaadin.version}</version>
+        </dependency>
+
+        <dependency><!--TODO remove when alpha18 is out-->
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-combo-box-flow</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -125,13 +141,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
--->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -155,13 +164,11 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-
             <groupId>com.vaadin</groupId>
             <artifactId>flow-test-util</artifactId>
             <version>${vaadin.platform.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>

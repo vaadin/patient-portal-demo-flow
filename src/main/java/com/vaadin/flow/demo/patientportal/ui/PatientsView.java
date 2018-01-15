@@ -43,8 +43,9 @@ import java.util.List;
 @Tag("patients-view")
 @HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route(value = "patients", layout = MainView.class)
+//todo fix navigation NPE on back - PR submitted to GH
 public class PatientsView
-        extends PolymerTemplate<PatientsView.PatientsViewModel> implements RouterLayout, BeforeEnterObserver{
+        extends PolymerTemplate<PatientsView.PatientsViewModel> implements RouterLayout, BeforeEnterObserver {
 
     @Autowired
     private PatientService patientService;
@@ -53,9 +54,13 @@ public class PatientsView
     private Element grid;
 
     public PatientsView() {
-        grid.addEventListener("click", event -> getUI().get()
-                .navigateTo("patient/" + getModel().getCurrentPatientId()));
-        setId("patients-view");
+        grid.addEventListener("click", event -> {
+            String currentPatientId = getModel().getCurrentPatientId();
+            if (currentPatientId != null && !currentPatientId.isEmpty()) {
+                getUI().get().navigateTo("patient/" + currentPatientId);
+                setId("patients-view");
+            }
+        });
     }
 
     public interface PatientsViewModel extends TemplateModel {
