@@ -37,7 +37,7 @@ public class JournalEditorIT extends AbstractChromeTest {
 
     @Override
     protected String getTestPath() {
-        return "/patient/new-entry/1";
+        return "/patient/new-entry/21";
     }
 
     @Test
@@ -76,4 +76,5 @@ public class JournalEditorIT extends AbstractChromeTest {
                 cells.get(index++).getText(), is(ENTRY));
 
     }
+
 }

@@ -103,7 +103,22 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void setTextFieldValue(String fieldId, String value) {
         WebElement field = getInShadowRoot(layout, By.id(fieldId));
-        getInShadowRoot(field, By.id("input")).clear();
+        field.clear();
         field.sendKeys(value);
+    }
+
+    @Override
+    protected void open() {
+        super.open();
+        login();
+        super.open();
+    }
+
+    private void login() {
+        waitForElementPresent(By.tagName("login-view"));
+        setLayout("login-view");
+        setTextFieldValue("username","user");
+        setTextFieldValue("password","password");
+        getInShadowRoot(getLayout(), By.id("login-button")).click();
     }
 }
