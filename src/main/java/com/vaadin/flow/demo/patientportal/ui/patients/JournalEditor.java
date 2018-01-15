@@ -107,7 +107,7 @@ public class JournalEditor extends
     @Override
     @Transactional
     protected void loadPatient(Patient aPatient) {
-        Patient patient = patientService.getPatient(aPatient.getId()).get();
+        Patient patient = patientService.findAttached(aPatient);
         super.loadPatient(patient);
         journalEntries = getPatient().getJournalEntries();
         journalEntries.size(); // to initialize the list
