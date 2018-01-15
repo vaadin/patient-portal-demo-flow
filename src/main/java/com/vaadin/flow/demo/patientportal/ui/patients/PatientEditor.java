@@ -45,7 +45,9 @@ import java.util.stream.Collectors;
 @Route(value = "edit", layout = PatientDetails.class)
 public class PatientEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
-
+//todo fix title
+//todo fix gender
+//todo fix doctor
     @Id("id")
     private Span idComponent;
 

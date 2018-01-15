@@ -21,6 +21,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
@@ -43,7 +44,7 @@ import java.util.List;
 @HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route(value = "patients", layout = MainView.class)
 public class PatientsView
-        extends ParentPolymerTemplate<PatientsView.PatientsViewModel> implements RouterLayout, BeforeEnterObserver{
+        extends PolymerTemplate<PatientsView.PatientsViewModel> implements RouterLayout, BeforeEnterObserver{
 
     @Autowired
     private PatientService patientService;

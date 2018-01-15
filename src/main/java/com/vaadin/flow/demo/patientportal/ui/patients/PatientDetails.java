@@ -19,12 +19,12 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.demo.patientportal.ui.ParentPolymerTemplate;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.ParentLayout;
+import com.vaadin.flow.router.RoutePrefix;
+import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.templatemodel.TemplateModel;
-
-import java.util.Objects;
 
 /**
  * @author Vaadin Ltd
@@ -35,7 +35,7 @@ import java.util.Objects;
 @RoutePrefix("patient")
 @ParentLayout(PatientsView.class)
 public class PatientDetails
-        extends ParentPolymerTemplate<PatientDetails.PatientDetailsModel> implements
+        extends PolymerTemplate<PatientDetails.PatientDetailsModel> implements
         RouterLayout {
 
     public interface PatientDetailsModel extends TemplateModel {

@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Tag("patient-journal")
 @HtmlImport("frontend://components/main/patients/patient-journal.html")
 @Route(value = "journal", layout = PatientDetails.class)
+//todo fix details button
 public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 

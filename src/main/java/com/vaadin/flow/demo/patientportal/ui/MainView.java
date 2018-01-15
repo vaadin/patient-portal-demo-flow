@@ -20,6 +20,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.RouterLayout;
@@ -33,7 +34,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @UIScope
 @Tag("main-view")
 @HtmlImport("frontend://components/main/main-view.html")
-public class MainView extends ParentPolymerTemplate<MainView.MainViewModel> implements RouterLayout, BeforeEnterObserver{
+public class MainView extends PolymerTemplate<MainView.MainViewModel> implements RouterLayout, BeforeEnterObserver{
     public interface MainViewModel extends TemplateModel {
         void setPage(String page);
     }
