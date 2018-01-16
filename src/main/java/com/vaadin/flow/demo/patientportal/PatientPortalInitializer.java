@@ -45,12 +45,12 @@ import com.vaadin.demo.service.DBInitService;
 @EntityScan("com.vaadin.demo.entities")
 public class PatientPortalInitializer extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private DBInitService initService;
+
     public static void main(String[] args) {
         SpringApplication.run(PatientPortalInitializer.class, args);
     }
-
-    @Autowired
-    private DBInitService initService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
