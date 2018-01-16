@@ -16,17 +16,16 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
-import com.vaadin.annotations.EventHandler;
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Id;
-import com.vaadin.annotations.Tag;
-import com.vaadin.flow.html.Label;
-import com.vaadin.flow.html.NativeButton;
-import com.vaadin.flow.router.View;
-import com.vaadin.flow.template.PolymerTemplate;
-import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeButton;
+import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * @author Vaadin Ltd
@@ -34,9 +33,8 @@ import com.vaadin.ui.UI;
  */
 @Tag("login-view")
 @HtmlImport("frontend://components/login-view.html")
-@Route()
-public class LoginView extends PolymerTemplate<LoginView.LoginViewModel>
-        implements View {
+@Route("")
+public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
     @Id("login-button")
     private NativeButton loginButton;

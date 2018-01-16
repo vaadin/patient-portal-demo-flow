@@ -16,19 +16,12 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.demo.patientportal.ui.LoginView;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Vaadin Ltd
@@ -36,8 +29,8 @@ import com.vaadin.ui.UI;
  */
 @Tag("patient-journal")
 @HtmlImport("frontend://components/main/patients/patient-journal.html")
-@Route("patients/{id}/journal")
-@ParentView(PatientDetails.class)
+@Route(value = "journal", layout = PatientDetails.class)
+//todo fix details button
 public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
 
@@ -45,15 +38,9 @@ public class PatientJournal extends
     private transient PatientService patientService;
 
     @Override
-    @Transactional
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        if (UI.getCurrent().getSession().getAttribute("login") == null) {
-            locationChangeEvent.rerouteTo(LoginView.class);
-            UI.getCurrent().navigateTo("");
-            return;
-        }
-        super.onLocationChange(locationChangeEvent);
-        Patient patient = patientService.findAttached(getPatient());
+    protected void loadPatient(Patient aPatient) {
+        Patient patient = patientService.findAttached(aPatient);
+        super.loadPatient(patient);
         getModel().setEntries(patient.getJournalEntries());
     }
 

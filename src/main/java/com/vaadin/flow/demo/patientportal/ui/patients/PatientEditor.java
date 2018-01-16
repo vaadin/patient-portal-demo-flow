@@ -16,40 +16,35 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.annotations.EventHandler;
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Id;
-import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Doctor;
 import com.vaadin.demo.entities.Gender;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.html.Span;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DatePicker;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Vaadin Ltd
  */
 @Tag("patient-editor")
 @HtmlImport("frontend://components/main/patients/patient-editor.html")
-@Route("patients/{id}/edit")
-@ParentView(PatientDetails.class)
+@Route(value = "edit", layout = PatientDetails.class)
 public class PatientEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
-
     @Id("id")
     private Span idComponent;
 
@@ -96,10 +91,10 @@ public class PatientEditor extends
         genderComboBox.setItems(Arrays.stream(Gender.values()).map(Enum::name)
                 .collect(Collectors.toList()));
 
-        doctorComboBox.setItems(
-                patientService.getAllDoctors().stream().map(DoctorDTO::new)
-                        .collect(Collectors.toList()));
-        doctorComboBox.setItemLabelPath("fullName");
+        doctorComboBox.setItems(patientService.getAllDoctors().stream()
+                .map(DoctorDTO::new).collect(Collectors.toList()));
+        doctorComboBox.setItemLabelGenerator(DoctorDTO::getFullName);
+        doctorComboBox.setAllowCustomValue(false);
 
         saveButton.addClickListener(event -> savePatient());
         cancelButton.addClickListener(event -> close());
@@ -115,10 +110,15 @@ public class PatientEditor extends
         patient.setGender(Gender.valueOf(genderComboBox.getValue()));
         patient.setBirthDate(java.sql.Date.valueOf(birthDatePicker.getValue()));
         patient.setSsn(ssnField.getValue());
-        Optional<Doctor> doctor = patientService
-                .getDoctor(doctorComboBox.getSelectedItem().getId());
-        if (doctor.isPresent())
-            patient.setDoctor(doctor.get());
+
+        DoctorDTO doctorDTO = doctorComboBox.getValue();
+        Optional<Doctor> doctor;
+        if (doctorDTO == null) {
+            doctor = Optional.empty();
+        } else {
+            doctor = patientService.getDoctor(doctorDTO.getId());
+        }
+        patient.setDoctor(doctor.orElse(null));
         patientService.savePatient(patient);
         close();
     }
@@ -130,26 +130,25 @@ public class PatientEditor extends
 
     @EventHandler
     private void close() {
-        getUI().ifPresent(ui -> ui.navigateTo("patients/" + getPatient().getId()));
-    }
-
-    public void fillPatientData(Patient patient) {
-        idComponent.setText(patient.getId().toString());
-        titleComboBox.setValue(patient.getTitle());
-        firstNameField.setValue(patient.getFirstName());
-        middleNameField.setValue(patient.getMiddleName());
-        lastNameField.setValue(patient.getLastName());
-        genderComboBox.setValue(patient.getGender().name());
-        birthDatePicker.setValue(
-                new java.sql.Date(patient.getBirthDate().getTime())
-                        .toLocalDate());
-        ssnField.setValue(patient.getSsn());
-        doctorComboBox.setSelectedItem(new DoctorDTO(patient.getDoctor()));
+        getUI().ifPresent(
+                ui -> ui.navigateTo("patient/" + getPatient().getId()));
     }
 
     @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        fetchPatient(locationChangeEvent);
-        fillPatientData(getPatient());
+    protected void loadPatient(Patient aPatient) {
+        super.loadPatient(aPatient);
+        idComponent.setText(aPatient.getId().toString());
+        titleComboBox.setValue(aPatient.getTitle());
+        firstNameField.setValue(aPatient.getFirstName());
+        middleNameField.setValue(aPatient.getMiddleName());
+        lastNameField.setValue(aPatient.getLastName());
+        genderComboBox.setValue(aPatient.getGender().name());
+        birthDatePicker
+                .setValue(new java.sql.Date(aPatient.getBirthDate().getTime())
+                        .toLocalDate());
+        ssnField.setValue(aPatient.getSsn());
+        Doctor doctor = aPatient.getDoctor();
+        DoctorDTO doctorDTO = doctor == null ? null : new DoctorDTO(doctor);
+        doctorComboBox.setValue(doctorDTO);
     }
 }

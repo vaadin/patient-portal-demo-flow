@@ -16,13 +16,15 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Tag;
-import com.vaadin.flow.demo.patientportal.ui.ParentPolymerTemplate;
+import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
+import com.vaadin.flow.router.ParentLayout;
+import com.vaadin.flow.router.RoutePrefix;
+import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * @author Vaadin Ltd
@@ -30,18 +32,21 @@ import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
  */
 @Tag("patient-details")
 @HtmlImport("frontend://components/main/patients/patient-details.html")
-@ParentView(PatientsView.class)
+@RoutePrefix("patient")
+@ParentLayout(PatientsView.class)
 public class PatientDetails
-        extends ParentPolymerTemplate<PatientDetails.PatientDetailsModel> {
+        extends PolymerTemplate<PatientDetails.PatientDetailsModel> implements
+        RouterLayout {
 
-    @FunctionalInterface
     public interface PatientDetailsModel extends TemplateModel {
         void setPatientId(String patientId);
+        String getPatientId();
     }
 
     @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
-        getModel().setPatientId(locationChangeEvent.getPathParameter("id"));
+    public void setRouterLayoutContent(HasElement content) {
+        Long patientId = ((AbstractPatientTemplate) content).getPatient().getId();
+        getModel().setPatientId(patientId+"");
+        RouterLayout.super.setRouterLayoutContent(content);
     }
-
 }

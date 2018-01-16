@@ -15,12 +15,15 @@
  */
 package com.vaadin.flow.demo.patientportal.dto;
 
+import java.util.Objects;
+
 import com.vaadin.demo.entities.Doctor;
 
 /**
  * @author Vaadin Ltd
  *
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class DoctorDTO {
     private Long id;
     private String firstName;
@@ -67,4 +70,20 @@ public class DoctorDTO {
         return lastName + ", " + firstName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        return Objects.equals(id, ((DoctorDTO) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 }

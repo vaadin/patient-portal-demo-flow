@@ -16,35 +16,36 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.annotations.Convert;
-import com.vaadin.annotations.HtmlImport;
-import com.vaadin.annotations.Id;
-import com.vaadin.annotations.Include;
-import com.vaadin.annotations.Tag;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.router.LocationChangeEvent;
-import com.vaadin.flow.template.model.TemplateModel;
-import com.vaadin.hummingbird.ext.spring.annotations.ParentView;
-import com.vaadin.hummingbird.ext.spring.annotations.Route;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.templatemodel.Convert;
+import com.vaadin.flow.templatemodel.Include;
+import com.vaadin.flow.templatemodel.TemplateModel;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * @author Vaadin Ltd
  */
 @Tag("patients-view")
 @HtmlImport("frontend://components/main/patients/patients-view.html")
-@Route("patients")
-@ParentView(MainView.class)
+@Route(value = "patients", layout = MainView.class)
+//todo fix navigation NPE on back - PR submitted to GH
 public class PatientsView
-        extends ParentPolymerTemplate<PatientsView.PatientsViewModel> {
+        extends PolymerTemplate<PatientsView.PatientsViewModel> implements RouterLayout, BeforeEnterObserver {
 
     @Autowired
     private PatientService patientService;
@@ -53,9 +54,13 @@ public class PatientsView
     private Element grid;
 
     public PatientsView() {
-        grid.addEventListener("click", event -> getUI().get()
-                .navigateTo("patients/" + getModel().getCurrentPatientId()));
-        setId("patients-view");
+        grid.addEventListener("click", event -> {
+            String currentPatientId = getModel().getCurrentPatientId();
+            if (currentPatientId != null && !currentPatientId.isEmpty()) {
+                getUI().get().navigateTo("patient/" + currentPatientId);
+                setId("patients-view");
+            }
+        });
     }
 
     public interface PatientsViewModel extends TemplateModel {
@@ -73,19 +78,19 @@ public class PatientsView
     }
 
     @Override
-    public void onLocationChange(LocationChangeEvent locationChangeEvent) {
+    public void beforeEnter(BeforeEnterEvent event) {
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
-            locationChangeEvent.rerouteTo(LoginView.class);
+            event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
             return;
         }
 
-        if ((noPatientsInTheModel() || locationChangedToSameView(locationChangeEvent)) && outOfSyncWithPatientService()) {
+        if ((noPatientsInTheModel() || locationChangedToSameView(event)) && outOfSyncWithPatientService()) {
             getModel().setPatients(patientService.getPatients());
         }
     }
 
-    private boolean locationChangedToSameView(LocationChangeEvent locationChangeEvent) {
+    private boolean locationChangedToSameView(BeforeEnterEvent locationChangeEvent) {
         return locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients");
     }
 

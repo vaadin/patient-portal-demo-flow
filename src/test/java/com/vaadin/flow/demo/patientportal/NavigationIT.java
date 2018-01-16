@@ -55,23 +55,23 @@ public class NavigationIT extends AbstractChromeTest {
         // Click on the first cell that actually contains patient-data:
         getInShadowRoot(By.tagName("patients-view"),
                 By.id("vaadin-grid-cell-content-19")).click();
-        waitLocation("patients/" + patientId);
+        waitLocation("patient/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("JOURNAL"))
                 .click();
-        waitLocation("patients/" + patientId + "/journal");
+        waitLocation("patient/journal/" + patientId);
 
         getInShadowRoot(By.tagName("patient-journal"),
                 By.partialLinkText("NEW ENTRY")).click();
-        waitLocation("patients/" + patientId + "/new-entry");
+        waitLocation("patient/new-entry/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("EDIT PATIENT")).click();
-        waitLocation("patients/" + patientId + "/edit");
+        waitLocation("patient/edit/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("PROFILE"))
                 .click();
-        waitLocation("patients/" + patientId);
+        waitLocation("patient/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("ALL PATIENTS")).click();
