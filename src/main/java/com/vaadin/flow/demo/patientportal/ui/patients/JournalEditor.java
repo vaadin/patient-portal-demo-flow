@@ -37,7 +37,6 @@ import com.vaadin.demo.entities.AppointmentType;
 import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Vaadin Ltd

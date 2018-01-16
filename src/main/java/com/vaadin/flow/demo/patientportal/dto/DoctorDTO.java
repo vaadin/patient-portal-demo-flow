@@ -72,10 +72,13 @@ public class DoctorDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DoctorDTO doctorDTO = (DoctorDTO) o;
-        return Objects.equals(id, doctorDTO.id);
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        return Objects.equals(id, ((DoctorDTO) o).id);
     }
 
     @Override
