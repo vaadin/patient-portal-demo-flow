@@ -16,6 +16,7 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -31,6 +32,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -67,38 +69,28 @@ public class PatientsView
     }
 
     private void setupGridColumns() {
-        grid.addColumn(patient -> patient.getLastName() +", " + patient.getFirstName())
-                .setHeader("Name")
-                .setSortable(true)
+        ValueProvider<Patient, String> fullNameProvider = patient -> patient
+                .getLastName() + ", " + patient.getFirstName();
+        grid.addColumn(fullNameProvider).setHeader("Name")
+                .setComparator(fullNameProvider).setFlexGrow(1)
                 .addClassName("strong");
 
-        grid.addColumn(Patient::getId)
-                .setHeader("Id")
-                .setSortable(true)
-                .setWidth("40px")
-                .setFlexGrow(0);
+        grid.addColumn(Patient::getId).setHeader("Id")
+                .setComparator(Patient::getId).setWidth("40px").setFlexGrow(0);
         grid.addColumn(Patient::getMedicalRecord)
-                .setSortable(true)
+                .setComparator(Patient::getMedicalRecord)
                 .setHeader("Medical Record");
 
-        grid.addColumn(patient->
-                patient.getDoctor().getLastName() +", " + patient.getDoctor().getFirstName())
-                .setSortable(true)
-                .setHeader("Doctor");
-//todo flex grow
-        grid.addColumn(
-                new LocalDateRenderer<>(patient -> {
-                    Date lastVisit = patient.getLastVisit();
-                    if(lastVisit!=null)
-                    {
-                        return LocalDateTime.ofInstant(lastVisit.toInstant(), ZoneId.systemDefault()).toLocalDate();
-                    } else {
-                        return null;
-                    }
-                }))
-                .setSortable(true)
-                .setHeader("Last Visit");
-
+        ValueProvider<Patient, String> doctorNameProvider = patient -> patient
+                .getDoctor().getLastName() + ", "
+                + patient.getDoctor().getFirstName();
+        grid.addColumn(doctorNameProvider).setComparator(doctorNameProvider)
+                .setFlexGrow(1).setHeader("Doctor");
+        grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit))
+                .setComparator(entry -> {
+                    LocalDate lastVisit = findLastVisit(entry);
+                    return lastVisit == null ? LocalDate.MIN : lastVisit;
+                }).setFlexGrow(1).setHeader("Last Visit");
     }
 
     public interface PatientsViewModel extends TemplateModel {
@@ -108,7 +100,7 @@ public class PatientsView
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        //todo improve the app security
+        // todo improve the app security
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
             event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
@@ -117,4 +109,14 @@ public class PatientsView
 
     }
 
+    private static LocalDate findLastVisit(Patient patient) {
+        Date lastVisit = patient.getLastVisit();
+        if (lastVisit != null) {
+            return LocalDateTime
+                    .ofInstant(lastVisit.toInstant(), ZoneId.systemDefault())
+                    .toLocalDate();
+        } else {
+            return null;
+        }
+    }
 }

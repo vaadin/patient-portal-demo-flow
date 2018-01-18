@@ -16,7 +16,7 @@
 
         <!-- Dependencies -->
         <vaadin.version>10.0.0.alpha12</vaadin.version>
-        <vaadin.platform.version>1.0.0.alpha17</vaadin.platform.version>
+        <vaadin.platform.version>1.0.0.alpha18</vaadin.platform.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <selenium.server.version>3.4.0</selenium.server.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -88,6 +88,7 @@
         <dependency><!--TODO remove when alpha18 is out-->
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-combo-box-flow</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

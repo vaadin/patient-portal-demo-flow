@@ -16,6 +16,7 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -28,6 +29,7 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.renderer.LocalDateRenderer;
 import com.vaadin.flow.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
@@ -50,18 +52,25 @@ public class PatientJournal extends
     private Grid<JournalEntry> grid;
 
     public PatientJournal() {
-        grid.addColumn(new LocalDateRenderer<>(journalEntry -> Optional
+        ValueProvider<JournalEntry, LocalDate> dateValueProvider = journalEntry -> Optional
                 .ofNullable(journalEntry.getDate())
                 .map(localDate -> LocalDateTime.ofInstant(localDate.toInstant(),
                         ZoneId.systemDefault()).toLocalDate())
-                .orElse(null))).setSortable(true).setHeader("Date");
-        grid.addColumn(JournalEntry::getAppointmentType).setSortable(true).setHeader("Appointment");
-        grid.addColumn(entry -> Optional.ofNullable(entry.getDoctor())
-                .map((Doctor d) -> d.getLastName() + ", " + d.getFirstName())
-                .orElse("")).setSortable(true).setHeader("Doctor");
-        grid.addColumn(JournalEntry::getEntry).setSortable(true).setHeader("Notes");
+                .orElse(null);
+        grid.addColumn(new LocalDateRenderer<>(dateValueProvider))
+            .setComparator(dateValueProvider)
+            .setHeader("Date");
+        grid.addColumn(JournalEntry::getAppointmentType)
+            .setComparator(JournalEntry::getAppointmentType)
+            .setHeader("Appointment");
+        ValueProvider<JournalEntry, String> doctorNameProvider = entry -> Optional.ofNullable(entry.getDoctor())
+                                                                                               .map((Doctor d) -> d.getLastName() + ", " + d.getFirstName())
+                                                                                               .orElse("");
+        grid.addColumn(doctorNameProvider).setHeader("Doctor").setComparator(doctorNameProvider);
+        grid.addColumn(JournalEntry::getEntry).setComparator(JournalEntry::getEntry).setHeader("Notes");
         grid.setItemDetailsRenderer(TemplateRenderer.of(
                 "<section class=\"details\"><h3>Notes</h3><article>[[entry]]</article></section>"));
+        grid.setDetailsVisibleOnClick(true);
     }
 
     @Override
