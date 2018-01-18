@@ -33,10 +33,15 @@
           border: none;
         }
       }
+      .strong {
+        font-weight: bold;
+      }
     </style>
 
     <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query>
-    <vaadin-grid id="patientsGrid" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
+    <vaadin-grid id="patientsGrid">
+<!-- todo restore narrow functionality
+    <vaadin-grid id="patientsGrid2" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
       <template class="row-details">
         <div class="details-row">
           <div class="field">
@@ -108,6 +113,7 @@
         </template>
         <template>[[item.lastVisit]]</template>
       </vaadin-grid-column>
+-->
     </vaadin-grid>
 
     <slot></slot>

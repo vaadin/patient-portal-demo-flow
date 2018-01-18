@@ -21,6 +21,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.RoutePrefix;
 import com.vaadin.flow.router.RouterLayout;
@@ -32,7 +33,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  */
 @Tag("patient-details")
 @HtmlImport("frontend://components/main/patients/patient-details.html")
-@RoutePrefix("patient")
+@RoutePrefix("patients")
 @ParentLayout(PatientsView.class)
 public class PatientDetails
         extends PolymerTemplate<PatientDetails.PatientDetailsModel> implements

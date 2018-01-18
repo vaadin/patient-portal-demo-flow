@@ -62,11 +62,13 @@
     <div class="top">
       <h2>[[patient.firstName]] [[patient.lastName]]</h2>
 
-      <a router-link class="button primary" href="patient/new-entry/[[patient.id]]">
+      <a router-link class="button primary" href="patients/new-entry/[[patient.id]]">
         <iron-icon icon="plus"></iron-icon> New entry</a>
     </div>
 
 
+    <vaadin-grid id="journalGrid"/>
+<!--todo restore narrow functionality
     <vaadin-grid id="grid" items="[[entries]]">
       <vaadin-grid-column width="50px" flex="0">
         <template class="header"></template>
@@ -127,6 +129,7 @@
         </section>
       </template>
     </vaadin-grid>
+-->
   </template>
   <script>
     class PatientJournal extends Polymer.Element {

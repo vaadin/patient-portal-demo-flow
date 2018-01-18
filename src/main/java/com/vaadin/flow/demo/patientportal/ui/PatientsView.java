@@ -16,26 +16,27 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
-import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
-import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
-import com.vaadin.flow.templatemodel.Convert;
-import com.vaadin.flow.templatemodel.Include;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * @author Vaadin Ltd
@@ -43,63 +44,77 @@ import java.util.List;
 @Tag("patients-view")
 @HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route(value = "patients", layout = MainView.class)
-//todo fix navigation NPE on back - PR submitted to GH
+// todo fix navigation NPE on back - PR submitted to GH
 public class PatientsView
-        extends PolymerTemplate<PatientsView.PatientsViewModel> implements RouterLayout, BeforeEnterObserver {
+        extends PolymerTemplate<PatientsView.PatientsViewModel>
+        implements RouterLayout, BeforeEnterObserver {
 
     @Autowired
     private PatientService patientService;
 
     @Id("patientsGrid")
-    private Element grid;
+    private Grid<Patient> grid;
 
     public PatientsView() {
-        grid.addEventListener("click", event -> {
-            String currentPatientId = getModel().getCurrentPatientId();
-            if (currentPatientId != null && !currentPatientId.isEmpty()) {
-                getUI().get().navigateTo("patient/" + currentPatientId);
+        grid.addSelectionListener(event -> {
+            Optional<Patient> patient = event.getFirstSelectedItem();
+            if (patient.isPresent()) {
+                getUI().get().navigateTo("patients/" + patient.get().getId());
                 setId("patients-view");
             }
         });
+        setupGridColumns();
+    }
+
+    private void setupGridColumns() {
+        grid.addColumn(patient -> patient.getLastName() +", " + patient.getFirstName())
+                .setHeader("Name")
+                .setSortable(true)
+                .addClassName("strong");
+
+        grid.addColumn(Patient::getId)
+                .setHeader("Id")
+                .setSortable(true)
+                .setWidth("40px")
+                .setFlexGrow(0);
+        grid.addColumn(Patient::getMedicalRecord)
+                .setSortable(true)
+                .setHeader("Medical Record");
+
+        grid.addColumn(patient->
+                patient.getDoctor().getLastName() +", " + patient.getDoctor().getFirstName())
+                .setSortable(true)
+                .setHeader("Doctor");
+//todo flex grow
+        grid.addColumn(
+                new LocalDateRenderer<>(patient -> {
+                    Date lastVisit = patient.getLastVisit();
+                    if(lastVisit!=null)
+                    {
+                        return LocalDateTime.ofInstant(lastVisit.toInstant(), ZoneId.systemDefault()).toLocalDate();
+                    } else {
+                        return null;
+                    }
+                }))
+                .setSortable(true)
+                .setHeader("Last Visit");
+
     }
 
     public interface PatientsViewModel extends TemplateModel {
-
-        @Include({"firstName", "lastName", "id", "medicalRecord",
-                "doctor.firstName", "doctor.lastName", "lastVisit"})
-        @Convert(value = DateToStringConverter.class, path = "lastVisit")
-        @Convert(value = LongToStringConverter.class, path = "medicalRecord")
-        @Convert(value = LongToStringConverter.class, path = "id")
-        void setPatients(List<Patient> patients);
-
-        List<Patient> getPatients();
 
         String getCurrentPatientId();
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
+        //todo improve the app security
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
             event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
-            return;
         }
+        grid.setItems(patientService.getPatients());
 
-        if ((noPatientsInTheModel() || locationChangedToSameView(event)) && outOfSyncWithPatientService()) {
-            getModel().setPatients(patientService.getPatients());
-        }
     }
 
-    private boolean locationChangedToSameView(BeforeEnterEvent locationChangeEvent) {
-        return locationChangeEvent.getLocation().getSegments().size() == 1 && locationChangeEvent.getLocation().getFirstSegment().equals("patients");
-    }
-
-    private boolean outOfSyncWithPatientService() {
-        return patientService.getPatientsCount() != getModel().getPatients().size();
-    }
-
-    private boolean noPatientsInTheModel() {
-        return getModel().getPatients() == null || getModel().getPatients()
-                .isEmpty();
-    }
 }
