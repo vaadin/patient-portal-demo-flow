@@ -21,7 +21,6 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
-import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.RoutePrefix;
 import com.vaadin.flow.router.RouterLayout;
