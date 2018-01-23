@@ -27,7 +27,6 @@ import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.renderer.LocalDateRenderer;
@@ -48,10 +47,11 @@ public class PatientJournal extends
     @Autowired
     private transient PatientService patientService;
 
-    @Id("journalGrid")
+//    @Id("journalGrid") todo restore when details generator is fixed
     private Grid<JournalEntry> grid;
 
     public PatientJournal() {
+        grid = new Grid<>();
         ValueProvider<JournalEntry, LocalDate> dateValueProvider = journalEntry -> Optional
                 .ofNullable(journalEntry.getDate())
                 .map(localDate -> LocalDateTime.ofInstant(localDate.toInstant(),
@@ -72,6 +72,7 @@ public class PatientJournal extends
                 "<section class=\"details\"><h3>Notes</h3><article>[[item.entry]]</article></section>")
                                                     .withProperty("entry",JournalEntry::getEntry));
         grid.setSelectionMode(Grid.SelectionMode.NONE);
+        getElement().appendChild(grid.getElement());
     }
 
     @Override
