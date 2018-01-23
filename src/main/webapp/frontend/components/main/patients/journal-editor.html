@@ -1,4 +1,4 @@
-<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/vaadin-icons/vaadin-icons.html">
 <link rel="import" href="../../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 <link rel="import" href="../../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import" href="../../../bower_components/vaadin-text-field/vaadin-text-field.html">
@@ -67,7 +67,9 @@
     </style>
     <header>
       <h1>New Journal Entry</h1>
-      <paper-icon-button icon="close" on-tap="close" class="close-button"></paper-icon-button>
+      <vaadin-button on-click="close" class="close-button" >
+        <iron-icon icon="vaadin:close-big"></iron-icon>
+      </vaadin-button>
     </header>
 
     <div class="edit-form">
@@ -102,8 +104,8 @@
       </div>
 
       <div class="buttons">
-        <button id="save" class="primary" disabled="[[!valid]]" on-tap="save">Save</button>
-        <a class="button" on-tap="close">Cancel</a>
+        <vaadin-button id="save" class="primary" disabled="[[!valid]]" on-click="save">Save</vaadin-button>
+        <a class="button" on-click="close">Cancel</a>
       </div>
 
     </div>

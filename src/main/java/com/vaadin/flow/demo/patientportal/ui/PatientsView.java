@@ -34,6 +34,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.renderer.LocalDateRenderer;
+import com.vaadin.flow.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
@@ -48,7 +49,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @Route(value = "patients", layout = MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH
 public class PatientsView
-        extends PolymerTemplate<PatientsView.PatientsViewModel>
+        extends PolymerTemplate<TemplateModel>
         implements RouterLayout, BeforeEnterObserver {
 
     @Autowired
@@ -71,9 +72,12 @@ public class PatientsView
     private void setupGridColumns() {
         ValueProvider<Patient, String> fullNameProvider = patient -> patient
                 .getLastName() + ", " + patient.getFirstName();
-        grid.addColumn(fullNameProvider).setHeader("Name")
-                .setComparator(fullNameProvider).setFlexGrow(1)
-                .addClassName("strong");
+        grid.addColumn(
+                TemplateRenderer.<Patient> of("<strong>[[item.fullName]]</strong>")
+                        .withProperty("fullName", fullNameProvider))
+                .setHeader("Name")
+                .setSortable(true)
+                .setFlexGrow(1);
 
         grid.addColumn(Patient::getId).setHeader("Id")
                 .setComparator(Patient::getId).setWidth("40px").setFlexGrow(0);
@@ -91,11 +95,6 @@ public class PatientsView
                     LocalDate lastVisit = findLastVisit(entry);
                     return lastVisit == null ? LocalDate.MIN : lastVisit;
                 }).setFlexGrow(1).setHeader("Last Visit");
-    }
-
-    public interface PatientsViewModel extends TemplateModel {
-
-        String getCurrentPatientId();
     }
 
     @Override

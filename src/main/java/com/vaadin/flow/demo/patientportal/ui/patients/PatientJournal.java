@@ -68,9 +68,10 @@ public class PatientJournal extends
                                                                                                .orElse("");
         grid.addColumn(doctorNameProvider).setHeader("Doctor").setComparator(doctorNameProvider);
         grid.addColumn(JournalEntry::getEntry).setComparator(JournalEntry::getEntry).setHeader("Notes");
-        grid.setItemDetailsRenderer(TemplateRenderer.of(
-                "<section class=\"details\"><h3>Notes</h3><article>[[entry]]</article></section>"));
-        grid.setDetailsVisibleOnClick(true);
+        grid.setItemDetailsRenderer(TemplateRenderer.<JournalEntry>of(
+                "<section class=\"details\"><h3>Notes</h3><article>[[item.entry]]</article></section>")
+                                                    .withProperty("entry",JournalEntry::getEntry));
+        grid.setSelectionMode(Grid.SelectionMode.NONE);
     }
 
     @Override

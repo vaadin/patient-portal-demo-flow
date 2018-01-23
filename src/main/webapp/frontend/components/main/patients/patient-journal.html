@@ -1,5 +1,4 @@
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid.html">
-<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../my-icons.html">
 <dom-module id="patient-journal">
   <template>
@@ -63,7 +62,7 @@
       <h2>[[patient.firstName]] [[patient.lastName]]</h2>
 
       <a router-link class="button primary" href="patients/new-entry/[[patient.id]]">
-        <iron-icon icon="plus"></iron-icon> New entry</a>
+        <iron-icon icon="vaadin:plus"></iron-icon> New entry</a>
     </div>
 
 
