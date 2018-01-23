@@ -65,9 +65,17 @@
         <iron-icon icon="vaadin:plus"></iron-icon> New entry</a>
     </div>
 
+    <slot></slot>
+<!--
+    <vaadin-grid id="journalGrid">
+        <template class="row-details">
+            [[item.entry]]
+        </template>
+ TODO | restore narrow functionality.
+ TODO | Original example supported responsibility via 'narrow' client-side variable. It does not work with existing
+ TODO | flow API, see https://github.com/vaadin/patient-portal-demo-flow/issues/65
+ TODO | The comment contains old narrow responsibility part
 
-    <vaadin-grid id="journalGrid"/>
-<!--todo restore narrow functionality
     <vaadin-grid id="grid" items="[[entries]]">
       <vaadin-grid-column width="50px" flex="0">
         <template class="header"></template>
@@ -127,7 +135,7 @@
           <article>[[item.entry]]</article>
         </section>
       </template>
-    </vaadin-grid>
+      </vaadin-grid>
 -->
   </template>
   <script>
