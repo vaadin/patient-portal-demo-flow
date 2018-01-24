@@ -126,7 +126,6 @@ public class PatientEditor extends
     private void deletePatient() {
         patientService.deletePatient(getPatient());
         getUI().ifPresent(ui -> ui.navigateTo("patients"));
-        close();
     }
 
     @EventHandler
