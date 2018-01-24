@@ -65,11 +65,6 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         @Convert(value = GenderToStringConverter.class, path = "gender")
         void setPatient(Patient patient);
 
-        @Convert(value = DateToStringConverter.class, path = "date")
-        @Convert(value = AppointmentTypeToStringConverter.class, path = "appointmentType")
-        @Include({ "entry", "doctor.firstName", "doctor.lastName", "date",
-                "appointmentType" })
-        void setEntries(List<JournalEntry> entries);
     }
 
 

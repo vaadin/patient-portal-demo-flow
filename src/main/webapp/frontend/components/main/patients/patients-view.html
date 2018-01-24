@@ -1,7 +1,7 @@
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="../../../bower_components/iron-media-query/iron-media-query.html">
-<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/vaadin-icons/vaadin-icons.html">
 <link rel="import" href="../../shared-styles.html">
 
 <dom-module id="patients-view">
@@ -36,7 +36,9 @@
     </style>
 
     <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query>
-    <vaadin-grid id="patientsGrid" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
+    <vaadin-grid id="patientsGrid">
+<!-- todo restore narrow functionality
+    <vaadin-grid id="patientsGrid2" items="{{patients}}" active-item="{{currentPatient}}" page-size="100">
       <template class="row-details">
         <div class="details-row">
           <div class="field">
@@ -108,6 +110,7 @@
         </template>
         <template>[[item.lastVisit]]</template>
       </vaadin-grid-column>
+-->
     </vaadin-grid>
 
     <slot></slot>

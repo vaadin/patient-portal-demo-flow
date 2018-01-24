@@ -32,7 +32,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  */
 @Tag("patient-details")
 @HtmlImport("frontend://components/main/patients/patient-details.html")
-@RoutePrefix("patient")
+@RoutePrefix("patients")
 @ParentLayout(PatientsView.class)
 public class PatientDetails
         extends PolymerTemplate<PatientDetails.PatientDetailsModel> implements

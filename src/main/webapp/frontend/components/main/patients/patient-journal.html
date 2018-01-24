@@ -1,5 +1,4 @@
 <link rel="import" href="../../../bower_components/vaadin-grid/vaadin-grid.html">
-<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../my-icons.html">
 <dom-module id="patient-journal">
   <template>
@@ -62,10 +61,17 @@
     <div class="top">
       <h2>[[patient.firstName]] [[patient.lastName]]</h2>
 
-      <a router-link class="button primary" href="patient/new-entry/[[patient.id]]">
-        <iron-icon icon="plus"></iron-icon> New entry</a>
+      <a router-link class="button primary" href="patients/new-entry/[[patient.id]]">
+        <iron-icon icon="vaadin:plus"></iron-icon> New entry</a>
     </div>
 
+    <slot></slot>
+<!--
+    <vaadin-grid id="journalGrid">
+        <template class="row-details">
+            [[item.entry]]
+        </template>
+ TODO restore "narrow" screen format functionality, see https://github.com/vaadin/patient-portal-demo-flow/issues/65
 
     <vaadin-grid id="grid" items="[[entries]]">
       <vaadin-grid-column width="50px" flex="0">
@@ -126,7 +132,8 @@
           <article>[[item.entry]]</article>
         </section>
       </template>
-    </vaadin-grid>
+      </vaadin-grid>
+-->
   </template>
   <script>
     class PatientJournal extends Polymer.Element {

@@ -1,7 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../my-icons.html">
 <dom-module id="main-view">
   <template>
@@ -63,7 +61,7 @@
       <a router-link href="/analytics" class$="[[_isActive('analytics', page)]]">Analytics</a>
 
       <a id="logout" class="right" on-click="logout">
-        <iron-icon icon="sign-out"></iron-icon>
+        <iron-icon icon="vaadin:exit-o"></iron-icon>
         Logout</a>
 
     </nav>

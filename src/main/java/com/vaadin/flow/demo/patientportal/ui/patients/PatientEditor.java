@@ -131,7 +131,7 @@ public class PatientEditor extends
     @EventHandler
     private void close() {
         getUI().ifPresent(
-                ui -> ui.navigateTo("patient/" + getPatient().getId()));
+                ui -> ui.navigateTo("patients/" + getPatient().getId()));
     }
 
     @Override
