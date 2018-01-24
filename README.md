@@ -12,4 +12,4 @@ The <code>localrepo</code> directory contains the <code>patient-portal-backend</
 1. Clone the [patient-portal-backend](https://github.com/vaadin/patient-portal-demo-backend/tree/master/patient-portal-backend) project and install the artifact locally.  
 
 Run using
-```mvn clean jetty:run```
+```mvn clean spring-boot:run```
