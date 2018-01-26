@@ -26,6 +26,8 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 
 /**
  * @author Vaadin Ltd
@@ -34,6 +36,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @UIScope
 @Tag("main-view")
 @HtmlImport("frontend://components/main/main-view.html")
+@Theme(Lumo.class)
 public class MainView extends PolymerTemplate<MainView.MainViewModel> implements RouterLayout, BeforeEnterObserver{
     public interface MainViewModel extends TemplateModel {
         void setPage(String page);
