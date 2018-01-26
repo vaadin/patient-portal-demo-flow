@@ -17,8 +17,7 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,7 +51,7 @@ public class AnalyticsView extends Div implements HasUrlParameter<String> {
     @Autowired
     private AnalyticsService analyticsService;
 
-    private Chart chart = new Chart();
+    private Chart chart = new Chart(ChartType.COLUMN);
 
     public AnalyticsView() {
         RouterLink age = new RouterLink("Age", AnalyticsView.class, AGE_ROUTE);
@@ -64,6 +63,10 @@ public class AnalyticsView extends Div implements HasUrlParameter<String> {
         HorizontalLayout navigation = new HorizontalLayout();
         navigation.add(age, doctor, gender);
 
+        Configuration configuration = chart.getConfiguration();
+        configuration.getLegend().setEnabled(false);
+        configuration.setExporting(false);
+        configuration.getyAxis().setTitle("Patients");
         add(navigation, chart);
     }
 
@@ -71,51 +74,47 @@ public class AnalyticsView extends Div implements HasUrlParameter<String> {
     public void setParameter(BeforeEvent event,
             @WildcardParameter
                     String path) {
-        if (path.isEmpty() || path.equals(AGE_ROUTE)) {
-            setChartData(this::getDataByAge);
-        } else if (path.equals(DOCTOR_ROUTE)) {
-            setChartData(this::getDataByDoctor);
-        } else if (path.equals(GENDER_ROUTE)) {
-            setChartData(this::getDataByGender);
+        switch (path) {
+            case DOCTOR_ROUTE:
+                setChartData(getDataByDoctor());
+                break;
+            case GENDER_ROUTE:
+                setChartData(getDataByGender());
+                break;
+            default:
+                setChartData(getDataByAge());
         }
     }
 
-    private List<StringLongPair> getDataByAge() {
+    private Stream<StringLongPair> getDataByAge() {
         return analyticsService.getStatsByAgeGroup().stream()
-                .sorted(this::compare).collect(Collectors.toList());
+                .sorted(this::compare);
     }
 
-    private List<StringLongPair> getDataByDoctor() {
+    private Stream<StringLongPair> getDataByDoctor() {
         return analyticsService.getStatsByDoctor().entrySet().stream()
                 .map(entry -> new StringLongPair(
                         "Dr. " + entry.getKey().getLastName(),
-                        entry.getValue())).collect(Collectors.toList());
+                        entry.getValue()));
     }
 
-    private List<StringLongPair> getDataByGender() {
-        return new ArrayList<>(analyticsService.getStatsByGender());
+    private Stream<StringLongPair> getDataByGender() {
+        return analyticsService.getStatsByGender().stream();
     }
 
-    private void setChartData(Supplier<List<StringLongPair>> dataSupplier) {
-        remove(chart);
-        chart = new Chart();
+    private void setChartData(Stream<StringLongPair> pairs) {
         Configuration configuration = chart.getConfiguration();
-        configuration.getChart().setType(ChartType.COLUMN);
-
         ListSeries data = new ListSeries();
         List<String> categories = new ArrayList<>();
-        dataSupplier.get().forEach(pair -> {
+        pairs.forEach(pair -> {
             data.addData(pair.getCount().intValue());
             categories.add(pair.getGroup());
         });
-        XAxis xAxis = configuration.getxAxis(0);
-        if (xAxis == null) {
-            xAxis = configuration.getxAxis();
-        }
+        XAxis xAxis = configuration.getxAxis();
         xAxis.setCategories(categories.toArray(new String[categories.size()]));
-        configuration.addSeries(data);
+        configuration.setSeries(data);
 
-        add(chart);
+        chart.drawChart();
     }
 
     private int compare(StringLongPair pair1, StringLongPair pair2) {
