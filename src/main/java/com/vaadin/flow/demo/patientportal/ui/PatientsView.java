@@ -37,6 +37,7 @@ import com.vaadin.flow.renderer.LocalDateRenderer;
 import com.vaadin.flow.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -48,6 +49,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route(value = "patients", layout = MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH
+@ParentLayout(MainView.class)
 public class PatientsView
         extends PolymerTemplate<TemplateModel>
         implements RouterLayout, BeforeEnterObserver {
