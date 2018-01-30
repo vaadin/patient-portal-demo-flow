@@ -25,6 +25,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -106,8 +107,12 @@ public class PatientsView
             event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
         }
-        grid.setItems(patientService.getPatients());
+    }
 
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        grid.setItems(patientService.getPatients());
     }
 
     private static LocalDate findLastVisit(Patient patient) {
