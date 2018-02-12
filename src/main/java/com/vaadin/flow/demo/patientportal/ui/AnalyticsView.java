@@ -15,32 +15,34 @@
  */
 package com.vaadin.flow.demo.patientportal.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.demo.service.AnalyticsService;
 import com.vaadin.demo.service.StringLongPair;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.charts.Chart;
+import com.vaadin.flow.component.charts.model.ChartType;
+import com.vaadin.flow.component.charts.model.Configuration;
+import com.vaadin.flow.component.charts.model.ListSeries;
+import com.vaadin.flow.component.charts.model.XAxis;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.router.WildcardParameter;
-import com.vaadin.flow.templatemodel.TemplateModel;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 /**
  * @author Vaadin Ltd
- *
  */
 @Tag("analytics-view")
-@HtmlImport("frontend://components/main/analytics/analytics.html")
-@Route(value = "analytics/*", layout = MainView.class)
-public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
-        implements HasUrlParameter<String> {
+@Route(value = "analytics", layout = MainView.class)
+public class AnalyticsView extends Div implements HasUrlParameter<String> {
 
     private static final String AGE_ROUTE = "age";
     private static final String DOCTOR_ROUTE = "doctor";
@@ -49,56 +51,70 @@ public class AnalyticsView extends PolymerTemplate<AnalyticsView.AnalyticsModel>
     @Autowired
     private AnalyticsService analyticsService;
 
-    public interface AnalyticsModel extends TemplateModel {
+    private Chart chart = new Chart(ChartType.COLUMN);
 
-        void setData(List<Integer> data);
+    public AnalyticsView() {
+        RouterLink age = new RouterLink("Age", AnalyticsView.class, AGE_ROUTE);
+        RouterLink doctor = new RouterLink("Doctor", AnalyticsView.class,
+                DOCTOR_ROUTE);
+        RouterLink gender = new RouterLink("Gender", AnalyticsView.class,
+                GENDER_ROUTE);
 
-        void setCategories(List<String> categories);
+        HorizontalLayout navigation = new HorizontalLayout();
+        navigation.add(age, doctor, gender);
 
-        void setRoute(String route);
+        Configuration configuration = chart.getConfiguration();
+        configuration.getLegend().setEnabled(false);
+        configuration.setExporting(false);
+        configuration.getyAxis().setTitle("Patients");
+        add(navigation, chart);
     }
 
     @Override
     public void setParameter(BeforeEvent event,
-            @WildcardParameter String path) {
-        if (path.isEmpty() || path.equals(AGE_ROUTE)) {
-            setChartData(this::getDataByAge);
-            getModel().setRoute(AGE_ROUTE);
-            return;
-        } else if (path.equals(DOCTOR_ROUTE)) {
-            setChartData(this::getDataByDoctor);
-        } else if (path.equals(GENDER_ROUTE)) {
-            setChartData(this::getDataByGender);
+            @WildcardParameter
+                    String path) {
+        switch (path) {
+            case DOCTOR_ROUTE:
+                setChartData(getDataByDoctor());
+                break;
+            case GENDER_ROUTE:
+                setChartData(getDataByGender());
+                break;
+            default:
+                setChartData(getDataByAge());
         }
-        getModel().setRoute(path);
     }
 
-    private List<StringLongPair> getDataByAge() {
+    private Stream<StringLongPair> getDataByAge() {
         return analyticsService.getStatsByAgeGroup().stream()
-                .sorted(this::compare).collect(Collectors.toList());
+                .sorted(this::compare);
     }
 
-    private List<StringLongPair> getDataByDoctor() {
+    private Stream<StringLongPair> getDataByDoctor() {
         return analyticsService.getStatsByDoctor().entrySet().stream()
                 .map(entry -> new StringLongPair(
                         "Dr. " + entry.getKey().getLastName(),
-                        entry.getValue()))
-                .collect(Collectors.toList());
+                        entry.getValue()));
     }
 
-    private List<StringLongPair> getDataByGender() {
-        return new ArrayList<>(analyticsService.getStatsByGender());
+    private Stream<StringLongPair> getDataByGender() {
+        return analyticsService.getStatsByGender().stream();
     }
 
-    private void setChartData(Supplier<List<StringLongPair>> dataSupplier) {
-        List<Integer> data = new ArrayList<>();
+    private void setChartData(Stream<StringLongPair> pairs) {
+        Configuration configuration = chart.getConfiguration();
+        ListSeries data = new ListSeries();
         List<String> categories = new ArrayList<>();
-        dataSupplier.get().forEach(pair -> {
-            data.add(pair.getCount().intValue());
+        pairs.forEach(pair -> {
+            data.addData(pair.getCount().intValue());
             categories.add(pair.getGroup());
         });
-        getModel().setData(data);
-        getModel().setCategories(categories);
+        XAxis xAxis = configuration.getxAxis();
+        xAxis.setCategories(categories.toArray(new String[categories.size()]));
+        configuration.setSeries(data);
+
+        chart.drawChart();
     }
 
     private int compare(StringLongPair pair1, StringLongPair pair2) {

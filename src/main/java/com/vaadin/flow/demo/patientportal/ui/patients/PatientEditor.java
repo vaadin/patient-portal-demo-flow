@@ -87,7 +87,7 @@ public class PatientEditor extends
     public PatientEditor(PatientService patientService) {
         this.patientService = patientService;
 
-        titleComboBox.setItems("Miss", "Ms", "Mrs", "Mr");
+        titleComboBox.setItems("Miss", "Ms", "Mrs", "Mr", "Doc");
         genderComboBox.setItems(Arrays.stream(Gender.values()).map(Enum::name)
                 .collect(Collectors.toList()));
 

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,6 @@ import com.vaadin.demo.repositories.PatientRepository;
 
 /**
  * @author Vaadin Ltd
- *
  */
 @Service("patient-service")
 @Transactional
@@ -71,5 +71,11 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
 
     public long getPatientsCount() {
         return patientRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Patient> getPatients(int start, int end) {
+        return patientRepository.findAll(new PageRequest(start, end))
+                .getContent();
     }
 }

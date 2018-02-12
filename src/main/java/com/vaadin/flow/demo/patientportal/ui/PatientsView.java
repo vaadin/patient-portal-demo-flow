@@ -31,12 +31,14 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.renderer.LocalDateRenderer;
 import com.vaadin.flow.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -48,17 +50,14 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @HtmlImport("frontend://components/main/patients/patients-view.html")
 @Route(value = "patients", layout = MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH
-public class PatientsView
-        extends PolymerTemplate<TemplateModel>
+@ParentLayout(MainView.class)
+public class PatientsView extends PolymerTemplate<TemplateModel>
         implements RouterLayout, BeforeEnterObserver {
-
-    @Autowired
-    private PatientService patientService;
 
     @Id("patientsGrid")
     private Grid<Patient> grid;
 
-    public PatientsView() {
+    public PatientsView(@Autowired PatientService patientService) {
         grid.addSelectionListener(event -> {
             Optional<Patient> patient = event.getFirstSelectedItem();
             if (patient.isPresent()) {
@@ -67,17 +66,20 @@ public class PatientsView
             }
         });
         setupGridColumns();
+
+        grid.setDataProvider(DataProvider.fromCallbacks(query -> patientService
+                        .getPatients(query.getOffset() / query.getLimit(),
+                                query.getLimit()).stream(),
+                query -> (int) patientService.getPatientsCount()));
     }
 
     private void setupGridColumns() {
-        ValueProvider<Patient, String> fullNameProvider = patient -> patient
-                .getLastName() + ", " + patient.getFirstName();
-        grid.addColumn(
-                TemplateRenderer.<Patient> of("<strong>[[item.fullName]]</strong>")
-                        .withProperty("fullName", fullNameProvider))
-                .setHeader("Name")
-                .setSortable(true)
-                .setFlexGrow(1);
+        ValueProvider<Patient, String> fullNameProvider = patient ->
+                patient.getLastName() + ", " + patient.getFirstName();
+        grid.addColumn(TemplateRenderer.<Patient>of(
+                "<strong>[[item.fullName]]</strong>")
+                .withProperty("fullName", fullNameProvider)).setHeader("Name")
+                .setSortable(true).setFlexGrow(1);
 
         grid.addColumn(Patient::getId).setHeader("Id")
                 .setComparator(Patient::getId).setWidth("40px").setFlexGrow(0);
@@ -85,9 +87,9 @@ public class PatientsView
                 .setComparator(Patient::getMedicalRecord)
                 .setHeader("Medical Record");
 
-        ValueProvider<Patient, String> doctorNameProvider = patient -> patient
-                .getDoctor().getLastName() + ", "
-                + patient.getDoctor().getFirstName();
+        ValueProvider<Patient, String> doctorNameProvider = patient ->
+                patient.getDoctor().getLastName() + ", " + patient.getDoctor()
+                        .getFirstName();
         grid.addColumn(doctorNameProvider).setComparator(doctorNameProvider)
                 .setFlexGrow(1).setHeader("Doctor");
         grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit))
@@ -104,8 +106,6 @@ public class PatientsView
             event.rerouteTo(LoginView.class);
             UI.getCurrent().navigateTo("");
         }
-        grid.setItems(patientService.getPatients());
-
     }
 
     private static LocalDate findLastVisit(Patient patient) {

@@ -44,9 +44,9 @@ public class PatientDetails
     }
 
     @Override
-    public void setRouterLayoutContent(HasElement content) {
+    public void showRouterLayoutContent(HasElement content) {
         Long patientId = ((AbstractPatientTemplate) content).getPatient().getId();
         getModel().setPatientId(patientId+"");
-        RouterLayout.super.setRouterLayoutContent(content);
+        RouterLayout.super.showRouterLayoutContent(content);
     }
 }
