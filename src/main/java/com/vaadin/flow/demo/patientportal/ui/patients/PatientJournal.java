@@ -21,18 +21,19 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.demo.entities.Doctor;
 import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
+import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.function.ValueProvider;
-import com.vaadin.flow.renderer.LocalDateRenderer;
-import com.vaadin.flow.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Vaadin Ltd
