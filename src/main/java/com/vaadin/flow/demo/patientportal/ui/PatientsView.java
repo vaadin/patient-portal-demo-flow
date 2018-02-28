@@ -61,7 +61,7 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
         grid.addSelectionListener(event -> {
             Optional<Patient> patient = event.getFirstSelectedItem();
             if (patient.isPresent()) {
-                getUI().get().navigateTo("patients/" + patient.get().getId());
+                getUI().get().navigate("patients/" + patient.get().getId());
                 setId("patients-view");
             }
         });
@@ -104,7 +104,7 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
         // todo improve the app security
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
             event.rerouteTo(LoginView.class);
-            UI.getCurrent().navigateTo("");
+            UI.getCurrent().navigate("");
         }
     }
 

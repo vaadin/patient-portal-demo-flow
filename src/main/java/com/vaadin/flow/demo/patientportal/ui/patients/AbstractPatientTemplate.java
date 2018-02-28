@@ -16,11 +16,14 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
-import com.vaadin.demo.entities.JournalEntry;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.demo.patientportal.converters.AppointmentTypeToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
 import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
@@ -31,11 +34,6 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.templatemodel.Convert;
 import com.vaadin.flow.templatemodel.Include;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * Superclass for all of the patient-specific {@link PolymerTemplate}-views,
@@ -72,7 +70,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
     public void setParameter(BeforeEvent event, Long patientId) {
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
             event.rerouteTo(LoginView.class);
-            UI.getCurrent().navigateTo("");
+            UI.getCurrent().navigate("");
             return;
         }
         Optional<Patient> optionalPatient = patientService.getPatient(patientId);
