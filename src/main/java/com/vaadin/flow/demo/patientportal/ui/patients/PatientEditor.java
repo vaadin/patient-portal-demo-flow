@@ -16,6 +16,12 @@
 
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.demo.entities.Doctor;
 import com.vaadin.demo.entities.Gender;
 import com.vaadin.demo.entities.Patient;
@@ -31,11 +37,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Vaadin Ltd
@@ -125,13 +126,13 @@ public class PatientEditor extends
 
     private void deletePatient() {
         patientService.deletePatient(getPatient());
-        getUI().ifPresent(ui -> ui.navigateTo("patients"));
+        getUI().ifPresent(ui -> ui.navigate("patients"));
     }
 
     @EventHandler
     private void close() {
         getUI().ifPresent(
-                ui -> ui.navigateTo("patients/" + getPatient().getId()));
+                ui -> ui.navigate("patients/" + getPatient().getId()));
     }
 
     @Override

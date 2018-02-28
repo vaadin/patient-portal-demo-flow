@@ -22,6 +22,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vaadin.demo.entities.AppointmentType;
+import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -30,13 +34,9 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.demo.entities.AppointmentType;
-import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.router.Route;
 
 /**
  * @author Vaadin Ltd
@@ -100,7 +100,7 @@ public class JournalEditor extends
     @EventHandler
     private void close() {
         getUI().get()
-                .navigateTo("patients/journal/" + getPatient().getId());
+                .navigate("patients/journal/" + getPatient().getId());
     }
 
     @Override

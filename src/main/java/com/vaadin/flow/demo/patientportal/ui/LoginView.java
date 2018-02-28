@@ -54,7 +54,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     private void login() {
         if("user".equals(getModel().getUsername()) && "password".equals(getModel().getPassword())) {
             UI.getCurrent().getSession().setAttribute("login", true);
-            getUI().get().navigateTo("patients");
+            getUI().get().navigate("patients");
         } else {
             Label error = new Label("Faulty login credentials!");
             error.setClassName("alert error");
