@@ -19,6 +19,7 @@ package com.vaadin.flow.demo.patientportal.ui;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Input;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
@@ -42,12 +43,16 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     @Id("login-button")
     private NativeButton loginButton;
 
+    @Id("username")
+    private Input userName;
+
     public LoginView() {
 
         getModel().setUsername("user");
         getModel().setPassword("password");
 
         loginButton.addClickListener(event -> login());
+        userName.getElement().callFunction("focus");
     }
 
     @EventHandler

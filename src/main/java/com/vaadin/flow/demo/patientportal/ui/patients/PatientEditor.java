@@ -100,6 +100,8 @@ public class PatientEditor extends
         saveButton.addClickListener(event -> savePatient());
         cancelButton.addClickListener(event -> close());
         deleteButton.addClickListener(event -> deletePatient());
+
+        firstNameField.focus();
     }
 
     public void savePatient() {
