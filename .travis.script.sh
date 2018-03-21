@@ -62,7 +62,13 @@ then
         -Dmaven.repo.local=$TRAVIS_BUILD_DIR/localrepo \
         -Dtest.excludegroup= \
         $(getDockerParamsIfNeeded) \
-        clean org.jacoco:jacoco-maven-plugin:prepare-agent verify
+        clean org.jacoco:jacoco-maven-plugin:prepare-agent \
+        compile
+        #verify
+    #
+    #
+    # Validation should not be done via Travis at all:
+    # there is no license key for travis
 
     # Get the status for the previous maven command and if not exception then run sonar.
     STATUS=$?
@@ -103,5 +109,10 @@ else
         -Dsonar.exclusions=$SONAR_EXCLUSIONS \
         -Dtest.excludegroup= \
         $(getDockerParamsIfNeeded) \
-        verify
+        compile
+        # verify
+    #
+    #
+    # Validation should not be done via Travis at all:
+    # there is no license key for travis
 fi

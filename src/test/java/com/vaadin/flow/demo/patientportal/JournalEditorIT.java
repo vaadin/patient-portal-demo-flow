@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -28,6 +29,7 @@ import org.openqa.selenium.WebElement;
  * @author Vaadin Ltd
  *
  */
+@Ignore
 public class JournalEditorIT extends AbstractChromeTest {
 
     public static final String DATE = "10/20/2020";

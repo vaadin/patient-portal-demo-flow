@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -29,6 +30,7 @@ import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
  * @author Vaadin Ltd
  *
  */
+@Ignore
 public class PatientsViewIT extends AbstractChromeTest {
 
     @Override

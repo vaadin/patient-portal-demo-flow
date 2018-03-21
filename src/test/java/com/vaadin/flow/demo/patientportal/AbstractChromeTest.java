@@ -61,7 +61,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     /**
      * Inputs a given date-string to a vaadin-date-picker that is in the
      * shadow-dom of the {@link #layout}.
-     * 
+     *
      * @param datePickerId
      *            id-property of the vaadin-date-picker
      * @param date
@@ -79,7 +79,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     /**
      * Selects a given value from a vaadin-combo-box that is in the shadow-dom
      * of the {@link #layout}.
-     * 
+     *
      * @param comboBoxId
      *            id-property of the vaadin-combo-box
      * @param value
@@ -109,16 +109,20 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     @Override
     protected void open() {
-        super.open();
+        doOpen();
         login();
+        doOpen();
+    }
+
+    protected void doOpen() {
         super.open();
     }
 
     private void login() {
         waitForElementPresent(By.tagName("login-view"));
         setLayout("login-view");
-        setTextFieldValue("username","user");
-        setTextFieldValue("password","password");
+        setTextFieldValue("username", "user");
+        setTextFieldValue("password", "password");
         getInShadowRoot(getLayout(), By.id("login-button")).click();
     }
 }
