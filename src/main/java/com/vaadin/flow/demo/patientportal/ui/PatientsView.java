@@ -67,17 +67,19 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
         });
         setupGridColumns();
 
-        grid.setDataProvider(DataProvider.fromCallbacks(query -> patientService
+        grid.setDataProvider(DataProvider.fromCallbacks(
+                query -> patientService
                         .getPatients(query.getOffset() / query.getLimit(),
-                                query.getLimit()).stream(),
+                                query.getLimit())
+                        .stream(),
                 query -> (int) patientService.getPatientsCount()));
     }
 
     private void setupGridColumns() {
-        ValueProvider<Patient, String> fullNameProvider = patient ->
-                patient.getLastName() + ", " + patient.getFirstName();
-        grid.addColumn(TemplateRenderer.<Patient>of(
-                "<strong>[[item.fullName]]</strong>")
+        ValueProvider<Patient, String> fullNameProvider = patient -> patient
+                .getLastName() + ", " + patient.getFirstName();
+        grid.addColumn(TemplateRenderer
+                .<Patient> of("<strong>[[item.fullName]]</strong>")
                 .withProperty("fullName", fullNameProvider)).setHeader("Name")
                 .setSortable(true).setFlexGrow(1);
 
@@ -87,9 +89,9 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
                 .setComparator(Patient::getMedicalRecord)
                 .setHeader("Medical Record");
 
-        ValueProvider<Patient, String> doctorNameProvider = patient ->
-                patient.getDoctor().getLastName() + ", " + patient.getDoctor()
-                        .getFirstName();
+        ValueProvider<Patient, String> doctorNameProvider = patient -> patient
+                .getDoctor().getLastName() + ", "
+                + patient.getDoctor().getFirstName();
         grid.addColumn(doctorNameProvider).setComparator(doctorNameProvider)
                 .setFlexGrow(1).setHeader("Doctor");
         grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit))
@@ -103,7 +105,6 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
     public void beforeEnter(BeforeEnterEvent event) {
         // todo improve the app security
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
-            event.rerouteTo(LoginView.class);
             UI.getCurrent().navigate("");
         }
     }

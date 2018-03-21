@@ -72,17 +72,16 @@ public class AnalyticsView extends Div implements HasUrlParameter<String> {
 
     @Override
     public void setParameter(BeforeEvent event,
-            @WildcardParameter
-                    String path) {
+            @WildcardParameter String path) {
         switch (path) {
-            case DOCTOR_ROUTE:
-                setChartData(getDataByDoctor());
-                break;
-            case GENDER_ROUTE:
-                setChartData(getDataByGender());
-                break;
-            default:
-                setChartData(getDataByAge());
+        case DOCTOR_ROUTE:
+            setChartData(getDataByDoctor());
+            break;
+        case GENDER_ROUTE:
+            setChartData(getDataByGender());
+            break;
+        default:
+            setChartData(getDataByAge());
         }
     }
 

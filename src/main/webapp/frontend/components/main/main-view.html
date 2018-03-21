@@ -57,8 +57,8 @@
     </style>
 
     <nav class="menu">
-      <a router-link href="/patients" class$="[[_isActive('patients', page)]]">Patients</a>
-      <a router-link href="/analytics" class$="[[_isActive('analytics', page)]]">Analytics</a>
+      <a router-link href$="[[_getPatientsLink(extra)]]" class$="[[_isActive('patients', page)]]">Patients</a>
+      <a router-link href$="[[_getAnalyticsLink(extra)]]" class$="[[_isActive('analytics', page)]]" id='analytics'>Analytics</a>
 
       <a id="logout" class="right" on-click="logout">
         <iron-icon icon="vaadin:exit-o"></iron-icon>
@@ -72,6 +72,23 @@
   <script>
     class MainView extends Polymer.Element {
       static get is() { return 'main-view' }
+      
+      static get properties() {
+          return {
+            extra: {
+              type: String,
+              value: ""
+            }
+          }
+        }
+
+      _getPatientsLink(extra){
+          return "/patients"+extra;
+      }
+      
+      _getAnalyticsLink(extra){
+          return "/analytics"+extra;
+      }
 
       _isActive(link, page) {
         return link === page ? 'active' : '';

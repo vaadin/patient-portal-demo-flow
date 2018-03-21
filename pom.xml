@@ -28,7 +28,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <spring-boot.version>2.0.0.M7</spring-boot.version>
         <spring.version>5.0.0.RELEASE</spring.version>
-        <charts.version>6.0.0.alpha14</charts.version>
+        <charts.version>6.0.0.beta1</charts.version>
         <flow.version>1.0-SNAPSHOT</flow.version>
     </properties>
     <pluginRepositories>
@@ -107,6 +107,12 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-charts-flow</artifactId>
             <version>${charts.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.polymer</groupId>
+                    <artifactId>webcomponentsjs</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -171,7 +177,13 @@
         <dependency>
             <groupId>org.webjars.bowergithub.polymerelements</groupId>
             <artifactId>iron-a11y-keys</artifactId>
-            <version>2.0.0</version>
+            <version>2.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bowergithub.polymer</groupId>
+                    <artifactId>webcomponentsjs</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -242,6 +254,66 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <configuration>
+                    <folders>
+                        <folder>${project.build.testOutputDirectory}</folder>
+                    </folders>
+                </configuration>
+                <executions>
+                    <!-- start and stop jetty (running our app) when running 
+                        integration tests -->
+                    <execution>
+                        <id>start-app</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-app</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.failsafe.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -258,6 +330,24 @@
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://raw.githubusercontent.com/vaadin/flow/master/drivers.xml</url>
+                            <outputFileName>drivers.xml</outputFileName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -306,6 +396,35 @@
                         <configuration>
                             <jvmArguments>-Dvaadin.productionMode</jvmArguments>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>local-run</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.lazerycode.selenium</groupId>
+                        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+                        <version>1.0.14</version>
+                        <configuration>
+                            <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+                            <rootStandaloneServerDirectory>${project.build.directory}/driver</rootStandaloneServerDirectory>
+                            <downloadedZipFileDirectory>${project.build.directory}/driver_zips</downloadedZipFileDirectory>
+                            <customRepositoryMap>${project.build.directory}/drivers.xml</customRepositoryMap>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>selenium</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

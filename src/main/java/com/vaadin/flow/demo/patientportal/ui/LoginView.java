@@ -52,7 +52,8 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
     @EventHandler
     private void login() {
-        if("user".equals(getModel().getUsername()) && "password".equals(getModel().getPassword())) {
+        if ("user".equals(getModel().getUsername())
+                && "password".equals(getModel().getPassword())) {
             UI.getCurrent().getSession().setAttribute("login", true);
             getUI().get().navigate("patients");
         } else {
