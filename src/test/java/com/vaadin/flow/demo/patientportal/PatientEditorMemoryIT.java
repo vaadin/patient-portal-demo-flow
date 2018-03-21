@@ -24,7 +24,7 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
 
     @Override
     protected long getGoldenAmount() {
-        return 194000;
+        return 267040;
     }
 
 }
