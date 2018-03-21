@@ -82,8 +82,12 @@ then
 elif [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]
 then
     # master build
+    #
+    # NOTE: the tests are skipped
+    # 
     mvn -B -e -V \
         -Pall-tests \
+        -DskipTests \
         $(getDockerParamsIfNeeded) \
         -Dvaadin.productionMode=true \
         -Dmaven.javadoc.skip=false \
