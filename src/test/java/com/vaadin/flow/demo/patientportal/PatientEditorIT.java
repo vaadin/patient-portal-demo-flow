@@ -18,6 +18,7 @@ package com.vaadin.flow.demo.patientportal;
 import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,7 @@ import org.openqa.selenium.WebElement;
  * @author Vaadin Ltd
  *
  */
+@Ignore
 public class PatientEditorIT extends AbstractChromeTest {
 
     public static final String TITLE = "Miss";

@@ -15,11 +15,13 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
+@Ignore
 public class NavigationIT extends AbstractChromeTest {
 
     private final int patientId = 2;
