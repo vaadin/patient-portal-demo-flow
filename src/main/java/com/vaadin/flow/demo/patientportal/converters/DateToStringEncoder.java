@@ -15,40 +15,38 @@
  */
 package com.vaadin.flow.demo.patientportal.converters;
 
-import com.vaadin.flow.templatemodel.ModelConverter;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
+import com.vaadin.flow.templatemodel.ModelEncoder;
 
 /**
- * Converts between Date-objects and their String-representations in format
+ * Encodes between Date-objects and their String-representations in format
  * 'yyyy/MM/dd'.
  *
  * @author Vaadin Ltd
  */
-public class DateToStringConverter implements ModelConverter<Date, String> {
+public class DateToStringEncoder implements ModelEncoder<Date, String> {
 
     public static final String DATE_FORMAT = "MM/dd/yyyy";
     private static final DateTimeFormatter formatter = DateTimeFormatter
             .ofPattern(DATE_FORMAT);
 
     @Override
-    public String toPresentation(Date modelValue) {
+    public String encode(Date modelValue) {
         if (modelValue instanceof java.sql.Date) {
             return ((java.sql.Date) modelValue).toLocalDate().format(formatter);
         }
-        return modelValue == null ?
-                null :
-                modelValue.toInstant().atZone(ZoneId.systemDefault())
+        return modelValue == null ? null
+                : modelValue.toInstant().atZone(ZoneId.systemDefault())
                         .format(formatter);
     }
 
     @Override
-    public Date toModel(String presentationValue) {
+    public Date decode(String presentationValue) {
         try {
             return Date.from(LocalDate.parse(presentationValue, formatter)
                     .atStartOfDay(ZoneId.systemDefault()).toInstant());

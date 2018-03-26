@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
+import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
 
 /**
  * @author Vaadin Ltd
@@ -72,7 +72,7 @@ public class PatientsViewIT extends AbstractChromeTest {
         Assert.assertTrue(
                 "Grid should contain the last visit date of the first patient.\n"
                         + "Expected format: "
-                        + DateToStringConverter.DATE_FORMAT
+                        + DateToStringEncoder.DATE_FORMAT
                         + " or an empty string\n" + "Actual value: '"
                         + lastVisit + "'",
                 lastVisit.matches("(\\d{2}/\\d{2}/\\d{4})|^$"));

@@ -16,24 +16,24 @@
 package com.vaadin.flow.demo.patientportal.converters;
 
 
-import com.vaadin.flow.templatemodel.ModelConverter;
+import com.vaadin.flow.templatemodel.ModelEncoder;
 
 /**
  * @author Vaadin Ltd
  *
  */
 
-public class LongToStringConverter implements ModelConverter<Long, String> {
+public class LongToStringEncoder implements ModelEncoder<Long, String> {
 
     @Override
-    public String toPresentation(Long modelValue) {
+    public String encode(Long modelValue) {
         if (modelValue == null)
             return null;
         return modelValue.toString();
     }
 
     @Override
-    public Long toModel(String presentationValue) {
+    public Long decode(String presentationValue) {
         if (presentationValue == null)
             return null;
         return Long.parseLong(presentationValue);

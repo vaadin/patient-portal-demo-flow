@@ -24,14 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.demo.patientportal.converters.DateToStringConverter;
-import com.vaadin.flow.demo.patientportal.converters.GenderToStringConverter;
-import com.vaadin.flow.demo.patientportal.converters.LongToStringConverter;
+import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
+import com.vaadin.flow.demo.patientportal.converters.GenderToStringEncoder;
+import com.vaadin.flow.demo.patientportal.converters.LongToStringEncoder;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.demo.patientportal.ui.LoginView;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.templatemodel.Convert;
+import com.vaadin.flow.templatemodel.Encode;
 import com.vaadin.flow.templatemodel.Include;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
@@ -56,11 +56,11 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
         @Include({ "firstName", "middleName", "lastName", "gender", "birthDate",
                 "ssn", "id", "doctor.firstName", "doctor.lastName",
                 "medicalRecord", "lastVisit", "pictureUrl" })
-        @Convert(value = LongToStringConverter.class, path = "id")
-        @Convert(value = LongToStringConverter.class, path = "medicalRecord")
-        @Convert(value = DateToStringConverter.class, path = "birthDate")
-        @Convert(value = DateToStringConverter.class, path = "lastVisit")
-        @Convert(value = GenderToStringConverter.class, path = "gender")
+        @Encode(value = LongToStringEncoder.class, path = "id")
+        @Encode(value = LongToStringEncoder.class, path = "medicalRecord")
+        @Encode(value = DateToStringEncoder.class, path = "birthDate")
+        @Encode(value = DateToStringEncoder.class, path = "lastVisit")
+        @Encode(value = GenderToStringEncoder.class, path = "gender")
         void setPatient(Patient patient);
 
     }
