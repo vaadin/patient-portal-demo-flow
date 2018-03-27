@@ -15,24 +15,23 @@
  */
 package com.vaadin.flow.demo.patientportal.converters;
 
-import com.vaadin.demo.entities.AppointmentType;
-import com.vaadin.flow.templatemodel.ModelConverter;
+import com.vaadin.demo.entities.Gender;
+import com.vaadin.flow.templatemodel.ModelEncoder;
 
 /**
  * @author Vaadin Ltd
  *
  */
-public class AppointmentTypeToStringConverter
-        implements ModelConverter<AppointmentType, String> {
+public class GenderToStringEncoder implements ModelEncoder<Gender, String> {
 
     @Override
-    public String toPresentation(AppointmentType modelValue) {
-        return modelValue.name();
+    public String encode(Gender modelValue) {
+        return modelValue.name().toLowerCase();
     }
 
     @Override
-    public AppointmentType toModel(String presentationValue) {
-        return AppointmentType.valueOf(presentationValue);
+    public Gender decode(String presentationValue) {
+        return Gender.valueOf(presentationValue.toUpperCase());
     }
 
 }
