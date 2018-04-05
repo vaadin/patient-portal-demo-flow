@@ -19,10 +19,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-/**
- * @author Vaadin Ltd
- *
- */
 public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
 
     @Override
@@ -47,6 +43,11 @@ public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
     @Override
     protected long getGoldenAmount() {
         return 35000;
+    }
+
+    @Override
+    protected String getStatKey() {
+        return "analytics";
     }
 
 }
