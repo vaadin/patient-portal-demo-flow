@@ -26,7 +26,7 @@
         <servlet.api.version>3.1.0</servlet.api.version>
         <selenium.server.version>3.4.0</selenium.server.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring-boot.version>2.0.0.M7</spring-boot.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
         <spring.version>5.0.0.RELEASE</spring.version>
         <charts.version>6.0.0.beta1</charts.version>
         <flow.version>1.0-SNAPSHOT</flow.version>
@@ -255,9 +255,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <!-- folders>
+                    <folders>
                         <folder>${project.build.testOutputDirectory}</folder>
-                    </folders-->
+                    </folders>
                 </configuration>
                 <executions>
                     <!-- start and stop jetty (running our app) when running 
