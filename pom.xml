@@ -255,9 +255,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <folders>
+                    <!-- folders>
                         <folder>${project.build.testOutputDirectory}</folder>
-                    </folders>
+                    </folders-->
                 </configuration>
                 <executions>
                     <!-- start and stop jetty (running our app) when running 

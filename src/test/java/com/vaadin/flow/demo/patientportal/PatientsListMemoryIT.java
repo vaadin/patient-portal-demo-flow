@@ -26,4 +26,9 @@ public class PatientsListMemoryIT extends AbstractMemoryMeasurementIT {
     protected long getGoldenAmount() {
         return 200000;
     }
+
+    @Override
+    protected String getStatKey() {
+        return "list";
+    }
 }

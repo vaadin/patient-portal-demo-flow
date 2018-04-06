@@ -37,11 +37,11 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @Tag("main-view")
 @HtmlImport("frontend://components/main/main-view.html")
 @Theme(Lumo.class)
-public class MainView extends PolymerTemplate<MainView.MainViewModel> implements RouterLayout, BeforeEnterObserver{
+public class MainView extends PolymerTemplate<MainView.MainViewModel>
+        implements RouterLayout, BeforeEnterObserver {
     public interface MainViewModel extends TemplateModel {
         void setPage(String page);
     }
-
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {

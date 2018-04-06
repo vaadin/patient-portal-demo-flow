@@ -44,6 +44,9 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
             previous = current;
             i++;
         }
+
+        printTeamcityStats(uiSize);
+
         double gold = getGoldenAmount() * (1 + FAILURE_THRESHOLD);
         Assert.assertTrue(
                 "The UI instance size is '" + uiSize + "' which is bigger than "
@@ -52,6 +55,8 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
     }
 
     protected abstract long getGoldenAmount();
+
+    protected abstract String getStatKey();
 
     private boolean isStable(long size, List<Long> sizes) {
         if (sizes.size() < UIS_NUMBER) {
@@ -74,5 +79,11 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
 
         WebElement sessionMemory = findElement(By.id("memory"));
         return Long.parseLong(sessionMemory.getText());
+    }
+
+    private void printTeamcityStats(long value) {
+        System.out.println(String.format(
+                "##teamcity[buildStatisticValue key='%s' value='%s']",
+                getStatKey(), Long.toString(value)));
     }
 }
