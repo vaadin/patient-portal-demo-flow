@@ -31,6 +31,7 @@
         <charts.version>6.0.0.beta1</charts.version>
         <flow.version>1.0-SNAPSHOT</flow.version>
     </properties>
+
     <pluginRepositories>
         <pluginRepository>
             <id>spring-milestone</id>
@@ -45,6 +46,16 @@
         </pluginRepository>
     </pluginRepositories>
     <repositories>
+        <repository>
+            <id>localrepository</id>
+            <url>file://${basedir}/localrepo</url>
+        </repository>
+
+        <repository>
+            <id>webjars</id>
+            <url>https://dl.bintray.com/webjars/maven</url>
+        </repository>
+
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
