@@ -19,18 +19,12 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
 
-/**
- * @author Vaadin Ltd
- *
- */
-@Ignore
 public class PatientsViewIT extends AbstractChromeTest {
 
     @Override
@@ -71,8 +65,7 @@ public class PatientsViewIT extends AbstractChromeTest {
         String lastVisit = getCellText(17);
         Assert.assertTrue(
                 "Grid should contain the last visit date of the first patient.\n"
-                        + "Expected format: "
-                        + DateToStringEncoder.DATE_FORMAT
+                        + "Expected format: " + DateToStringEncoder.DATE_FORMAT
                         + " or an empty string\n" + "Actual value: '"
                         + lastVisit + "'",
                 lastVisit.matches("(\\d{2}/\\d{2}/\\d{4})|^$"));

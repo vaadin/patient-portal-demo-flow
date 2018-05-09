@@ -143,11 +143,11 @@
             <artifactId>vaadin-ordered-layout-flow</artifactId>
             <version>${flow.version}</version>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-lumo-theme</artifactId>
             <version>${flow.version}</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-button-flow</artifactId>
@@ -313,6 +313,8 @@
                     <systemPropertyVariables>
                         <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
                     </systemPropertyVariables>
+                    <excludedGroups>${test.excludegroup}</excludedGroups>
+                    <enableAssertions>true</enableAssertions>
                 </configuration>
             </plugin>
 
@@ -428,6 +430,26 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <test.excludegroup>
+                    com.vaadin.flow.demo.testcategory.Measurement
+                </test.excludegroup>
+            </properties>
+        </profile>
+        <profile>
+            <id>all-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <test.excludegroup></test.excludegroup>
+            </properties>
         </profile>
     </profiles>
 </project>
