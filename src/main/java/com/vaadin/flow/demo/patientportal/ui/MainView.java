@@ -34,7 +34,6 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @UIScope
 @Tag("main-view")
 @HtmlImport("frontend://components/main/main-view.html")
-// @Theme(Lumo.class)
 public class MainView extends PolymerTemplate<MainView.MainViewModel>
         implements RouterLayout, BeforeEnterObserver {
     public interface MainViewModel extends TemplateModel {

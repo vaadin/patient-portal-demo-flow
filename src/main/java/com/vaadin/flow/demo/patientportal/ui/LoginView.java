@@ -34,7 +34,6 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @Tag("login-view")
 @HtmlImport("frontend://components/login-view.html")
 @Route("")
-// @Theme(Lumo.class)
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
     @Id("login-button")
