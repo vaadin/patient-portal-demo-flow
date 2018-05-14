@@ -15,8 +15,7 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,26 +35,29 @@ public class PatientsViewIT extends AbstractChromeTest {
     public void testPatientData() {
         open();
 
-        waitForElementPresent(By.id("patients-view"));
+        waitForElementPresent(By.tagName("patients-view"));
 
-        Assert.assertThat(
-                "Grid should contain the first name of the first patient.",
-                getCellText(13), containsString("Frederick"));
-        Assert.assertThat(
-                "Grid should contain the last name of the first patient.",
-                getCellText(13), containsString("Wilson"));
+        WebElement nameCell = getGridCellByContent("Wilson, Frederick");
 
-        Assert.assertThat("Grid should contain the id of the first patient.",
-                getCellText(14), is("1"));
+        WebElement idCell = getGridCellByContent("21");
 
-        String medicalRecord = getCellText(15);
+        // check that the name cell is on the same Y coordinate
+        Assert.assertEquals("Unexpected patient on the row with id=21",
+                idCell.getLocation().getY(), nameCell.getLocation().getY());
+
+        String slotName = idCell.getAttribute("slot");
+        int indx = slotName.lastIndexOf("-");
+        int slotIndex = Integer
+                .parseInt(slotName.substring(indx + 1, slotName.length()));
+
+        String medicalRecord = getCellText(slotIndex + 1);
         Assert.assertTrue(
                 "Grid should contain the medical record of the first patient.\n"
                         + "Expected: an integer value\n" + "Actual value: '"
                         + medicalRecord + "'",
                 medicalRecord.matches("\\d+"));
 
-        String doctorName = getCellText(16);
+        String doctorName = getCellText(slotIndex + 2);
         Assert.assertTrue(
                 "Grid should contain the name of the first patient's doctor.\n"
                         + "Expected format: Lastname, Firstname\n"
@@ -72,12 +74,26 @@ public class PatientsViewIT extends AbstractChromeTest {
 
     }
 
+    private WebElement getGridCellByContent(String content) {
+        List<WebElement> cells = findInShadowRoot(
+                findElement(By.tagName("patients-view")),
+                By.cssSelector("vaadin-grid-cell-content"));
+        return cells.stream().filter(cell -> cell.getText().equals(content))
+                .findFirst().get();
+    }
+
     private WebElement getGridCell(int id) {
-        return getInShadowRoot(By.id("patients-view"),
-                By.id("vaadin-grid-cell-content-" + id));
+        List<WebElement> cells = findInShadowRoot(
+                findElement(By.tagName("patients-view")),
+                By.cssSelector("vaadin-grid-cell-content"));
+        String slotId = "vaadin-grid-cell-content-" + id;
+        return cells.stream()
+                .filter(cell -> slotId.equals(cell.getAttribute("slot")))
+                .findFirst().get();
     }
 
     private String getCellText(int id) {
         return getGridCell(id).getText();
     }
+
 }
