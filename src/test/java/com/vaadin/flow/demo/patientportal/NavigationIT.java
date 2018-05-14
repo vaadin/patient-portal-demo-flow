@@ -15,16 +15,18 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import org.junit.Ignore;
+import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-@Ignore
 public class NavigationIT extends AbstractChromeTest {
 
-    private final int patientId = 2;
+    private final int patientId = 21;
 
     private class LocationCondition implements ExpectedCondition<Boolean> {
 
@@ -47,7 +49,7 @@ public class NavigationIT extends AbstractChromeTest {
     }
 
     @Test
-    public void testNavigation() {
+    public void testNavigation() throws InterruptedException {
         open();
 
         getInShadowRoot(By.tagName("login-view"), By.id("login-button"))
@@ -55,25 +57,31 @@ public class NavigationIT extends AbstractChromeTest {
         waitLocation("patients");
 
         // Click on the first cell that actually contains patient-data:
-        getInShadowRoot(By.tagName("patients-view"),
-                By.id("vaadin-grid-cell-content-19")).click();
-        waitLocation("patient/" + patientId);
+        List<WebElement> cells = findInShadowRoot(
+                findElement(By.tagName("patients-view")),
+                By.cssSelector("vaadin-grid-cell-content"));
+        WebElement firstPatient = cells.stream().filter(
+                cell -> cell.getText().equals(String.valueOf(patientId)))
+                .findFirst().get();
+        firstPatient.click();
+
+        waitLocation("patients/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("JOURNAL"))
                 .click();
-        waitLocation("patient/journal/" + patientId);
+        waitLocation("patients/journal/" + patientId);
 
         getInShadowRoot(By.tagName("patient-journal"),
                 By.partialLinkText("NEW ENTRY")).click();
-        waitLocation("patient/new-entry/" + patientId);
+        waitLocation("patients/new-entry/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("EDIT PATIENT")).click();
-        waitLocation("patient/edit/" + patientId);
+        waitLocation("patients/edit/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"), By.linkText("PROFILE"))
                 .click();
-        waitLocation("patient/" + patientId);
+        waitLocation("patients/" + patientId);
 
         getInShadowRoot(By.tagName("patient-details"),
                 By.linkText("ALL PATIENTS")).click();
@@ -83,19 +91,29 @@ public class NavigationIT extends AbstractChromeTest {
                 .click();
         waitLocation("analytics");
 
-        getInShadowRoot(By.tagName("vaadin-license-dialog"),
-                By.id("licenseDialogClose")).click();
+        List<WebElement> dialogs = findElements(
+                By.tagName("vaadin-license-dialog"));
+        if (dialogs.size() > 0) {
+            getInShadowRoot(dialogs.get(0), By.id("licenseDialogClose"))
+                    .click();
+        }
 
-        getInShadowRoot(By.tagName("analytics-view"), By.linkText("DOCTOR"))
-                .click();
+        List<WebElement> links = findElement(
+                By.tagName("vaadin-horizontal-layout"))
+                        .findElements(By.tagName("a"));
+        WebElement doctor = links.get(1);
+        Assert.assertEquals("Doctor", doctor.getText());
+        doctor.click();
         waitLocation("analytics/doctor");
 
-        getInShadowRoot(By.tagName("analytics-view"), By.linkText("GENDER"))
-                .click();
+        WebElement gender = links.get(2);
+        Assert.assertEquals("Gender", gender.getText());
+        gender.click();
         waitLocation("analytics/gender");
 
-        getInShadowRoot(By.tagName("analytics-view"), By.linkText("AGE"))
-                .click();
+        WebElement age = links.get(0);
+        Assert.assertEquals("Age", age.getText());
+        age.click();
         waitLocation("analytics/age");
 
         getInShadowRoot(By.tagName("main-view"), By.linkText("PATIENTS"))

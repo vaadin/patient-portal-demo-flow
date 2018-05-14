@@ -17,17 +17,16 @@ package com.vaadin.flow.demo.patientportal;
 
 import static org.hamcrest.CoreMatchers.is;
 
+import java.util.List;
+
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-/**
- * @author Vaadin Ltd
- *
- */
-@Ignore
+import com.vaadin.flow.testutil.AbstractTestBenchTest;
+
 public class PatientEditorIT extends AbstractChromeTest {
 
     public static final String TITLE = "Miss";
@@ -39,28 +38,36 @@ public class PatientEditorIT extends AbstractChromeTest {
     public static final String SSN = "453-87-1829";
     public static final String DOCTOR = "Burns, Gail";
 
-    private int id = 5;
-
     @Override
     protected String getTestPath() {
-        return "/patient/edit/" + id;
+        return "/test-ids";
     }
 
     @Test
     public void editPatient() {
-        id++; // in case testDeletingPatient was run already
-        open();
+        doOpen();
+
+        List<WebElement> ids = findElements(By.className("patient-id"));
+
+        // self check
+        Assert.assertTrue(ids.size() > 1);
+        String id = ids.get(1).getText();
+
+        getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(), "/"));
+        login();
+        getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(),
+                "/patients/edit/" + id));
 
         waitForElementPresent(By.tagName("patient-editor"));
         setLayout("patient-editor");
 
         selectFromComboBox("title", TITLE);
-        setTextFieldValue("firstName", FIRST_NAME);
-        setTextFieldValue("middleName", MIDDLE_NAME);
-        setTextFieldValue("lastName", LAST_NAME);
+        setTextField("firstName", FIRST_NAME);
+        setTextField("middleName", MIDDLE_NAME);
+        setTextField("lastName", LAST_NAME);
         selectFromComboBox("gender", GENDER);
         setDate("birthDate", BIRTH_DATE);
-        setTextFieldValue("ssn", SSN);
+        setTextField("ssn", SSN);
         selectFromComboBox("doctor", DOCTOR);
 
         getInShadowRoot(getLayout(), By.id("save")).click();
@@ -78,7 +85,18 @@ public class PatientEditorIT extends AbstractChromeTest {
 
     @Test
     public void deletePatient() {
-        open();
+        doOpen();
+
+        List<WebElement> ids = findElements(By.className("patient-id"));
+
+        // self check
+        Assert.assertTrue(ids.size() > 2);
+        String id = ids.get(2).getText();
+
+        getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(), "/"));
+        login();
+        getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(),
+                "/patients/edit/" + id));
 
         waitForElementPresent(By.tagName("patient-editor"));
         setLayout("patient-editor");
@@ -92,9 +110,16 @@ public class PatientEditorIT extends AbstractChromeTest {
 
         Assert.assertFalse(
                 "Id of the deleted patient was still found in the patients-grid.",
-                getChildren(grid).stream().anyMatch(
-                        gridCell -> gridCell.getText().equals(id + "")));
+                getChildren(grid).stream()
+                        .anyMatch(gridCell -> gridCell.getText().equals(id)));
 
+    }
+
+    protected void setTextField(String fieldId, String value) {
+        WebElement field = getInShadowRoot(getLayout(), By.id(fieldId));
+        getInShadowRoot(field, By.cssSelector("input")).clear();
+        field.sendKeys(value);
+        field.sendKeys(Keys.ENTER);
     }
 
     private void assertValue(String elementId, String expectedValue) {

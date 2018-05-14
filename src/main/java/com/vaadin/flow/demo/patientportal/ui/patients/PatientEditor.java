@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.demo.entities.Doctor;
 import com.vaadin.demo.entities.Gender;
 import com.vaadin.demo.entities.Patient;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -36,6 +37,7 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.Route;
 
 /**
@@ -126,6 +128,15 @@ public class PatientEditor extends
 
     private void deletePatient() {
         patientService.deletePatient(getPatient());
+        Optional<Component> parent = getParent();
+        while (parent.isPresent()) {
+            if (parent.get() instanceof PatientsView) {
+                ((PatientsView) parent.get()).reload();
+                break;
+            } else {
+                parent = parent.get().getParent();
+            }
+        }
         getUI().ifPresent(ui -> ui.navigate("patients"));
     }
 

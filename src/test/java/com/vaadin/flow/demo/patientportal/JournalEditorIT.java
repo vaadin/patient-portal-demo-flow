@@ -19,17 +19,13 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.List;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-/**
- * @author Vaadin Ltd
- *
- */
-@Ignore
 public class JournalEditorIT extends AbstractChromeTest {
 
     public static final String DATE = "10/20/2020";
@@ -39,7 +35,7 @@ public class JournalEditorIT extends AbstractChromeTest {
 
     @Override
     protected String getTestPath() {
-        return "/patient/new-entry/21";
+        return "/patients/new-entry/21";
     }
 
     @Test
@@ -55,27 +51,32 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         selectFromComboBox("doctor", DOCTOR);
 
-        setTextFieldValue("entry", ENTRY);
+        getInShadowRoot(getLayout(), By.id("entry")).sendKeys(ENTRY);
+        getInShadowRoot(getLayout(), By.id("entry")).sendKeys(Keys.ENTER);
 
         getInShadowRoot(getLayout(), By.id("save")).click();
 
         waitForElementPresent(By.tagName("patient-journal"));
         setLayout("patient-journal");
 
-        WebElement grid = getInShadowRoot(getLayout(), By.id("grid"));
+        WebElement grid = getLayout().findElement(By.tagName("vaadin-grid"));
         List<WebElement> cells = getChildren(grid);
         int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
-                cells.get(index++).getText(), is(DATE));
+                cells.get(index).getText(),
+                CoreMatchers.allOf(
+                        CoreMatchers.anyOf(CoreMatchers.containsString("10"),
+                                CoreMatchers.containsString("October")),
+                        CoreMatchers.containsString("20")));
         Assert.assertThat(
                 "Appointment-type of the new journal-entry should be displayed.",
-                cells.get(index++).getText(), is(APPOINTMENT));
+                cells.get(index + 1).getText(), is(APPOINTMENT));
         Assert.assertThat(
                 "Doctor of the new journal-entry should be displayed.",
-                cells.get(index++).getText(), is(DOCTOR));
+                cells.get(index + 2).getText(), is(DOCTOR));
         Assert.assertThat(
                 "Entry-notes of the new journal-entry should be displayed.",
-                cells.get(index++).getText(), is(ENTRY));
+                cells.get(index + 4).getText(), is(ENTRY));
 
     }
 

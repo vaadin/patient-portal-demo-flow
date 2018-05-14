@@ -109,6 +109,10 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
         }
     }
 
+    public void reload() {
+        grid.getDataProvider().refreshAll();
+    }
+
     private static LocalDate findLastVisit(Patient patient) {
         Date lastVisit = patient.getLastVisit();
         if (lastVisit != null) {
