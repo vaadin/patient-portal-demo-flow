@@ -20,16 +20,13 @@
             https://oss.sonatype.org/content/repositories/vaadin-snapshots/
         </flow.snapshot.repo.url>
 
-        <webapp.directory>src/main/webapp</webapp.directory>
-
         <!-- Dependencies -->
         <servlet.api.version>3.1.0</servlet.api.version>
         <selenium.server.version>3.4.0</selenium.server.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
-        <spring.version>5.0.0.RELEASE</spring.version>
         <charts.version>6.0.0.beta1</charts.version>
         <flow.version>1.0-SNAPSHOT</flow.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
     </properties>
 
     <pluginRepositories>
@@ -45,15 +42,11 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
     <repositories>
         <repository>
             <id>localrepository</id>
             <url>file://${basedir}/localrepo</url>
-        </repository>
-
-        <repository>
-            <id>webjars</id>
-            <url>https://dl.bintray.com/webjars/maven</url>
         </repository>
 
         <repository>
@@ -109,6 +102,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
 
@@ -232,17 +226,14 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -263,11 +254,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <!--<configuration>-->
-                    <!--<folders>-->
-                        <!--<folder>${project.build.testOutputDirectory}</folder>-->
-                    <!--</folders>-->
-                <!--</configuration>-->
+                <configuration>
+                    <folders>
+                        <folder>${project.build.testOutputDirectory}</folder>
+                    </folders>
+                </configuration>
                 <executions>
                     <!-- start and stop jetty (running our app) when running 
                         integration tests -->
@@ -392,10 +383,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <transpileOutputDirectory>${webapp.directory}
-                            </transpileOutputDirectory>
-                        </configuration>
                     </plugin>
 
                     <plugin>
