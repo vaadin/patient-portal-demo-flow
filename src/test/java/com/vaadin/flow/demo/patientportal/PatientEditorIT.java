@@ -35,7 +35,7 @@ public class PatientEditorIT extends AbstractChromeTest {
     public static final String MIDDLE_NAME = "Is";
     public static final String LAST_NAME = "Awesome";
     public static final String GENDER = "female";
-    public static final String BIRTH_DATE = "13/06/1993";
+    public static final String BIRTH_DATE = "06/13/1993";
     public static final String SSN = "453-87-1829";
     public static final String DOCTOR = "Number 1, Doc 1";
 
@@ -79,7 +79,7 @@ public class PatientEditorIT extends AbstractChromeTest {
         assertValue("middleName", MIDDLE_NAME);
         assertValue("lastName", LAST_NAME);
         assertValue("gender", GENDER);
-        assertValue("birthDate", "06/13/1993");
+        assertValue("birthDate", BIRTH_DATE);
         assertValue("ssn", SSN);
         assertValue("doctor", "Number 1, Doc");
     }
