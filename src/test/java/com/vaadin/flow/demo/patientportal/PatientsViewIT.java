@@ -35,14 +35,14 @@ public class PatientsViewIT extends AbstractChromeTest {
     public void testPatientData() {
         open();
 
-        waitForElementPresent(By.tagName("patients-view"));
+        waitForElementPresent(By.xpath("//patients-view"));
 
-        WebElement nameCell = getGridCellByContent("Wilson, Frederick");
+        WebElement nameCell = getGridCellByContent("Last 10, First10");
 
-        WebElement idCell = getGridCellByContent("21");
+        WebElement idCell = getGridCellByContent("76");
 
         // check that the name cell is on the same Y coordinate
-        Assert.assertEquals("Unexpected patient on the row with id=21",
+        Assert.assertEquals("Unexpected patient on the row with id=76",
                 idCell.getLocation().getY(), nameCell.getLocation().getY());
 
         String slotName = idCell.getAttribute("slot");
@@ -62,7 +62,7 @@ public class PatientsViewIT extends AbstractChromeTest {
                 "Grid should contain the name of the first patient's doctor.\n"
                         + "Expected format: Lastname, Firstname\n"
                         + "Actual value: '" + doctorName + "'",
-                doctorName.matches("\\w+, \\w+"));
+                doctorName.matches("\\w+(\\s\\w+)?, \\w+"));
 
         String lastVisit = getCellText(17);
         Assert.assertTrue(
@@ -76,7 +76,7 @@ public class PatientsViewIT extends AbstractChromeTest {
 
     private WebElement getGridCellByContent(String content) {
         List<WebElement> cells = findInShadowRoot(
-                findElement(By.tagName("patients-view")),
+                findElement(By.xpath("//patients-view")),
                 By.cssSelector("vaadin-grid-cell-content"));
         return cells.stream().filter(cell -> cell.getText().equals(content))
                 .findFirst().get();
@@ -84,7 +84,7 @@ public class PatientsViewIT extends AbstractChromeTest {
 
     private WebElement getGridCell(int id) {
         List<WebElement> cells = findInShadowRoot(
-                findElement(By.tagName("patients-view")),
+                findElement(By.xpath("//patients-view")),
                 By.cssSelector("vaadin-grid-cell-content"));
         String slotId = "vaadin-grid-cell-content-" + id;
         return cells.stream()

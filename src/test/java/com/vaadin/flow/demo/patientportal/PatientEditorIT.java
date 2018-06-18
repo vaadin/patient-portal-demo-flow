@@ -15,9 +15,8 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import static org.hamcrest.CoreMatchers.is;
-
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,6 +26,8 @@ import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.testutil.AbstractTestBenchTest;
 
+import static org.hamcrest.CoreMatchers.is;
+
 public class PatientEditorIT extends AbstractChromeTest {
 
     public static final String TITLE = "Miss";
@@ -34,9 +35,9 @@ public class PatientEditorIT extends AbstractChromeTest {
     public static final String MIDDLE_NAME = "Is";
     public static final String LAST_NAME = "Awesome";
     public static final String GENDER = "female";
-    public static final String BIRTH_DATE = "06/13/1993";
+    public static final String BIRTH_DATE = "13/06/1993";
     public static final String SSN = "453-87-1829";
-    public static final String DOCTOR = "Burns, Gail";
+    public static final String DOCTOR = "Number 1, Doc 1";
 
     @Override
     protected String getTestPath() {
@@ -55,10 +56,10 @@ public class PatientEditorIT extends AbstractChromeTest {
 
         getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(), "/"));
         login();
-        getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(),
-                "/patients/edit/" + id));
+        getDriver().get(AbstractTestBenchTest
+                .getTestURL(getRootURL(), "/patients/edit/" + id));
 
-        waitForElementPresent(By.tagName("patient-editor"));
+        waitForElementPresent(By.xpath("//patient-editor"));
         setLayout("patient-editor");
 
         selectFromComboBox("title", TITLE);
@@ -71,48 +72,53 @@ public class PatientEditorIT extends AbstractChromeTest {
         selectFromComboBox("doctor", DOCTOR);
 
         getInShadowRoot(getLayout(), By.id("save")).click();
-        waitForElementPresent(By.tagName("patient-profile"));
+        waitForElementPresent(By.xpath("//patient-profile"));
         setLayout("patient-profile");
 
         assertValue("firstName", FIRST_NAME);
         assertValue("middleName", MIDDLE_NAME);
         assertValue("lastName", LAST_NAME);
         assertValue("gender", GENDER);
-        assertValue("birthDate", BIRTH_DATE);
+        assertValue("birthDate", "06/13/1993");
         assertValue("ssn", SSN);
-        assertValue("doctor", DOCTOR);
+        assertValue("doctor", "Number 1, Doc");
     }
 
     @Test
     public void deletePatient() {
-        doOpen();
-
-        List<WebElement> ids = findElements(By.className("patient-id"));
-
-        // self check
-        Assert.assertTrue(ids.size() > 2);
-        String id = ids.get(2).getText();
-
+        //        doOpen();
         getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(), "/"));
         login();
-        getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(),
-                "/patients/edit/" + id));
 
-        waitForElementPresent(By.tagName("patient-editor"));
+        WebElement nameCell = getGridCellByContent("Last 5, First5").get();
+
+        nameCell.click();
+
+        waitForElementPresent(By.xpath("//patient-details"));
+        String currentUrl = driver.getCurrentUrl();
+        String id = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
+        getDriver().get(AbstractTestBenchTest
+                .getTestURL(getRootURL(), "/patients/edit/" + id));
+
+        waitForElementPresent(By.xpath("//patient-editor"));
         setLayout("patient-editor");
 
         getInShadowRoot(getLayout(), By.id("delete")).click();
 
-        waitForElementPresent(By.tagName("patients-view"));
+        waitForElementPresent(By.xpath("//patients-view"));
         setLayout("patients-view");
 
-        WebElement grid = getInShadowRoot(getLayout(), By.id("patientsGrid"));
+        Assert.assertFalse("Id " + id
+                        + " of the deleted patient was still found in the patients-grid.",
+                getGridCellByContent("Last 5, First5").isPresent());
+    }
 
-        Assert.assertFalse(
-                "Id of the deleted patient was still found in the patients-grid.",
-                getChildren(grid).stream()
-                        .anyMatch(gridCell -> gridCell.getText().equals(id)));
-
+    private Optional<WebElement> getGridCellByContent(String content) {
+        List<WebElement> cells = findInShadowRoot(
+                findElement(By.xpath("//patients-view")),
+                By.cssSelector("vaadin-grid-cell-content"));
+        return cells.stream().filter(cell -> cell.getText().equals(content))
+                .findFirst();
     }
 
     protected void setTextField(String fieldId, String value) {

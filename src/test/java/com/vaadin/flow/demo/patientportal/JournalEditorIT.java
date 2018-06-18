@@ -28,9 +28,9 @@ import org.openqa.selenium.WebElement;
 
 public class JournalEditorIT extends AbstractChromeTest {
 
-    public static final String DATE = "10/20/2020";
+    public static final String DATE = "20/10/2020";
     public static final String APPOINTMENT = "X_RAY";
-    public static final String DOCTOR = "Perry, Rose";
+    public static final String DOCTOR = "Number 0, Doc ";
     public static final String ENTRY = "some notes";
 
     @Override
@@ -42,7 +42,7 @@ public class JournalEditorIT extends AbstractChromeTest {
     public void createJournalEntry() {
         open();
 
-        waitForElementPresent(By.tagName("journal-editor"));
+        waitForElementPresent(By.xpath("//journal-editor"));
         setLayout("journal-editor");
 
         setDate("date", DATE);
@@ -56,10 +56,10 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         getInShadowRoot(getLayout(), By.id("save")).click();
 
-        waitForElementPresent(By.tagName("patient-journal"));
+        waitForElementPresent(By.xpath("//patient-journal"));
         setLayout("patient-journal");
 
-        WebElement grid = getLayout().findElement(By.tagName("vaadin-grid"));
+        WebElement grid = getLayout().findElement(By.xpath("//vaadin-grid"));
         List<WebElement> cells = getChildren(grid);
         int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
@@ -73,7 +73,7 @@ public class JournalEditorIT extends AbstractChromeTest {
                 cells.get(index + 1).getText(), is(APPOINTMENT));
         Assert.assertThat(
                 "Doctor of the new journal-entry should be displayed.",
-                cells.get(index + 2).getText(), is(DOCTOR));
+                cells.get(index + 2).getText(), is(DOCTOR.trim()));
         Assert.assertThat(
                 "Entry-notes of the new journal-entry should be displayed.",
                 cells.get(index + 4).getText(), is(ENTRY));

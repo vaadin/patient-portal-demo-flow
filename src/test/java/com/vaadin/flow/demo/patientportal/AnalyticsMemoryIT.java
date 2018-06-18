@@ -33,7 +33,7 @@ public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
 
         // navigate to analytics view from patients view instead of open
         // analytics view directly
-        WebElement main = findElement(By.tagName("main-view"));
+        WebElement main = findElement(By.xpath("//main-view"));
         waitUntil(driver -> isPresentInShadowRoot(main, By.id("analytics")));
         WebElement analytics = getInShadowRoot(main, By.id("analytics"));
         new Actions(getDriver()).moveToElement(analytics).click().build()
