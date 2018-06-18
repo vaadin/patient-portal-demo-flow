@@ -52,13 +52,13 @@ public class NavigationIT extends AbstractChromeTest {
     public void testNavigation() throws InterruptedException {
         open();
 
-        getInShadowRoot(By.tagName("login-view"), By.id("login-button"))
+        getInShadowRoot(By.xpath("//login-view"), By.id("login-button"))
                 .click();
         waitLocation("patients");
 
         // Click on the first cell that actually contains patient-data:
         List<WebElement> cells = findInShadowRoot(
-                findElement(By.tagName("patients-view")),
+                findElement(By.xpath("//patients-view")),
                 By.cssSelector("vaadin-grid-cell-content"));
         WebElement firstPatient = cells.stream().filter(
                 cell -> cell.getText().equals(String.valueOf(patientId)))
@@ -67,40 +67,40 @@ public class NavigationIT extends AbstractChromeTest {
 
         waitLocation("patients/" + patientId);
 
-        getInShadowRoot(By.tagName("patient-details"), By.linkText("JOURNAL"))
+        getInShadowRoot(By.xpath("//patient-details"), By.linkText("JOURNAL"))
                 .click();
         waitLocation("patients/journal/" + patientId);
 
-        getInShadowRoot(By.tagName("patient-journal"),
+        getInShadowRoot(By.xpath("//patient-journal"),
                 By.partialLinkText("NEW ENTRY")).click();
         waitLocation("patients/new-entry/" + patientId);
 
-        getInShadowRoot(By.tagName("patient-details"),
+        getInShadowRoot(By.xpath("//patient-details"),
                 By.linkText("EDIT PATIENT")).click();
         waitLocation("patients/edit/" + patientId);
 
-        getInShadowRoot(By.tagName("patient-details"), By.linkText("PROFILE"))
+        getInShadowRoot(By.xpath("//patient-details"), By.linkText("PROFILE"))
                 .click();
         waitLocation("patients/" + patientId);
 
-        getInShadowRoot(By.tagName("patient-details"),
+        getInShadowRoot(By.xpath("//patient-details"),
                 By.linkText("ALL PATIENTS")).click();
         waitLocation("patients");
 
-        getInShadowRoot(By.tagName("main-view"), By.linkText("ANALYTICS"))
+        getInShadowRoot(By.xpath("//main-view"), By.linkText("ANALYTICS"))
                 .click();
         waitLocation("analytics");
 
         List<WebElement> dialogs = findElements(
-                By.tagName("vaadin-license-dialog"));
+                By.xpath("//vaadin-license-dialog"));
         if (dialogs.size() > 0) {
             getInShadowRoot(dialogs.get(0), By.id("licenseDialogClose"))
                     .click();
         }
 
         List<WebElement> links = findElement(
-                By.tagName("vaadin-horizontal-layout"))
-                        .findElements(By.tagName("a"));
+                By.xpath("//vaadin-horizontal-layout"))
+                        .findElements(By.xpath("//a"));
         WebElement doctor = links.get(1);
         Assert.assertEquals("Doctor", doctor.getText());
         doctor.click();
@@ -116,16 +116,16 @@ public class NavigationIT extends AbstractChromeTest {
         age.click();
         waitLocation("analytics/age");
 
-        getInShadowRoot(By.tagName("main-view"), By.linkText("PATIENTS"))
+        getInShadowRoot(By.xpath("//main-view"), By.linkText("PATIENTS"))
                 .click();
         waitLocation("patients");
 
-        getInShadowRoot(By.tagName("patients-view"), By.id("patientsGrid"));
+        getInShadowRoot(By.xpath("//patients-view"), By.id("patientsGrid"));
 
-        getInShadowRoot(By.tagName("main-view"), By.id("logout")).click();
+        getInShadowRoot(By.xpath("//main-view"), By.id("logout")).click();
         waitLocation("");
 
-        getInShadowRoot(By.tagName("login-view"), By.id("login-button"));
+        getInShadowRoot(By.xpath("//login-view"), By.id("login-button"));
     }
 
     private void waitLocation(String expectedLocation) {

@@ -120,7 +120,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     }
 
     protected void login() {
-        waitForElementPresent(By.tagName("login-view"));
+        waitForElementPresent(By.xpath("//login-view"));
         setLayout("login-view");
         setTextFieldValue("username", "user");
         setTextFieldValue("password", "password");
