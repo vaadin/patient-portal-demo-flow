@@ -265,6 +265,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.bowergithub.webcomponents</groupId>
+            <artifactId>shadycss</artifactId>
+            <version>1.1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
