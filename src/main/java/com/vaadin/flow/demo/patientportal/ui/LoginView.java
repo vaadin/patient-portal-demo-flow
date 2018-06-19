@@ -32,7 +32,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  *
  */
 @Tag("login-view")
-@HtmlImport("frontend://components/login-view.html")
+@HtmlImport("components/login-view.html")
 @Route("")
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 

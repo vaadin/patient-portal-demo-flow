@@ -31,7 +31,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  *
  */
 @Tag("patient-details")
-@HtmlImport("frontend://components/main/patients/patient-details.html")
+@HtmlImport("components/main/patients/patient-details.html")
 @RoutePrefix("patients")
 @ParentLayout(PatientsView.class)
 public class PatientDetails

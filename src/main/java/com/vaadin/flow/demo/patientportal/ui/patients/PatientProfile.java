@@ -26,7 +26,7 @@ import com.vaadin.flow.router.Route;
  *
  */
 @Tag("patient-profile")
-@HtmlImport("frontend://components/main/patients/patient-profile.html")
+@HtmlImport("components/main/patients/patient-profile.html")
 @Route(value = "", layout = PatientDetails.class)
 public class PatientProfile extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {

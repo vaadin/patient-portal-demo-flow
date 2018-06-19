@@ -43,7 +43,7 @@ import com.vaadin.flow.router.Route;
  *
  */
 @Tag("journal-editor")
-@HtmlImport("frontend://components/main/patients/journal-editor.html")
+@HtmlImport("components/main/patients/journal-editor.html")
 @Route(value = "new-entry", layout = PatientDetails.class)
 public class JournalEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {

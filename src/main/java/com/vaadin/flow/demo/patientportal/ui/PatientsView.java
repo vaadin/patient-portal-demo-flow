@@ -47,7 +47,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  * @author Vaadin Ltd
  */
 @Tag("patients-view")
-@HtmlImport("frontend://components/main/patients/patients-view.html")
+@HtmlImport("components/main/patients/patients-view.html")
 @Route(value = "patients", layout = MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH
 @ParentLayout(MainView.class)

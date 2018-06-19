@@ -33,7 +33,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @SuppressWarnings("serial")
 @UIScope
 @Tag("main-view")
-@HtmlImport("frontend://components/main/main-view.html")
+@HtmlImport("components/main/main-view.html")
 public class MainView extends PolymerTemplate<MainView.MainViewModel>
         implements RouterLayout, BeforeEnterObserver {
     public interface MainViewModel extends TemplateModel {
