@@ -15,11 +15,40 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import java.net.URL;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.vaadin.testbench.Parameters;
+import com.vaadin.testbench.TestBench;
 
 public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
+
+    @Override
+    public void setup() throws Exception {
+        if (getRunOnHub(getClass()) != null
+                || Parameters.getHubHostname() != null) {
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments(
+                    new String[] { "--headless", "--disable-gpu" });
+            options.setExperimentalOption("w3c", false);
+
+            options.merge(getDesiredCapabilities());
+            setDesiredCapabilities(getDesiredCapabilities());
+
+            WebDriver driver = TestBench.createDriver(
+                    new RemoteWebDriver(new URL(getHubURL()), options));
+            setDriver(driver);
+        } else {
+            super.setup();
+        }
+    }
 
     @Override
     protected String getTestPath() {
