@@ -19,6 +19,7 @@ package com.vaadin.flow.demo.patientportal.ui;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -33,7 +34,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @SuppressWarnings("serial")
 @UIScope
 @Tag("main-view")
-@HtmlImport("frontend://components/main/main-view.html")
+@JsModule("./components/main/main-view.js")
 public class MainView extends PolymerTemplate<MainView.MainViewModel>
         implements RouterLayout, BeforeEnterObserver {
     public interface MainViewModel extends TemplateModel {

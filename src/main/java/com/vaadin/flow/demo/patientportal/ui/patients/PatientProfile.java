@@ -19,6 +19,7 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.router.Route;
 
 /**
@@ -26,7 +27,7 @@ import com.vaadin.flow.router.Route;
  *
  */
 @Tag("patient-profile")
-@HtmlImport("frontend://components/main/patients/patient-profile.html")
+@JsModule("./components/main/patients/patient-profile.js")
 @Route(value = "", layout = PatientDetails.class)
 public class PatientProfile extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {

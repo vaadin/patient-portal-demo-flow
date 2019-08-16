@@ -37,10 +37,8 @@ import com.vaadin.demo.service.DBInitService;
  *
  * @author Vaadin Ltd
  */
-@SpringBootApplication
-@EnableAutoConfiguration(exclude = { WebMvcAutoConfiguration.class,
-        SpringDataWebAutoConfiguration.class, })
-@ComponentScan({ "com.vaadin.flow.demo.patientportal", "com.vaadin.demo" })
+@SpringBootApplication(exclude = { WebMvcAutoConfiguration.class,
+        SpringDataWebAutoConfiguration.class, },scanBasePackages = { "com.vaadin.flow.demo.patientportal", "com.vaadin.demo" })
 @EnableJpaRepositories("com.vaadin.demo.repositories")
 @EntityScan("com.vaadin.demo.entities")
 public class PatientPortalInitializer extends WebSecurityConfigurerAdapter {

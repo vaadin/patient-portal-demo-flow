@@ -31,6 +31,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -44,7 +45,7 @@ import com.vaadin.flow.router.Route;
  * @author Vaadin Ltd
  */
 @Tag("patient-editor")
-@HtmlImport("frontend://components/main/patients/patient-editor.html")
+@JsModule("./components/main/patients/patient-editor.js")
 @Route(value = "edit", layout = PatientDetails.class)
 public class PatientEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {

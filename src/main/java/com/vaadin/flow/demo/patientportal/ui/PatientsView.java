@@ -28,6 +28,7 @@ import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -47,10 +48,9 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  * @author Vaadin Ltd
  */
 @Tag("patients-view")
-@HtmlImport("frontend://components/main/patients/patients-view.html")
+@JsModule("./components/main/patients/patients-view.js")
 @Route(value = "patients", layout = MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH
-@ParentLayout(MainView.class)
 public class PatientsView extends PolymerTemplate<TemplateModel>
         implements RouterLayout, BeforeEnterObserver {
 

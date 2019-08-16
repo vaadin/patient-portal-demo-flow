@@ -19,6 +19,7 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.ParentLayout;
@@ -31,7 +32,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  *
  */
 @Tag("patient-details")
-@HtmlImport("frontend://components/main/patients/patient-details.html")
+@JsModule("./components/main/patients/patient-details.js")
 @RoutePrefix("patients")
 @ParentLayout(PatientsView.class)
 public class PatientDetails

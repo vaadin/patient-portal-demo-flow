@@ -28,6 +28,7 @@ import com.vaadin.demo.entities.JournalEntry;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
@@ -40,7 +41,7 @@ import com.vaadin.flow.router.Route;
  *
  */
 @Tag("patient-journal")
-@HtmlImport("frontend://components/main/patients/patient-journal.html")
+@JsModule("./components/main/patients/patient-journal.js")
 @Route(value = "journal", layout = PatientDetails.class)
 public class PatientJournal extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {

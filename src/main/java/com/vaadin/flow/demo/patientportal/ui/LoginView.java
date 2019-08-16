@@ -18,7 +18,9 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
@@ -32,7 +34,8 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  *
  */
 @Tag("login-view")
-@HtmlImport("frontend://components/login-view.html")
+@JsModule("./components/login-view.js")
+@CssImport("./shared-styles.css")
 @Route("")
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
 
