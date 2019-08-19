@@ -248,12 +248,19 @@
         </profile>
 
         <profile>
-            <id>integration-tests</id>
+            <id>all-tests</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <maxAttempts>100</maxAttempts>
+                            <wait>2500</wait>
+                            <folders>
+                                <folder>${project.build.testOutputDirectory}</folder>
+                            </folders>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>start-spring-boot</id>
