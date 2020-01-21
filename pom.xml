@@ -26,17 +26,21 @@
     </parent>
 
     <pluginRepositories>
+        <!-- The order of definitions matters.
+             Maven Central is explicitly listed first to speed-up builds -->
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
         <pluginRepository>
             <id>flow-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2/</url>
-            <snapshots><enabled>false</enabled></snapshots>
         </pluginRepository>
     </pluginRepositories>
 
@@ -63,7 +67,9 @@
         <repository>
             <id>Vaadin Directory</id>
             <url>https://maven.vaadin.com/vaadin-addons</url>
-            <snapshots><enabled>false</enabled></snapshots>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -78,6 +84,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -128,13 +135,7 @@
         <dependency>
             <groupId>com.vaadin.demo</groupId>
             <artifactId>patient-portal-backend</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-juli</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <!-- Spring -->
@@ -156,11 +157,6 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -322,6 +318,5 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
 </project>

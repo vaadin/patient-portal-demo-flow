@@ -1,15 +1,22 @@
-# Patient Portal UI
+# Patient Portal with Vaadin 14
 
-This is the UI for the Patient Portal demo app made with Vaadin Flow using Polymer templates.
-The flow-hello-world project has been used as a starting point for this project.
+This repo contains a Vaadin 14.2 (with Polymer templates) implementation of the https://github.com/vaadin/patient-portal-demo application.
 
-Build
-======
-The project has dependency to the <code>patient-portal-backend</code> backend module which is not available
-as a binary maven artefact in a remote repository. So there are two ways to build the project:
-1. Run maven with a custom local repository location : <code>mvn -Dmaven.repo.local=localrepo install</code>. 
-The <code>localrepo</code> directory contains the <code>patient-portal-backend</code> artifact binaries.
-1. Clone the [patient-portal-backend](https://github.com/vaadin/patient-portal-demo-backend/tree/master/patient-portal-backend) project and install the artifact locally.  
+## Requirements
+- Java 8+
+- Maven
 
-Run using
-```mvn clean spring-boot:run```
+## Building
+This repo has a dependency to the `patient-portal-backend:2.0-SNAPSHOT` module which is **not** available
+as a binary maven artifact in a remote repository. So there are two ways to build the project:
+1. Use the `localrepo` directory as an additional Maven repo. It has a copy of `patient-portal-backend-2.0-SNAPSHOT.jar` that is updated manually, but should be up-to-date `¯\_(ツ)_/¯`. That's the default, no extra actions are needed.
+1. Before building this repo, clone the [patient-portal-backend](https://github.com/vaadin/patient-portal-demo-backend) repo and `mvn clean install` it to install that artifact to your local Maven cache.
+
+Once the dependency is available run `mvn package -Pproduction` to build this repo in production mode.
+
+## Running locally
+ - `mvn spring-boot:run`
+
+The app would be running with its own in-memory database on http://localhost:8080.
+
+It's also possible to run the app with an external database used by other Patient Portal implementations. See the comments in the `applicaiton.properties` file for details.
