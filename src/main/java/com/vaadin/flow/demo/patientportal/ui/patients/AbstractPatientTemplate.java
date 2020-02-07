@@ -70,7 +70,7 @@ public abstract class AbstractPatientTemplate<M extends AbstractPatientTemplate.
     public void setParameter(BeforeEvent event, Long patientId) {
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
             event.rerouteTo(LoginView.class);
-            UI.getCurrent().navigate("");
+            UI.getCurrent().navigate(LoginView.class);
             return;
         }
         Optional<Patient> optionalPatient = patientService.getPatient(patientId);

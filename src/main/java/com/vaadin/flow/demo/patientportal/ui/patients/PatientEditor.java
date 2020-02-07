@@ -138,13 +138,13 @@ public class PatientEditor extends
                 parent = parent.get().getParent();
             }
         }
-        getUI().ifPresent(ui -> ui.navigate("patients"));
+        getUI().ifPresent(ui -> ui.navigate(PatientsView.class));
     }
 
     @EventHandler
     private void close() {
         getUI().ifPresent(
-                ui -> ui.navigate("patients/" + getPatient().getId()));
+                ui -> ui.navigate(PatientProfile.class, getPatient().getId()));
     }
 
     @Override

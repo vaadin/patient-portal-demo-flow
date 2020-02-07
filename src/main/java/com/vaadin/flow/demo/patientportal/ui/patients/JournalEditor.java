@@ -101,7 +101,7 @@ public class JournalEditor extends
     @EventHandler
     private void close() {
         getUI().get()
-                .navigate("patients/journal/" + getPatient().getId());
+                .navigate(PatientJournal.class, getPatient().getId());
     }
 
     @Override
