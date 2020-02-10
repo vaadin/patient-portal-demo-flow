@@ -15,6 +15,8 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import org.junit.Before;
+
 public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
 
     @Override
@@ -32,8 +34,8 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
         return "editor";
     }
 
-    @Override
-    protected void doOpen() {
+    @Before
+    public void login() {
         open();
     }
 }
