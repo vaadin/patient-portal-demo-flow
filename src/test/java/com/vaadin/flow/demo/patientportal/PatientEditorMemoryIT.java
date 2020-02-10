@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import org.junit.Before;
+import org.openqa.selenium.By;
 
 public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
 
@@ -34,8 +34,12 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
         return "editor";
     }
 
-    @Before
-    public void login() {
-        open();
+    @Override
+    protected void doOpen() {
+        super.doOpen();
+        if(getInShadowRoot(getLayout(), By.id("login-button")) != null) {
+            getInShadowRoot(getLayout(), By.id("login-button")).click();
+            super.doOpen();
+        }
     }
 }
