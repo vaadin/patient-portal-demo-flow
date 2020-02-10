@@ -1,5 +1,7 @@
 package com.vaadin.flow.demo.spring;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -123,4 +125,29 @@ public abstract class AbstractViewTest extends ParallelTest {
     private static String getDeploymentHostname() {
         return isUsingHub() ? System.getenv("HOSTNAME") : "localhost";
     }
+
+    /**
+     * Find all {@link WebElement}s using the given {@link By} selector.
+     *
+     * @param webComponent
+     *            the web component owning shadow DOM to start search from
+     * @param by
+     *            the selector used to find elements
+     * @return a list of found elements
+     */
+    protected List<WebElement> findInShadowRoot(WebElement webComponent,
+            By by) {
+        return getShadowRoot(webComponent).findElements(by);
+    }
+
+    private WebElement getShadowRoot(WebElement webComponent) {
+        waitUntil(driver -> getCommandExecutor().executeScript(
+                "return arguments[0].shadowRoot", webComponent) != null);
+        WebElement shadowRoot = (WebElement) getCommandExecutor()
+                .executeScript("return arguments[0].shadowRoot", webComponent);
+        Assert.assertNotNull("Could not locate shadowRoot in the element",
+                shadowRoot);
+        return shadowRoot;
+    }
+
 }
