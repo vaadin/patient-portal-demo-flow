@@ -76,7 +76,9 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
     }
 
     private long getMemory(int uisAmount) {
+        waitForElementPresent(By.id("show-memory"));
         findElement(By.id("show-memory")).click();
+        waitForElementPresent(By.id("memory"));
         WebElement uis = findElement(By.id("uis"));
 
         Assert.assertEquals(String.valueOf(uisAmount), uis.getText());
