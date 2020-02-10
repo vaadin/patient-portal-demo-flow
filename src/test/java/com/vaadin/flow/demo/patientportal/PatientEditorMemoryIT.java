@@ -31,4 +31,9 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
     protected String getStatKey() {
         return "editor";
     }
+
+    @Override
+    protected void doOpen() {
+        open();
+    }
 }
