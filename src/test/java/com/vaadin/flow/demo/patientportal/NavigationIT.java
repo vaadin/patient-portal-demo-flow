@@ -52,8 +52,9 @@ public class NavigationIT extends AbstractChromeTest {
     public void testNavigation() throws InterruptedException {
         open();
 
-        getInShadowRoot(By.xpath("//login-view"), By.id("login-button"))
-                .click();
+        getInShadowRoot(By.xpath("//login-view"),
+                By.id("login-button")).click();
+
         waitLocation("patients");
 
         // Click on the first cell that actually contains patient-data:
@@ -67,23 +68,23 @@ public class NavigationIT extends AbstractChromeTest {
 
         waitLocation("patients/" + patientId);
 
-        getInShadowRoot(By.xpath("//patient-details"), By.linkText("JOURNAL"))
+        getInShadowRoot(By.xpath("//patients-view/patient-details"), By.linkText("JOURNAL"))
                 .click();
         waitLocation("patients/journal/" + patientId);
 
-        getInShadowRoot(By.xpath("//patient-journal"),
-                By.partialLinkText("NEW ENTRY")).click();
+        getInShadowRoot(By.xpath("//patients-view/patient-details/patient-journal"),
+                By.partialLinkText("New entry")).click();
         waitLocation("patients/new-entry/" + patientId);
 
-        getInShadowRoot(By.xpath("//patient-details"),
+        getInShadowRoot(By.xpath("//patients-view/patient-details"),
                 By.linkText("EDIT PATIENT")).click();
         waitLocation("patients/edit/" + patientId);
 
-        getInShadowRoot(By.xpath("//patient-details"), By.linkText("PROFILE"))
+        getInShadowRoot(By.xpath("//patients-view/patient-details"), By.linkText("PROFILE"))
                 .click();
         waitLocation("patients/" + patientId);
 
-        getInShadowRoot(By.xpath("//patient-details"),
+        getInShadowRoot(By.xpath("//patients-view/patient-details"),
                 By.linkText("ALL PATIENTS")).click();
         waitLocation("patients");
 

@@ -35,6 +35,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.demo.patientportal.ui.patients.PatientProfile;
 import com.vaadin.flow.function.ValueProvider;
@@ -96,7 +97,7 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
                 + patient.getDoctor().getFirstName();
         grid.addColumn(doctorNameProvider).setComparator(doctorNameProvider)
                 .setFlexGrow(1).setHeader("Doctor");
-        grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit))
+        grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit, DateToStringEncoder.DATE_FORMAT))
                 .setComparator(entry -> {
                     LocalDate lastVisit = findLastVisit(entry);
                     return lastVisit == null ? LocalDate.MIN : lastVisit;

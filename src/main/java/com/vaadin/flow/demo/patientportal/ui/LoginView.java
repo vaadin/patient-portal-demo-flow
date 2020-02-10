@@ -18,6 +18,7 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Label;
@@ -42,7 +43,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> implements BeforeEnterObserver {
 
     @Id("login-button")
-    private NativeButton loginButton;
+    private Button loginButton;
 
     public LoginView() {
 

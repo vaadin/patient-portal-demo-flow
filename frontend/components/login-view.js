@@ -67,7 +67,7 @@ class LoginView extends PolymerElement {
       <label for="password">Password</label> 
       <input id="password" type="password" autocomplete="password" value="{{password::input}}"> 
      </div> 
-     <button id="login-button" class="primary">Login</button> 
+     <vaadin-button id="login-button" class="primary">Login</vaadin-button> 
     </div> 
     <slot></slot> 
    </div> 

@@ -17,6 +17,7 @@ package com.vaadin.flow.demo.patientportal;
 
 import static org.hamcrest.CoreMatchers.is;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 import org.hamcrest.CoreMatchers;
@@ -25,6 +26,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
+import com.vaadin.flow.component.grid.testbench.GridElement;
 
 public class JournalEditorIT extends AbstractChromeTest {
 
@@ -59,24 +62,25 @@ public class JournalEditorIT extends AbstractChromeTest {
         waitForElementPresent(By.xpath("//patient-journal"));
         setLayout("patient-journal");
 
-        WebElement grid = getLayout().findElement(By.xpath("//vaadin-grid"));
+        GridElement grid = $(GridElement.class).first();
+
         List<WebElement> cells = getChildren(grid);
         int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
-                cells.get(index).getText(),
+                grid.getCell(0,0).getText(),
                 CoreMatchers.allOf(
                         CoreMatchers.anyOf(CoreMatchers.containsString("10"),
                                 CoreMatchers.containsString("October")),
                         CoreMatchers.containsString("20")));
         Assert.assertThat(
                 "Appointment-type of the new journal-entry should be displayed.",
-                cells.get(index + 1).getText(), is(APPOINTMENT));
+                grid.getCell(0,1).getText(), is(APPOINTMENT));
         Assert.assertThat(
                 "Doctor of the new journal-entry should be displayed.",
-                cells.get(index + 2).getText(), is(DOCTOR.trim()));
+                grid.getCell(0,2).getText().trim(), is(DOCTOR.trim()));
         Assert.assertThat(
                 "Entry-notes of the new journal-entry should be displayed.",
-                cells.get(index + 4).getText(), is(ENTRY));
+                grid.getCell(0,3).getText(), is(ENTRY));
 
     }
 

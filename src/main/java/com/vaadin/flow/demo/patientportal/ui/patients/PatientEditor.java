@@ -17,6 +17,7 @@
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -103,6 +104,7 @@ public class PatientEditor extends
         saveButton.addClickListener(event -> savePatient());
         cancelButton.addClickListener(event -> close());
         deleteButton.addClickListener(event -> deletePatient());
+        birthDatePicker.setLocale(Locale.ENGLISH);
     }
 
     public void savePatient() {
