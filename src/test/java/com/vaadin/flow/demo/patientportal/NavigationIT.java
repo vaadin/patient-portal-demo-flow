@@ -24,6 +24,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+
 public class NavigationIT extends AbstractChromeTest {
 
     private final int patientId = 21;
@@ -52,10 +54,7 @@ public class NavigationIT extends AbstractChromeTest {
     public void testNavigation() throws InterruptedException {
         open();
 
-        getInShadowRoot(By.xpath("//login-view"),
-                By.id("login-button")).click();
-
-        waitLocation("patients");
+        waitForElementPresent(By.xpath("//patients-view"));
 
         // Click on the first cell that actually contains patient-data:
         List<WebElement> cells = findInShadowRoot(
