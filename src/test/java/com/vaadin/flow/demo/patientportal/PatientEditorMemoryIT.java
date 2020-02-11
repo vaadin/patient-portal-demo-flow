@@ -45,6 +45,7 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
             WebElement element = findElement(By.tagName("login-view"));
             findInShadowRoot(element,
                     By.id("login-button")).get(0).click();
+            super.doOpen();
         }
     }
 }
