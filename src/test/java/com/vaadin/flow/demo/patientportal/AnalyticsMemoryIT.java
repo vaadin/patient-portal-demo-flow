@@ -17,6 +17,7 @@ package com.vaadin.flow.demo.patientportal;
 
 import java.net.URL;
 
+import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,6 +28,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.vaadin.testbench.Parameters;
 import com.vaadin.testbench.TestBench;
 
+@Ignore
 public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
 
     @Override
