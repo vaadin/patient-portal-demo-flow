@@ -20,8 +20,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
-
 public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
 
     @Override
@@ -44,7 +42,9 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
         super.doOpen();
         List<WebElement> elements = findElements(By.xpath("//login-view"));
         if(!elements.isEmpty()){
-            $(ButtonElement.class).id("login-button").click();
+            WebElement element = findElement(By.tagName("login-view"));
+            findInShadowRoot(element,
+                    By.id("login-button")).get(0).click();
         }
     }
 }
