@@ -17,6 +17,7 @@ package com.vaadin.flow.demo.patientportal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,6 +47,16 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
         logger.info("Starting generation of ui's to get size");
         while (!isStable(uiSize, sizes)) {
             sizes.add(uiSize);
+            if(i >= 300 && sizes.size() >= UIS_NUMBER) {
+                LongSummaryStatistics statistics = sizes.stream()
+                        .mapToLong(value -> value).summaryStatistics();
+                uiSize = (long) statistics.getAverage();
+
+                logger.info(
+                        "No stability over {} ui:s returning average ui size",
+                        i);
+                break;
+            }
 
             doOpen();
             long current = getMemory(i);
