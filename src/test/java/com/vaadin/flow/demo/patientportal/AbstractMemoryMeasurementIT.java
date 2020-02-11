@@ -36,7 +36,7 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
     private static final double FAILURE_THRESHOLD = 5 * 0.01; // 5%
 
     private static final Logger logger = LoggerFactory.getLogger("Measurement");
-    
+
     @Test
     public void memoryConsumption() {
         long previous = 0;
@@ -79,7 +79,7 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
                         Math.abs(size - previous), previous * FAILURE_THRESHOLD,
                         i);
                 // Clear sizes and only add last so we run up to 5 uis
-                // before retesting as the probablility of hitting Threshold
+                // before retesting as the probability of hitting Threshold
                 // for all 5 old ones is minimal
                 sizes.clear();
                 sizes.add(size);
