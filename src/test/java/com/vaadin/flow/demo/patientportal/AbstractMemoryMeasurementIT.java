@@ -33,6 +33,7 @@ import com.vaadin.flow.demo.testcategory.Measurement;
 public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
 
     private static final int UIS_NUMBER = 5;
+    private static final int MAX_UIS_OPENED = 300;
 
     private static final double FAILURE_THRESHOLD = 5 * 0.01; // 5%
 
@@ -45,16 +46,20 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
         List<Long> sizes = new ArrayList<>();
         int i = 1;
         logger.info("Starting generation of ui's to get size");
-        while (!isStable(uiSize, sizes)) {
-            sizes.add(uiSize);
-            if(i >= 300 && sizes.size() >= UIS_NUMBER) {
-                LongSummaryStatistics statistics = sizes.stream()
-                        .mapToLong(value -> value).summaryStatistics();
-                uiSize = (long) statistics.getAverage();
+        // open ui:s until size stable enough or a limit reached.
+        while (true) {
+            // If UI size has stabilized break loop
+            if (hasUiSizeStabilized(uiSize, sizes)) {
+                break;
+            }
 
+            sizes.add(uiSize);
+            // If we have opened over MAX_UIS_OPENED ui:s, break loop and use an average
+            if (shouldBreakWithAverage(i, sizes)) {
                 logger.info(
                         "No stability over {} ui:s returning average ui size",
                         i);
+                uiSize = getAverageUiSize(sizes);
                 break;
             }
 
@@ -75,11 +80,23 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
                 gold > uiSize);
     }
 
+    private boolean shouldBreakWithAverage(int i, List<Long> sizes) {
+        return i >= MAX_UIS_OPENED && sizes.size() >= UIS_NUMBER;
+    }
+
+    private long getAverageUiSize(List<Long> sizes) {
+        LongSummaryStatistics statistics = sizes.stream()
+                .mapToLong(value -> value).summaryStatistics();
+        long uiSize = (long) statistics.getAverage();
+
+        return uiSize;
+    }
+
     protected abstract long getGoldenAmount();
 
     protected abstract String getStatKey();
 
-    private boolean isStable(long size, List<Long> sizes) {
+    private boolean hasUiSizeStabilized(long size, List<Long> sizes) {
         if (sizes.size() < UIS_NUMBER) {
             return false;
         }
