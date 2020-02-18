@@ -19,12 +19,10 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -37,10 +35,8 @@ import com.vaadin.demo.service.DBInitService;
  *
  * @author Vaadin Ltd
  */
-@SpringBootApplication
-@EnableAutoConfiguration(exclude = { WebMvcAutoConfiguration.class,
-        SpringDataWebAutoConfiguration.class, })
-@ComponentScan({ "com.vaadin.flow.demo.patientportal", "com.vaadin.demo" })
+@SpringBootApplication(exclude = { WebMvcAutoConfiguration.class,
+        SpringDataWebAutoConfiguration.class, },scanBasePackages = { "com.vaadin.flow.demo.patientportal", "com.vaadin.demo" })
 @EnableJpaRepositories("com.vaadin.demo.repositories")
 @EntityScan("com.vaadin.demo.entities")
 public class PatientPortalInitializer extends WebSecurityConfigurerAdapter {

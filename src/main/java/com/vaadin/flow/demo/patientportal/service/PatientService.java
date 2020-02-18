@@ -75,7 +75,7 @@ public class PatientService extends com.vaadin.demo.service.PatientService {
 
     @Transactional(readOnly = true)
     public List<Patient> getPatients(int start, int end) {
-        return patientRepository.findAll(new PageRequest(start, end))
+        return patientRepository.findAll(PageRequest.of(start, end))
                 .getContent();
     }
 }

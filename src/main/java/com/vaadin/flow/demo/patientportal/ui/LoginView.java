@@ -18,13 +18,17 @@ package com.vaadin.flow.demo.patientportal.ui;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
@@ -32,12 +36,13 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  *
  */
 @Tag("login-view")
-@HtmlImport("frontend://components/login-view.html")
+@JsModule("./components/login-view.js")
+@CssImport("./shared-styles.css")
 @Route("")
-public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
+public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> implements BeforeEnterObserver {
 
     @Id("login-button")
-    private NativeButton loginButton;
+    private Button loginButton;
 
     public LoginView() {
 
@@ -51,14 +56,25 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> {
     private void login() {
         if ("user".equals(getModel().getUsername())
                 && "password".equals(getModel().getPassword())) {
-            UI.getCurrent().getSession().setAttribute("login", true);
-            getUI().get().navigate("patients");
+
+            UI ui = UI.getCurrent();
+            ui.getSession().setAttribute("login", true);
+            ui.navigate(PatientsView.class);
         } else {
             Label error = new Label("Faulty login credentials!");
             error.setClassName("alert error");
             error.getStyle().set("color", "red");
             error.getStyle().set("fontSize", "18px");
             getElement().appendChild(error.getElement());
+        }
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        VaadinSession session = beforeEnterEvent.getUI().getSession();
+        Object loggedIn = session.getAttribute("login");
+        if (loggedIn != null && Boolean.valueOf((boolean) loggedIn)) {
+            beforeEnterEvent.rerouteTo(PatientsView.class);
         }
     }
 

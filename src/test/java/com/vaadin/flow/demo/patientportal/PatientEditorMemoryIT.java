@@ -15,6 +15,11 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
 
     @Override
@@ -30,5 +35,17 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
     @Override
     protected String getStatKey() {
         return "editor";
+    }
+
+    @Override
+    protected void doOpen() {
+        super.doOpen();
+        List<WebElement> elements = findElements(By.xpath("//login-view"));
+        if(!elements.isEmpty()){
+            WebElement element = findElement(By.tagName("login-view"));
+            findInShadowRoot(element,
+                    By.id("login-button")).get(0).click();
+            super.doOpen();
+        }
     }
 }

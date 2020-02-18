@@ -1,8 +1,10 @@
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-
-<dom-module id="patient-details">
-  <template>
-    <style include="shared-styles">
+import '@polymer/polymer/polymer-legacy.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+class PatientDetails extends PolymerElement {
+  static get template() {
+    return html`
+   <style include="shared-styles">
       :host {
         display: flex;
         flex-direction: column;
@@ -64,26 +66,21 @@
           display: none;
         }
       }
-    </style>
+    </style> 
+   <nav class="details-nav"> 
+    <a router-link="" href="patients"> 
+     <iron-icon icon="vaadin:arrow-long-left"></iron-icon> <span class="linktext">All patients</span></a> 
+    <div class="sub-pages"> 
+     <a router-link="" href="patients/[[patientId]]" class\$="[[_getItemClasses('profile', page)]]">Profile</a> 
+     <a router-link="" href="patients/journal/[[patientId]]" class\$="[[_getItemClasses('journal', page)]]">Journal</a> 
+    </div> 
+    <a router-link="" href="patients/edit/[[patientId]]">Edit patient</a> 
+   </nav> 
+   <slot></slot> 
+`;
+  }
 
-    <nav class="details-nav">
-      <a router-link href="patients">
-        <iron-icon icon="vaadin:arrow-long-left"></iron-icon>
-        <span class="linktext">All patients</span></a>
-      <div class="sub-pages">
-        <a router-link href="patients/[[patientId]]" class$="[[_getItemClasses('profile', page)]]">Profile</a>
-        <a router-link href="patients/journal/[[patientId]]" class$="[[_getItemClasses('journal', page)]]">Journal</a>
-      </div>
-      <a router-link href="patients/edit/[[patientId]]">Edit patient</a>
-    </nav>
+  static get is() { return 'patient-details' }
+}
+customElements.define(PatientDetails.is, PatientDetails);
 
-    <slot></slot>
-
-  </template>
-  <script>
-    class PatientDetails extends Polymer.Element {
-      static get is() { return 'patient-details' }
-    }
-    customElements.define(PatientDetails.is, PatientDetails);
-  </script>
-</dom-module>

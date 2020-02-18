@@ -27,14 +27,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
+import com.vaadin.flow.demo.patientportal.ui.patients.PatientProfile;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -47,10 +49,10 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  * @author Vaadin Ltd
  */
 @Tag("patients-view")
-@HtmlImport("frontend://components/main/patients/patients-view.html")
+@JsModule("./components/main/patients/patients-view.js")
 @Route(value = "patients", layout = MainView.class)
-// todo fix navigation NPE on back - PR submitted to GH
 @ParentLayout(MainView.class)
+// todo fix navigation NPE on back - PR submitted to GH
 public class PatientsView extends PolymerTemplate<TemplateModel>
         implements RouterLayout, BeforeEnterObserver {
 
@@ -61,7 +63,7 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
         grid.addSelectionListener(event -> {
             Optional<Patient> patient = event.getFirstSelectedItem();
             if (patient.isPresent()) {
-                getUI().get().navigate("patients/" + patient.get().getId());
+                getUI().get().navigate(PatientProfile.class, patient.get().getId());
                 setId("patients-view");
             }
         });
@@ -94,7 +96,7 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
                 + patient.getDoctor().getFirstName();
         grid.addColumn(doctorNameProvider).setComparator(doctorNameProvider)
                 .setFlexGrow(1).setHeader("Doctor");
-        grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit))
+        grid.addColumn(new LocalDateRenderer<>(PatientsView::findLastVisit, DateToStringEncoder.DATE_FORMAT))
                 .setComparator(entry -> {
                     LocalDate lastVisit = findLastVisit(entry);
                     return lastVisit == null ? LocalDate.MIN : lastVisit;
@@ -105,7 +107,7 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
     public void beforeEnter(BeforeEnterEvent event) {
         // todo improve the app security
         if (UI.getCurrent().getSession().getAttribute("login") == null) {
-            UI.getCurrent().navigate("");
+            UI.getCurrent().navigate(LoginView.class);
         }
     }
 

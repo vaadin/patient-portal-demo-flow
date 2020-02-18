@@ -22,7 +22,12 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.component.grid.testbench.GridColumnElement;
+import com.vaadin.flow.component.grid.testbench.GridElement;
+import com.vaadin.flow.component.grid.testbench.GridTHTDElement;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
+import com.vaadin.testbench.TestBench;
+import com.vaadin.testbench.TestBenchElement;
 
 public class PatientsViewIT extends AbstractChromeTest {
 
@@ -36,64 +41,40 @@ public class PatientsViewIT extends AbstractChromeTest {
         open();
 
         waitForElementPresent(By.xpath("//patients-view"));
+        TestBenchElement testBenchElement = $(TestBenchElement.class).all()
+                .stream()
+                .filter(tbe -> tbe.getTagName().equals("patients-view"))
+                .findFirst().get();
+        GridElement grid = testBenchElement.$(GridElement.class).id("patientsGrid");
 
-        WebElement nameCell = getGridCellByContent("Last 10, First10");
+        GridColumnElement medicalRecordColumn = grid.getColumn("Medical Record");
+        GridColumnElement doctorColumn = grid.getColumn("Doctor");
+        GridColumnElement lastVisitColumn = grid.getColumn("Last Visit");
 
-        WebElement idCell = getGridCellByContent("76");
+        GridTHTDElement cell = grid.getCell("Last 10, First10");
 
-        // check that the name cell is on the same Y coordinate
-        Assert.assertEquals("Unexpected patient on the row with id=76",
-                idCell.getLocation().getY(), nameCell.getLocation().getY());
-
-        String slotName = idCell.getAttribute("slot");
-        int indx = slotName.lastIndexOf("-");
-        int slotIndex = Integer
-                .parseInt(slotName.substring(indx + 1, slotName.length()));
-
-        String medicalRecord = getCellText(slotIndex + 1);
+        String medicalRecord = grid.getCell(cell.getRow(), medicalRecordColumn).getText();
         Assert.assertTrue(
                 "Grid should contain the medical record of the first patient.\n"
                         + "Expected: an integer value\n" + "Actual value: '"
                         + medicalRecord + "'",
                 medicalRecord.matches("\\d+"));
 
-        String doctorName = getCellText(slotIndex + 2);
+        String doctorName = grid.getCell(cell.getRow(), doctorColumn).getText().trim();
         Assert.assertTrue(
                 "Grid should contain the name of the first patient's doctor.\n"
                         + "Expected format: Lastname, Firstname\n"
                         + "Actual value: '" + doctorName + "'",
                 doctorName.matches("\\w+(\\s\\w+)?, \\w+"));
 
-        String lastVisit = getCellText(17);
+
+        String lastVisit = grid.getCell(cell.getRow(), lastVisitColumn).getText();
         Assert.assertTrue(
                 "Grid should contain the last visit date of the first patient.\n"
                         + "Expected format: " + DateToStringEncoder.DATE_FORMAT
                         + " or an empty string\n" + "Actual value: '"
                         + lastVisit + "'",
                 lastVisit.matches("(\\d{2}/\\d{2}/\\d{4})|^$"));
-
-    }
-
-    private WebElement getGridCellByContent(String content) {
-        List<WebElement> cells = findInShadowRoot(
-                findElement(By.xpath("//patients-view")),
-                By.cssSelector("vaadin-grid-cell-content"));
-        return cells.stream().filter(cell -> cell.getText().equals(content))
-                .findFirst().get();
-    }
-
-    private WebElement getGridCell(int id) {
-        List<WebElement> cells = findInShadowRoot(
-                findElement(By.xpath("//patients-view")),
-                By.cssSelector("vaadin-grid-cell-content"));
-        String slotId = "vaadin-grid-cell-content-" + id;
-        return cells.stream()
-                .filter(cell -> slotId.equals(cell.getAttribute("slot")))
-                .findFirst().get();
-    }
-
-    private String getCellText(int id) {
-        return getGridCell(id).getText();
     }
 
 }

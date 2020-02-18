@@ -19,3 +19,7 @@ target/
 # Screenshots
 error-screenshots/
 reference-screenshots/
+node_modules
+package-lock.json
+webpack.generated.js
+drivers

@@ -17,6 +17,7 @@
 package com.vaadin.flow.demo.patientportal.ui.patients;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -44,7 +45,7 @@ import com.vaadin.flow.router.Route;
  * @author Vaadin Ltd
  */
 @Tag("patient-editor")
-@HtmlImport("frontend://components/main/patients/patient-editor.html")
+@JsModule("./components/main/patients/patient-editor.js")
 @Route(value = "edit", layout = PatientDetails.class)
 public class PatientEditor extends
         AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
@@ -102,6 +103,7 @@ public class PatientEditor extends
         saveButton.addClickListener(event -> savePatient());
         cancelButton.addClickListener(event -> close());
         deleteButton.addClickListener(event -> deletePatient());
+        birthDatePicker.setLocale(Locale.ENGLISH);
     }
 
     public void savePatient() {
@@ -137,13 +139,13 @@ public class PatientEditor extends
                 parent = parent.get().getParent();
             }
         }
-        getUI().ifPresent(ui -> ui.navigate("patients"));
+        getUI().ifPresent(ui -> ui.navigate(PatientsView.class));
     }
 
     @EventHandler
     private void close() {
         getUI().ifPresent(
-                ui -> ui.navigate("patients/" + getPatient().getId()));
+                ui -> ui.navigate(PatientProfile.class, getPatient().getId()));
     }
 
     @Override
