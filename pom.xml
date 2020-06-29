@@ -12,8 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>14.2-SNAPSHOT</vaadin.version>
-        <flow.version>2.2-SNAPSHOT</flow.version>
+        <vaadin.version>14.3-SNAPSHOT</vaadin.version>
+        <flow.version>2.3-SNAPSHOT</flow.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
@@ -27,8 +27,8 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>flow-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+            <id>Vaadin Prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -53,8 +53,8 @@
             <url>file://${basedir}/localrepo</url>
         </repository>
         <repository>
-            <id>flow-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+            <id>Vaadin Prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
