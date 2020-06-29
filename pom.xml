@@ -27,8 +27,8 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>flow-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+            <id>Vaadin Prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -53,8 +53,8 @@
             <url>file://${basedir}/localrepo</url>
         </repository>
         <repository>
-            <id>flow-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+            <id>Vaadin Prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
