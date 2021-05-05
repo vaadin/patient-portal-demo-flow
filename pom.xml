@@ -3,7 +3,7 @@
     <groupId>com.vaadin.flow.demo</groupId>
     <artifactId>patient-portal-flow</artifactId>
     <name>patient-portal-flow</name>
-    <version>2.2-SNAPSHOT</version>
+    <version>4.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
