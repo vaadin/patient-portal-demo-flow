@@ -123,8 +123,7 @@ public class PatientEditorIT extends AbstractChromeTest {
 
     protected void setTextField(String fieldId, String value) {
         WebElement field = getInShadowRoot(getLayout(), By.id(fieldId));
-        WebElement inputElement = field.findElement(By.tagName("input"));
-        inputElement.clear();
+        field.clear();
         field.sendKeys(value);
         field.sendKeys(Keys.ENTER);
     }
