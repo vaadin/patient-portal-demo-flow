@@ -13,9 +13,3 @@ The <code>localrepo</code> directory contains the <code>patient-portal-backend</
 
 Run using
 ```mvn clean spring-boot:run```
-
-Running on Mac
-======
-If you experience an exceptions like
-`java.lang.NoClassDefFoundError: com/sun/jna/platform/mac/IOKitUtil`
-please add `<jna.version>5.6.0</jna.version>` property to the pom.xml.

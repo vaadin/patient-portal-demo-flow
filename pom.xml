@@ -17,6 +17,7 @@
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
+        <jna.version>5.6.0</jna.version>
     </properties>
 
     <parent>
