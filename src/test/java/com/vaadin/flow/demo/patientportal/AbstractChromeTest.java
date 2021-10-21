@@ -69,8 +69,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void setDate(String datePickerId, String date) {
         WebElement datePicker = getInShadowRoot(layout, By.id(datePickerId));
-        WebElement dateField = getInShadowRoot(datePicker, By.id("input"));
-        dateField = getInShadowRoot(dateField, By.cssSelector("input"));
+        WebElement dateField = datePicker.findElement(By.tagName("input"));
         dateField.clear();
         dateField.sendKeys(date);
         dateField.sendKeys(Keys.ENTER);
@@ -87,8 +86,8 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void selectFromComboBox(String comboBoxId, String value) {
         WebElement comboBox = getInShadowRoot(layout, By.id(comboBoxId));
-        WebElement textField = getInShadowRoot(comboBox, By.id("input"));
-        getInShadowRoot(textField, By.cssSelector("input")).clear();
+        WebElement textField = comboBox.findElement(By.tagName("input"));
+        textField.clear();
         comboBox.sendKeys(value);
         comboBox.sendKeys(Keys.ENTER);
     }

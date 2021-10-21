@@ -37,7 +37,7 @@ public class PatientEditorIT extends AbstractChromeTest {
     public static final String GENDER = "female";
     public static final String BIRTH_DATE = "06/13/1993";
     public static final String SSN = "453-87-1829";
-    public static final String DOCTOR = "Number 1, Doc 1";
+    public static final String DOCTOR = "Number 1, Doc ";
 
     @Override
     protected String getTestPath() {
@@ -81,7 +81,7 @@ public class PatientEditorIT extends AbstractChromeTest {
         assertValue("gender", GENDER);
         assertValue("birthDate", BIRTH_DATE);
         assertValue("ssn", SSN);
-        assertValue("doctor", "Number 1, Doc");
+        assertValue("doctor", DOCTOR.trim());
     }
 
     @Test
@@ -123,7 +123,8 @@ public class PatientEditorIT extends AbstractChromeTest {
 
     protected void setTextField(String fieldId, String value) {
         WebElement field = getInShadowRoot(getLayout(), By.id(fieldId));
-        getInShadowRoot(field, By.cssSelector("input")).clear();
+        WebElement inputElement = field.findElement(By.tagName("input"));
+        inputElement.clear();
         field.sendKeys(value);
         field.sendKeys(Keys.ENTER);
     }

@@ -1,7 +1,7 @@
-import '@vaadin/vaadin-icons/vaadin-icons.js';
-import '@vaadin/vaadin-date-picker/vaadin-date-picker.js';
-import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
-import '@vaadin/vaadin-text-field/vaadin-text-field.js';
+import '@vaadin/icons/vaadin-icons.js';
+import '@vaadin/date-picker/vaadin-date-picker.js';
+import '@vaadin/combo-box/vaadin-combo-box.js';
+import '@vaadin/text-field/vaadin-text-field.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 class JournalEditor extends PolymerElement {
