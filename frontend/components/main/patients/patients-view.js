@@ -1,6 +1,6 @@
-import '@vaadin/grid/vaadin-grid.js';
-import '@vaadin/grid/vaadin-grid-sorter.js';
-import '@vaadin/icons/vaadin-icons.js';
+import '@vaadin/vaadin-grid/vaadin-grid.js';
+import '@vaadin/vaadin-grid/vaadin-grid-sorter.js';
+import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '../../shared-styles.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
