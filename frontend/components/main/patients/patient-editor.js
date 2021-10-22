@@ -1,6 +1,6 @@
-import '@vaadin/combo-box/src/vaadin-combo-box.js';
-import '@vaadin/date-picker/src/vaadin-date-picker.js';
-import '@vaadin/icons/vaadin-icons.js';
+import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
+import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
+import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '../../my-icons.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
