@@ -15,18 +15,10 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import java.net.URL;
-
-import org.junit.Ignore;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.vaadin.testbench.Parameters;
-import com.vaadin.testbench.TestBench;
+import com.vaadin.testbench.TestBenchElement;
 
 public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
 
@@ -42,9 +34,9 @@ public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
 
         // navigate to analytics view from patients view instead of open
         // analytics view directly
-        WebElement main = findElement(By.xpath("//main-view"));
-        waitUntil(driver -> isPresentInShadowRoot(main, By.id("analytics")));
-        WebElement analytics = getInShadowRoot(main, By.id("analytics"));
+        TestBenchElement main = $("main-view").first();
+        waitUntil(driver -> main.$("*").attribute("id", "analytics").exists());
+        WebElement analytics = main.$("*").id("analytics");
         new Actions(getDriver()).moveToElement(analytics).click().build()
                 .perform();
     }

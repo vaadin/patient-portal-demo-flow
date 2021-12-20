@@ -17,8 +17,9 @@ package com.vaadin.flow.demo.patientportal;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import com.vaadin.testbench.TestBenchElement;
 
 public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
 
@@ -40,11 +41,9 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
     @Override
     protected void doOpen() {
         super.doOpen();
-        List<WebElement> elements = findElements(By.xpath("//login-view"));
+        List<TestBenchElement> elements = $("login-view").all();
         if(!elements.isEmpty()){
-            WebElement element = findElement(By.tagName("login-view"));
-            findInShadowRoot(element,
-                    By.id("login-button")).get(0).click();
+            $("login-view").first().$("*").id("login-button").click();
             super.doOpen();
         }
     }

@@ -21,10 +21,11 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.flow.testutil.AbstractTestBenchTest;
+import com.vaadin.testbench.TestBenchElement;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -71,7 +72,7 @@ public class PatientEditorIT extends AbstractChromeTest {
         setTextField("ssn", SSN);
         selectFromComboBox("doctor", DOCTOR);
 
-        getInShadowRoot(getLayout(), By.id("save")).click();
+        getLayout().$("*").id("save").click();
         waitForElementPresent(By.xpath("//patient-profile"));
         setLayout("patient-profile");
 
@@ -103,7 +104,7 @@ public class PatientEditorIT extends AbstractChromeTest {
         waitForElementPresent(By.xpath("//patient-editor"));
         setLayout("patient-editor");
 
-        getInShadowRoot(getLayout(), By.id("delete")).click();
+        getLayout().$("*").id("delete").click();
 
         waitForElementPresent(By.xpath("//patients-view"));
         setLayout("patients-view");
@@ -113,25 +114,21 @@ public class PatientEditorIT extends AbstractChromeTest {
                 getGridCellByContent("Last 5, First5").isPresent());
     }
 
-    private Optional<WebElement> getGridCellByContent(String content) {
-        List<WebElement> cells = findInShadowRoot(
-                findElement(By.xpath("//patients-view")),
-                By.cssSelector("vaadin-grid-cell-content"));
+    private Optional<TestBenchElement> getGridCellByContent(String content) {
+        List<TestBenchElement> cells = $("patients-view").first().$("*").first().$("vaadin-grid-cell-content").all();
         return cells.stream().filter(cell -> cell.getText().equals(content))
                 .findFirst();
     }
 
     protected void setTextField(String fieldId, String value) {
-        WebElement field = getInShadowRoot(getLayout(), By.id(fieldId));
-        WebElement inputElement = field.findElement(By.tagName("input"));
-        inputElement.clear();
-        field.sendKeys(value);
-        field.sendKeys(Keys.ENTER);
+        TextFieldElement field = getLayout().$(TextFieldElement.class).id(fieldId);
+        field.clear();
+        field.setValue(value);
     }
 
     private void assertValue(String elementId, String expectedValue) {
         Assert.assertThat("Edited " + elementId + " should be displayed.",
-                getInShadowRoot(getLayout(), By.id(elementId)).getText(),
+                getLayout().$("*").id(elementId).getText(),
                 is(expectedValue));
     }
 }
