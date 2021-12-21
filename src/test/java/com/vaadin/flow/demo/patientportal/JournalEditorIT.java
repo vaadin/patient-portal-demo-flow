@@ -46,7 +46,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         open();
 
         waitForElementPresent(By.xpath("//journal-editor"));
-        setLayout("journal-editor");
+        setLayout($("patients-view").first().$("patient-details").first().$("journal-editor").first());
 
         setDate("date", DATE);
 
@@ -60,7 +60,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         getLayout().$("*").id("save").click();
 
         waitForElementPresent(By.xpath("//patient-journal"));
-        setLayout("patient-journal");
+        setLayout($("patients-view").first().$("patient-details").first().$("patient-journal").first());
 
         GridElement grid = $(GridElement.class).first();
 

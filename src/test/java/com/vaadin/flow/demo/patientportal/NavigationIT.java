@@ -67,7 +67,7 @@ public class NavigationIT extends AbstractChromeTest {
 
         waitLocation("patients/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("*").first().findElement(By.linkText("JOURNAL"))
+        $("patients-view").first().$("patient-details").first().$("*").first().findElement(By.linkText("Journal"))
                 .click();
         waitLocation("patients/journal/" + patientId);
 
@@ -79,15 +79,15 @@ public class NavigationIT extends AbstractChromeTest {
                 By.linkText("EDIT PATIENT")).click();
         waitLocation("patients/edit/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("*").first().findElement(By.linkText("PROFILE"))
+        $("patients-view").first().$("patient-details").first().$("*").first().findElement(By.linkText("Profile"))
                 .click();
         waitLocation("patients/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("*").first().findElement(
+        $("main-view").first().$("patients-view").first().$("patient-details").first().$("*").first().findElement(
                 By.linkText("ALL PATIENTS")).click();
         waitLocation("patients");
 
-        $("main-view").first().$("*").first().findElement(By.linkText("ANALYTICS"))
+        $("main-view").first().$("*").first().findElement(By.linkText("Analytics"))
                 .click();
         waitLocation("analytics");
 
@@ -114,7 +114,7 @@ public class NavigationIT extends AbstractChromeTest {
         age.click();
         waitLocation("analytics/age");
 
-        $("main-view").first().$("*").first().$("PATIENTS").first()
+        $("main-view").first().$("*").first().$("Patients").first()
                 .click();
         waitLocation("patients");
 

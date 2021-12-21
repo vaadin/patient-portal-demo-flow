@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.flow.testutil.AbstractTestBenchTest;
 import com.vaadin.testbench.TestBenchElement;
@@ -61,7 +62,7 @@ public class PatientEditorIT extends AbstractChromeTest {
                 .getTestURL(getRootURL(), "/patients/edit/" + id));
 
         waitForElementPresent(By.xpath("//patient-editor"));
-        setLayout("patient-editor");
+        setLayout($("patients-view").first().$("patient-details").first().$("patient-editor").first());
 
         selectFromComboBox("title", TITLE);
         setTextField("firstName", FIRST_NAME);
@@ -74,7 +75,7 @@ public class PatientEditorIT extends AbstractChromeTest {
 
         getLayout().$("*").id("save").click();
         waitForElementPresent(By.xpath("//patient-profile"));
-        setLayout("patient-profile");
+        setLayout($("patients-view").first().$("patient-details").first().$("patient-profile").first());
 
         assertValue("firstName", FIRST_NAME);
         assertValue("middleName", MIDDLE_NAME);
@@ -102,12 +103,12 @@ public class PatientEditorIT extends AbstractChromeTest {
                 .getTestURL(getRootURL(), "/patients/edit/" + id));
 
         waitForElementPresent(By.xpath("//patient-editor"));
-        setLayout("patient-editor");
+        setLayout($("patients-view").first().$("patient-details").first().$("patient-editor").first());
 
         getLayout().$("*").id("delete").click();
 
         waitForElementPresent(By.xpath("//patients-view"));
-        setLayout("patients-view");
+        setLayout($("patients-view").first().$("patient-details").first().$("patient-profile").first());
 
         Assert.assertFalse("Id " + id
                         + " of the deleted patient was still found in the patients-grid.",
@@ -115,7 +116,8 @@ public class PatientEditorIT extends AbstractChromeTest {
     }
 
     private Optional<TestBenchElement> getGridCellByContent(String content) {
-        List<TestBenchElement> cells = $("patients-view").first().$("*").first().$("vaadin-grid-cell-content").all();
+        List<TestBenchElement> cells = $("patients-view").first().$("*").first().$(
+                GridElement.class).id("patientsGrid").$("vaadin-grid-cell-content").all();
         return cells.stream().filter(cell -> cell.getText().equals(content))
                 .findFirst();
     }

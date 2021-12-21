@@ -21,6 +21,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
 import com.vaadin.flow.testutil.ChromeBrowserTest;
 import com.vaadin.testbench.TestBenchElement;
 
@@ -32,8 +34,8 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     private TestBenchElement layout;
 
-    protected void setLayout(String tagName) {
-        layout = $(tagName).first();
+    protected void setLayout(TestBenchElement layout) {
+        this.layout = layout;
     }
 
     protected TestBenchElement getLayout() {
@@ -65,11 +67,11 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      *            date that will be picked, in format MM/dd/yyyy
      */
     protected void setDate(String datePickerId, String date) {
-        TestBenchElement datePicker = layout.$("*").id(datePickerId);
-        TestBenchElement dateField = datePicker.$("input").first();
-        dateField.clear();
-        dateField.sendKeys(date);
-        dateField.sendKeys(Keys.ENTER);
+        DatePickerElement datePicker = layout.$(DatePickerElement.class).id(datePickerId);
+//        TestBenchElement dateField = datePicker.$("input").first();
+        datePicker.clear();
+        datePicker.setInputValue(date);
+//        dateField.sendKeys(Keys.ENTER);
     }
 
     /**
@@ -82,9 +84,8 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      *            item to be selected
      */
     protected void selectFromComboBox(String comboBoxId, String value) {
-        TestBenchElement comboBox = layout.$(TestBenchElement.class).id(comboBoxId);
-        TestBenchElement textField = comboBox.$("input").first();
-        textField.clear();
+        ComboBoxElement comboBox = layout.$(ComboBoxElement.class).id(comboBoxId);
+        comboBox.clear();
         comboBox.sendKeys(value);
         comboBox.sendKeys(Keys.ENTER);
     }
@@ -117,7 +118,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     protected void login() {
         waitForElementPresent(By.xpath("//login-view"));
-        setLayout("login-view");
+        setLayout($("login-view").first());
         setTextFieldValue("username", "user");
         setTextFieldValue("password", "password");
         layout.$("*").id("login-button").click();
