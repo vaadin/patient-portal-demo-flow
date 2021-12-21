@@ -58,47 +58,45 @@ public class NavigationIT extends AbstractChromeTest {
         waitForElementPresent(By.xpath("//patients-view"));
 
         // Click on the first cell that actually contains patient-data:
-        List<TestBenchElement> cells = $("patients-view").first().
-                $("vaadin-grid-cell-content").all();
-        WebElement firstPatient = cells.stream().filter(
-                cell -> cell.getText().equals(String.valueOf(patientId)))
-                .findFirst().get();
+        List<TestBenchElement> cells = $("patients-view").first()
+                .$("vaadin-grid-cell-content").all();
+        WebElement firstPatient = cells.stream().filter(cell -> cell.getText()
+                .equals(String.valueOf(patientId))).findFirst().get();
         firstPatient.click();
 
         waitLocation("patients/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("*").first().findElement(By.linkText("Journal"))
-                .click();
+        $("*").id("patients-view").$("patient-details").first().$("*")
+                .id("journal").click();
         waitLocation("patients/journal/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("patient-journal").first().$("*").first().findElement(
-                By.partialLinkText("New entry")).click();
+        $("patients-view").first().$("patient-details").first()
+                .$("patient-journal").first().$("*").id("new").click();
         waitLocation("patients/new-entry/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("*").first().findElement(
-                By.linkText("EDIT PATIENT")).click();
+        $("patients-view").first().$("patient-details").first().$("*")
+                .id("edit").click();
         waitLocation("patients/edit/" + patientId);
 
-        $("patients-view").first().$("patient-details").first().$("*").first().findElement(By.linkText("Profile"))
-                .click();
+        $("patients-view").first().$("patient-details").first().$("*")
+                .id("profile").click();
         waitLocation("patients/" + patientId);
 
-        $("main-view").first().$("patients-view").first().$("patient-details").first().$("*").first().findElement(
-                By.linkText("ALL PATIENTS")).click();
+        $("main-view").first().$("patients-view").first().$("patient-details")
+                .first().$("*").id("all-patients").click();
         waitLocation("patients");
 
-        $("main-view").first().$("*").first().findElement(By.linkText("Analytics"))
-                .click();
+        $("main-view").first().$("*").id("analytics").click();
         waitLocation("analytics");
 
-        TestBenchElement dialog = $("vaadin-license-dialog").first();
-        if (dialog != null) {
-            dialog.$("*").id("licenseDialogClose").click();
+        if ($("vaadin-license-dialog").exists()) {
+            $("vaadin-license-dialog").first().$("*").id("licenseDialogClose")
+                    .click();
         }
 
         List<WebElement> links = findElement(
-                By.xpath("//vaadin-horizontal-layout"))
-                        .findElements(By.xpath("//a"));
+                By.xpath("//vaadin-horizontal-layout")).findElements(
+                By.xpath("//a"));
         WebElement doctor = links.get(1);
         Assert.assertEquals("Doctor", doctor.getText());
         doctor.click();
@@ -114,16 +112,14 @@ public class NavigationIT extends AbstractChromeTest {
         age.click();
         waitLocation("analytics/age");
 
-        $("main-view").first().$("*").first().$("Patients").first()
-                .click();
+        $("main-view").first().$("*").id("patients").click();
         waitLocation("patients");
 
-//        $("//patients-view").id("patientsGrid");
-
-        $("main-view").id("logout").click();
+        $("main-view").first().$("*").id("logout").click();
         waitLocation("");
 
-        Assert.assertTrue($("login-view").attribute("id", "login-button").exists());
+        Assert.assertTrue(
+                $("login-view").first().$("*").attribute("id", "login-button").exists());
     }
 
     private void waitLocation(String expectedLocation) {

@@ -103,12 +103,12 @@ public class PatientEditorIT extends AbstractChromeTest {
                 .getTestURL(getRootURL(), "/patients/edit/" + id));
 
         waitForElementPresent(By.xpath("//patient-editor"));
-        setLayout($("patients-view").first().$("patient-details").first().$("patient-editor").first());
+        setLayout($("patient-editor").first());
 
         getLayout().$("*").id("delete").click();
 
         waitForElementPresent(By.xpath("//patients-view"));
-        setLayout($("patients-view").first().$("patient-details").first().$("patient-profile").first());
+        setLayout($("patients-view").first());
 
         Assert.assertFalse("Id " + id
                         + " of the deleted patient was still found in the patients-grid.",
@@ -116,15 +116,13 @@ public class PatientEditorIT extends AbstractChromeTest {
     }
 
     private Optional<TestBenchElement> getGridCellByContent(String content) {
-        List<TestBenchElement> cells = $("patients-view").first().$("*").first().$(
-                GridElement.class).id("patientsGrid").$("vaadin-grid-cell-content").all();
-        return cells.stream().filter(cell -> cell.getText().equals(content))
+        List<TestBenchElement> cells = $("patients-view").first().$("*").id("patientsGrid").$("vaadin-grid-cell-content").all();
+        return cells.stream().filter(cell -> cell.getText().contains(content))
                 .findFirst();
     }
 
     protected void setTextField(String fieldId, String value) {
         TextFieldElement field = getLayout().$(TextFieldElement.class).id(fieldId);
-        field.clear();
         field.setValue(value);
     }
 
