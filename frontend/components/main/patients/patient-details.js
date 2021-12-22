@@ -69,12 +69,12 @@ class PatientDetails extends PolymerElement {
     </style> 
    <nav class="details-nav"> 
     <a router-link="" href="patients"> 
-     <iron-icon icon="vaadin:arrow-long-left"></iron-icon> <span class="linktext">All patients</span></a> 
+     <iron-icon icon="vaadin:arrow-long-left"></iron-icon> <span class="linktext" id="all-patients">All patients</span></a> 
     <div class="sub-pages"> 
-     <a router-link="" href="patients/[[patientId]]" class\$="[[_getItemClasses('profile', page)]]">Profile</a> 
-     <a router-link="" href="patients/journal/[[patientId]]" class\$="[[_getItemClasses('journal', page)]]">Journal</a> 
+     <a router-link="" href="patients/[[patientId]]" class\$="[[_getItemClasses('profile', page)]]" id="profile">Profile</a> 
+     <a router-link="" href="patients/journal/[[patientId]]" class\$="[[_getItemClasses('journal', page)]]" id="journal">Journal</a> 
     </div> 
-    <a router-link="" href="patients/edit/[[patientId]]">Edit patient</a> 
+    <a router-link="" href="patients/edit/[[patientId]]" id="edit">Edit patient</a> 
    </nav> 
    <slot></slot> 
 `;
