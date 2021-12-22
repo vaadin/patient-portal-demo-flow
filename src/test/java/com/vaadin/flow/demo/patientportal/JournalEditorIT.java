@@ -46,7 +46,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         open();
 
         waitForElementPresent(By.xpath("//journal-editor"));
-        setLayout("journal-editor");
+        setLayout($("patients-view").first().$("patient-details").first().$("journal-editor").first());
 
         setDate("date", DATE);
 
@@ -54,13 +54,13 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         selectFromComboBox("doctor", DOCTOR);
 
-        getInShadowRoot(getLayout(), By.id("entry")).sendKeys(ENTRY);
-        getInShadowRoot(getLayout(), By.id("entry")).sendKeys(Keys.ENTER);
+        getLayout().$("*").id("entry").sendKeys(ENTRY);
+        getLayout().$("*").id("entry").sendKeys(Keys.ENTER);
 
-        getInShadowRoot(getLayout(), By.id("save")).click();
+        getLayout().$("*").id("save").click();
 
         waitForElementPresent(By.xpath("//patient-journal"));
-        setLayout("patient-journal");
+        setLayout($("patients-view").first().$("patient-details").first().$("patient-journal").first());
 
         GridElement grid = $(GridElement.class).first();
 

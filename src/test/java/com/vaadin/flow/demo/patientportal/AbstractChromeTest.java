@@ -21,7 +21,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
 import com.vaadin.flow.testutil.ChromeBrowserTest;
+import com.vaadin.testbench.TestBenchElement;
 
 /**
  * @author Vaadin Ltd
@@ -29,18 +32,14 @@ import com.vaadin.flow.testutil.ChromeBrowserTest;
  */
 public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
-    private WebElement layout;
+    private TestBenchElement layout;
 
-    protected void setLayout(String tagName) {
-        layout = findElement(By.tagName(tagName));
+    protected void setLayout(TestBenchElement layout) {
+        this.layout = layout;
     }
 
-    protected WebElement getLayout() {
+    protected TestBenchElement getLayout() {
         return layout;
-    }
-
-    protected WebElement getInShadowRoot(By shadowHost, By by) {
-        return getInShadowRoot(findElement(shadowHost), by);
     }
 
     @Override
@@ -68,12 +67,9 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      *            date that will be picked, in format MM/dd/yyyy
      */
     protected void setDate(String datePickerId, String date) {
-        WebElement datePicker = getInShadowRoot(layout, By.id(datePickerId));
-        WebElement dateField = getInShadowRoot(datePicker, By.id("input"));
-        dateField = getInShadowRoot(dateField, By.cssSelector("input"));
-        dateField.clear();
-        dateField.sendKeys(date);
-        dateField.sendKeys(Keys.ENTER);
+        DatePickerElement datePicker = layout.$(DatePickerElement.class).id(datePickerId);
+        datePicker.clear();
+        datePicker.setInputValue(date);
     }
 
     /**
@@ -86,9 +82,8 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      *            item to be selected
      */
     protected void selectFromComboBox(String comboBoxId, String value) {
-        WebElement comboBox = getInShadowRoot(layout, By.id(comboBoxId));
-        WebElement textField = getInShadowRoot(comboBox, By.id("input"));
-        getInShadowRoot(textField, By.cssSelector("input")).clear();
+        ComboBoxElement comboBox = layout.$(ComboBoxElement.class).id(comboBoxId);
+        comboBox.clear();
         comboBox.sendKeys(value);
         comboBox.sendKeys(Keys.ENTER);
     }
@@ -103,7 +98,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      *            text to be written into the field
      */
     protected void setTextFieldValue(String fieldId, String value) {
-        WebElement field = getInShadowRoot(layout, By.id(fieldId));
+        TestBenchElement field = layout.$(TestBenchElement.class).id(fieldId);
         field.clear();
         field.sendKeys(value);
     }
@@ -121,9 +116,9 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     protected void login() {
         waitForElementPresent(By.xpath("//login-view"));
-        setLayout("login-view");
+        setLayout($("login-view").first());
         setTextFieldValue("username", "user");
         setTextFieldValue("password", "password");
-        getInShadowRoot(getLayout(), By.id("login-button")).click();
+        layout.$("*").id("login-button").click();
     }
 }

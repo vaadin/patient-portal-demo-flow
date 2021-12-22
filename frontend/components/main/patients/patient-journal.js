@@ -61,7 +61,7 @@ class PatientJournal extends PolymerElement {
    <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query> 
    <div class="top"> 
     <h2>[[patient.firstName]] [[patient.lastName]]</h2> 
-    <a router-link="" class="button primary" href="patients/new-entry/[[patient.id]]"> 
+    <a router-link="" class="button primary" href="patients/new-entry/[[patient.id]]" id="new"> 
      <iron-icon icon="vaadin:plus"></iron-icon> New entry</a> 
    </div> 
    <slot></slot>  
