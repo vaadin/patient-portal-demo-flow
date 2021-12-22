@@ -10,9 +10,7 @@ public class MainViewIT extends AbstractViewTest {
 
     @Test
     public void buttonIsUsingLumoTheme() {
-        WebElement element = findElement(By.tagName("login-view"));
-        WebElement button = findInShadowRoot(element,
-                By.id("login-button")).get(0);
+        WebElement button = $("login-view").first().$("*").id("login-button");
         assertThemePresentOnElement(button, Lumo.class);
     }
 }

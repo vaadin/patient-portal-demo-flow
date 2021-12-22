@@ -58,7 +58,7 @@ class MainView extends PolymerElement {
       }
     </style> 
    <nav class="menu"> 
-    <a router-link="" href\$="[[_getPatientsLink(extra)]]" class\$="[[_isActive('patients', page)]]">Patients</a> 
+    <a router-link="" href\$="[[_getPatientsLink(extra)]]" class\$="[[_isActive('patients', page)]]" id="patients">Patients</a> 
     <a router-link="" href\$="[[_getAnalyticsLink(extra)]]" class\$="[[_isActive('analytics', page)]]" id="analytics">Analytics</a> 
     <a id="logout" class="right" on-click="logout"> 
      <iron-icon icon="vaadin:exit-o"></iron-icon> Logout</a> 

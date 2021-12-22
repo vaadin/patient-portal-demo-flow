@@ -25,6 +25,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.testbench.TestBenchElement;
 
 public class NavigationIT extends AbstractChromeTest {
 
@@ -57,50 +58,45 @@ public class NavigationIT extends AbstractChromeTest {
         waitForElementPresent(By.xpath("//patients-view"));
 
         // Click on the first cell that actually contains patient-data:
-        List<WebElement> cells = findInShadowRoot(
-                findElement(By.xpath("//patients-view")),
-                By.cssSelector("vaadin-grid-cell-content"));
-        WebElement firstPatient = cells.stream().filter(
-                cell -> cell.getText().equals(String.valueOf(patientId)))
-                .findFirst().get();
+        List<TestBenchElement> cells = $("patients-view").first()
+                .$("vaadin-grid-cell-content").all();
+        WebElement firstPatient = cells.stream().filter(cell -> cell.getText()
+                .equals(String.valueOf(patientId))).findFirst().get();
         firstPatient.click();
 
         waitLocation("patients/" + patientId);
 
-        getInShadowRoot(By.xpath("//patients-view/patient-details"), By.linkText("JOURNAL"))
-                .click();
+        $("*").id("patients-view").$("patient-details").first().$("*")
+                .id("journal").click();
         waitLocation("patients/journal/" + patientId);
 
-        getInShadowRoot(By.xpath("//patients-view/patient-details/patient-journal"),
-                By.partialLinkText("New entry")).click();
+        $("patients-view").first().$("patient-details").first()
+                .$("patient-journal").first().$("*").id("new").click();
         waitLocation("patients/new-entry/" + patientId);
 
-        getInShadowRoot(By.xpath("//patients-view/patient-details"),
-                By.linkText("EDIT PATIENT")).click();
+        $("patients-view").first().$("patient-details").first().$("*")
+                .id("edit").click();
         waitLocation("patients/edit/" + patientId);
 
-        getInShadowRoot(By.xpath("//patients-view/patient-details"), By.linkText("PROFILE"))
-                .click();
+        $("patients-view").first().$("patient-details").first().$("*")
+                .id("profile").click();
         waitLocation("patients/" + patientId);
 
-        getInShadowRoot(By.xpath("//patients-view/patient-details"),
-                By.linkText("ALL PATIENTS")).click();
+        $("main-view").first().$("patients-view").first().$("patient-details")
+                .first().$("*").id("all-patients").click();
         waitLocation("patients");
 
-        getInShadowRoot(By.xpath("//main-view"), By.linkText("ANALYTICS"))
-                .click();
+        $("main-view").first().$("*").id("analytics").click();
         waitLocation("analytics");
 
-        List<WebElement> dialogs = findElements(
-                By.xpath("//vaadin-license-dialog"));
-        if (dialogs.size() > 0) {
-            getInShadowRoot(dialogs.get(0), By.id("licenseDialogClose"))
+        if ($("vaadin-license-dialog").exists()) {
+            $("vaadin-license-dialog").first().$("*").id("licenseDialogClose")
                     .click();
         }
 
         List<WebElement> links = findElement(
-                By.xpath("//vaadin-horizontal-layout"))
-                        .findElements(By.xpath("//a"));
+                By.xpath("//vaadin-horizontal-layout")).findElements(
+                By.xpath("//a"));
         WebElement doctor = links.get(1);
         Assert.assertEquals("Doctor", doctor.getText());
         doctor.click();
@@ -116,16 +112,14 @@ public class NavigationIT extends AbstractChromeTest {
         age.click();
         waitLocation("analytics/age");
 
-        getInShadowRoot(By.xpath("//main-view"), By.linkText("PATIENTS"))
-                .click();
+        $("main-view").first().$("*").id("patients").click();
         waitLocation("patients");
 
-        getInShadowRoot(By.xpath("//patients-view"), By.id("patientsGrid"));
-
-        getInShadowRoot(By.xpath("//main-view"), By.id("logout")).click();
+        $("main-view").first().$("*").id("logout").click();
         waitLocation("");
 
-        getInShadowRoot(By.xpath("//login-view"), By.id("login-button"));
+        Assert.assertTrue(
+                $("login-view").first().$("*").attribute("id", "login-button").exists());
     }
 
     private void waitLocation(String expectedLocation) {
