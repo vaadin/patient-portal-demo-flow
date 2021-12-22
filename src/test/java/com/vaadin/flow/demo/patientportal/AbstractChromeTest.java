@@ -68,10 +68,8 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void setDate(String datePickerId, String date) {
         DatePickerElement datePicker = layout.$(DatePickerElement.class).id(datePickerId);
-//        TestBenchElement dateField = datePicker.$("input").first();
         datePicker.clear();
         datePicker.setInputValue(date);
-//        dateField.sendKeys(Keys.ENTER);
     }
 
     /**
