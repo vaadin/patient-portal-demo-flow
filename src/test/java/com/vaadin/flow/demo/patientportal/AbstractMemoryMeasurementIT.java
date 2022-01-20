@@ -65,6 +65,7 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
 
             doOpen();
             long current = getMemory(i);
+            // See how much session size increased after adding one UI
             uiSize = current - previous;
             previous = current;
             i++;

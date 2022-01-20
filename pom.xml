@@ -185,6 +185,12 @@
             <version>${flow.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.stephankoelle</groupId>
+            <artifactId>jamm</artifactId>
+            <version>0.4.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -267,6 +273,18 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>getClasspathFilenames</id>
+                                <goals>
+                                    <goal>properties</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
@@ -275,6 +293,7 @@
                             <folders>
                                 <folder>${project.build.testOutputDirectory}</folder>
                             </folders>
+                            <jvmArguments>-javaagent:${io.github.stephankoelle:jamm:jar}</jvmArguments>
                         </configuration>
                         <executions>
                             <execution>
