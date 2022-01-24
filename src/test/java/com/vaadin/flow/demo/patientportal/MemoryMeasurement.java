@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.github.jamm.MemoryMeter;
-
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
@@ -28,8 +26,6 @@ import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.server.VaadinSession;
 
 public class MemoryMeasurement extends Div {
-
-    private MemoryMeter memoryMeter = MemoryMeter.builder().build();
 
     public MemoryMeasurement() {
         UI.getCurrent().getSession().setAttribute("login", "foo");
@@ -47,13 +43,15 @@ public class MemoryMeasurement extends Div {
 
     private void showMemory() {
         removeExtraUIs();
-        Label uis = new Label(
-                String.valueOf(getUI().get().getSession().getUIs().size()));
-        uis.setId("uis");
-        long sessionSize = memoryMeter.measureDeep(getUI().get().getSession());
-        Label memory = new Label(String.valueOf(sessionSize));
-        memory.setId("memory");
-        add(uis, memory);
+        getUI().ifPresent(ui -> {
+            Label uis = new Label(
+                    String.valueOf(ui.getSession().getUIs().size()));
+            uis.setId("uis");
+            Label memory = new Label(String.valueOf(
+                    MemoryAmountCalculator.getObjectSize(ui.getSession())));
+            memory.setId("memory");
+            add(uis, memory);
+        });
     }
 
     private void removeExtraUIs() {
