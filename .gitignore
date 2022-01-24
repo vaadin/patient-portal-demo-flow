@@ -15,6 +15,7 @@ target/
 
 # Frontend
 /src/main/webapp/frontend-es*/
+/frontend/generated/
 
 # Screenshots
 error-screenshots/
@@ -22,4 +23,5 @@ reference-screenshots/
 node_modules
 package-lock.json
 webpack.generated.js
+vite.generated.js
 drivers
