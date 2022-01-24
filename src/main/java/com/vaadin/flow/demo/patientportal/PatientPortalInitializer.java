@@ -17,12 +17,16 @@ package com.vaadin.flow.demo.patientportal;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.coyote.UpgradeProtocol;
+import org.apache.coyote.http2.Http2Protocol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -59,4 +63,17 @@ public class PatientPortalInitializer extends WebSecurityConfigurerAdapter {
         initService.initDatabase();
     }
 
+    @Bean
+    public TomcatConnectorCustomizer http2ProtocolCustomizer() {
+        return (connector) -> {
+            for (UpgradeProtocol upgradeProtocol: connector.findUpgradeProtocols()) {
+                if (upgradeProtocol instanceof Http2Protocol) {
+                    Http2Protocol http2Protocol = (Http2Protocol)upgradeProtocol;
+                    http2Protocol.setOverheadContinuationThreshold(-1);
+                    http2Protocol.setOverheadDataThreshold(-1);
+                    http2Protocol.setOverheadWindowUpdateThreshold(-1);
+                }
+            }
+        };
+    }
 }
