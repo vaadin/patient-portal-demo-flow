@@ -306,6 +306,7 @@
                                 --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
                                 --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
                                 --add-opens jdk.management.jfr/jdk.management.jfr=ALL-UNNAMED
+                                --add-opens java.logging/sun.util.logging.internal=ALL-UNNAMED
                             </jvmArguments>
                         </configuration>
                         <executions>
