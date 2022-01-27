@@ -295,6 +295,7 @@
                             </folders>
                             <agents>${io.github.stephankoelle:jamm:jar}</agents>
                             <jvmArguments>
+                                -XX:+UseParallelGC
                                 --add-opens java.base/jdk.internal.loader=ALL-UNNAMED
                                 --add-opens java.base/jdk.internal.reflect=ALL-UNNAMED
                                 --add-opens java.base/jdk.internal.ref=ALL-UNNAMED
