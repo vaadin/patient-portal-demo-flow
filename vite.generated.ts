@@ -84,7 +84,6 @@ const allowedFrontendFolders = [
 
 export const vaadinConfig: UserConfigFn = (env) => {
   const devMode = env.mode === 'development';
-  const basePath = env.mode === 'production' ? '' : '/VAADIN/';
   let pwaConfig;
 
   if (devMode && process.env.watchDogPort) {
@@ -93,14 +92,13 @@ export const vaadinConfig: UserConfigFn = (env) => {
     runWatchDog(process.env.watchDogPort);
   }
   return {
-    root: '',
-    base: basePath,
+    root: 'frontend',
+    base: '',
     resolve: {
       alias: {
         themes: themeFolder,
         Frontend: frontendFolder
-      },
-      preserveSymlinks: true,
+      }
     },
     define: {
       // should be settings.offlinePath after manifests are fixed
@@ -122,16 +120,9 @@ export const vaadinConfig: UserConfigFn = (env) => {
     },
     plugins: [
       !devMode && brotli(),
-      {
-        name: 'disable-pre-bundling',
-        configResolved(config) {
-          // @ts-ignore
-          config.cacheDir = undefined;
-        }
-      },
       settings.pwaEnabled &&
       {
-        name: 'pwa',
+        name: 'vaadin:pwa',
         enforce: 'post',
         apply: 'build',
         async configResolved(config) {
@@ -181,7 +172,7 @@ export const vaadinConfig: UserConfigFn = (env) => {
         }
       },
       {
-        name: 'custom-theme',
+        name: 'vaadin:custom-theme',
         config() {
           processThemeResources(themeOptions, console);
         },
@@ -190,40 +181,54 @@ export const vaadinConfig: UserConfigFn = (env) => {
         }
       },
       {
-        name: 'inject-entrypoint-script',
+        name: 'vaadin:force-remove-spa-middleware',
         transformIndexHtml: {
           enforce: 'pre',
-          transform(_html, context) {
-            if (context.server && !spaMiddlewareForceRemoved) {
-              context.server.middlewares.stack = context.server.middlewares.stack.filter((mw) => {
+          transform(_html, { server }) {
+            if (server && !spaMiddlewareForceRemoved) {
+              server.middlewares.stack = server.middlewares.stack.filter((mw) => {
                 const handleName = '' + mw.handle;
                 return !handleName.includes('viteSpaFallbackMiddleware');
               });
               spaMiddlewareForceRemoved = true;
             }
-
-            if (context.path !== '/frontend/index.html') {
-              return;
-            }
-            const vaadinScript: HtmlTagDescriptor = {
-              tag: 'script',
-              attrs: { type: 'module', src: devMode ? '/VAADIN/frontend/generated/vaadin.ts' : './generated/vaadin.ts' },
-              injectTo: 'head'
-            };
-
-            let scripts = [vaadinScript];
-
-            if (devMode) {
-              const viteDevModeScript: HtmlTagDescriptor = {
-                tag: 'script',
-                attrs: { type: 'module', src: '/VAADIN/frontend/generated/vite-devmode.ts' },
-                injectTo: 'head'
-              };
-              scripts.push(viteDevModeScript);
-            }
-            return scripts;
           }
         }
+      },
+      {
+        name: 'vaadin:inject-entrypoint-script',
+        transformIndexHtml: {
+          enforce: 'pre',
+          transform(_html, { path, server }) {
+            if (path !== '/index.html') {
+              return;
+            }
+
+            if (devMode) {
+              const basePath = server?.config.base ?? '';
+              return [
+                {
+                  tag: 'script',
+                  attrs: { type: 'module', src: `${basePath}generated/vite-devmode.ts` },
+                  injectTo: 'head',
+                },
+                {
+                  tag: 'script',
+                  attrs: { type: 'module', src: `${basePath}generated/vaadin.ts` },
+                  injectTo: 'head',
+                }
+              ]
+            }
+
+            return [
+              {
+                tag: 'script',
+                attrs: { type: 'module', src: './generated/vaadin.ts' },
+                injectTo: 'head',
+              }
+            ]
+          },
+        },
       },
       checker({
         typescript: true

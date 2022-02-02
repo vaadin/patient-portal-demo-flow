@@ -3,6 +3,8 @@
   "license": "UNLICENSED",
   "vaadin": {
     "dependencies": {
+      "@hilla/form": "0.0.18",
+      "@hilla/frontend": "0.0.18",
       "@polymer/iron-a11y-announcer": "3.0.2",
       "@polymer/iron-icon": "3.0.1",
       "@polymer/iron-iconset-svg": "3.0.1",
@@ -124,20 +126,21 @@
       "lit": "2.0.0"
     },
     "devDependencies": {
-      "@babel/core": "7.16.7",
       "glob": "7.1.6",
       "mkdirp": "1.0.4",
       "rollup-plugin-brotli": "3.1.0",
       "typescript": "4.5.3",
-      "vite": "v2.7.4",
+      "vite": "v2.8.0-beta.3",
       "vite-plugin-checker": "0.3.4",
-      "workbox-build": "6.4.1",
+      "workbox-build": "6.4.2",
       "workbox-core": "6.4.2",
       "workbox-precaching": "6.4.2"
     },
-    "hash": "9ff8c72da3004f2dcbb6b4281096cba1e0bbe22549e7395f28c3a27de09485a8"
+    "hash": "70330b2ff1a6a1ca18c949b95a4e1a0d6cc9a8b9182bc9e5c14cbe5788486063"
   },
   "dependencies": {
+    "@hilla/form": "0.0.18",
+    "@hilla/frontend": "0.0.18",
     "@polymer/iron-a11y-announcer": "3.0.2",
     "@polymer/iron-icon": "3.0.1",
     "@polymer/iron-iconset-svg": "3.0.1",
@@ -260,7 +263,6 @@
     "lit": "2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.16.7",
     "@vaadin/application-theme-plugin": "./target/plugins/application-theme-plugin",
     "@vaadin/build-status-plugin": "./target/plugins/build-status-plugin",
     "@vaadin/theme-live-reload-plugin": "./target/plugins/theme-live-reload-plugin",
@@ -269,9 +271,9 @@
     "mkdirp": "1.0.4",
     "rollup-plugin-brotli": "3.1.0",
     "typescript": "4.5.3",
-    "vite": "v2.7.4",
+    "vite": "v2.8.0-beta.3",
     "vite-plugin-checker": "0.3.4",
-    "workbox-build": "6.4.1",
+    "workbox-build": "6.4.2",
     "workbox-core": "6.4.2",
     "workbox-precaching": "6.4.2"
   },

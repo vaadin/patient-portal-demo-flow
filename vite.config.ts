@@ -25,11 +25,35 @@ function getExports(id: string): string[] {
   return Array.from(exportsSet);
 }
 
+function getExcluded() {
+  const excluded = new Set<string>();
+  for (const id of Object.keys(modules)) {
+    const parts = id.split('/');
+    const packageName = id.startsWith('@') ? parts[0] + '/' + parts[1] : parts[0];
+    excluded.add(packageName);
+  }
+  return Array.from(excluded);
+}
+
 const customConfig: UserConfigFn = (env) => ({
   // Here you can add custom Vite parameters
   // https://vitejs.dev/config/
   optimizeDeps: {
-    exclude: Object.keys(modules),
+    entries: [
+      // Pre-scan entrypoints in Vite to avoid reloading on first open
+      './generated/vaadin.ts'
+    ],
+    include: [
+      // Happen to fail dedupe in Vite pre-bundling
+      '@polymer/iron-meta',
+      '@polymer/iron-meta/iron-meta.js',
+    ],
+    exclude: [
+      // Vaadin bundle
+      ...getExcluded(),
+      // Known small packages
+      '@vaadin/router',
+    ]
   },
   plugins: [
     {
@@ -45,7 +69,7 @@ const customConfig: UserConfigFn = (env) => ({
         const exports = getExports(id);
 
         const cacheSuffix = params ? `?${params}` : '';
-        const bundlePath = `/VAADIN/frontend/bundle/theme__lumo.js${cacheSuffix}`;
+        const bundlePath = `/VAADIN/bundle/theme__lumo.js${cacheSuffix}`;
 
         return `import { init as VaadinBundleInit, get as VaadinBundleGet } from '${bundlePath}';
 await VaadinBundleInit('default');
