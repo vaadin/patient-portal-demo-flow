@@ -15,6 +15,12 @@ target/
 
 # Frontend
 /src/main/webapp/frontend-es*/
+frontend/generated/
+frontend/index.html
+.npmrc
+pnpmfile.js
+tsconfig.json
+types.d.ts
 
 # Screenshots
 error-screenshots/

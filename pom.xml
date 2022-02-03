@@ -185,6 +185,12 @@
             <version>${flow.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.stephankoelle</groupId>
+            <artifactId>jamm</artifactId>
+            <version>0.4.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -267,6 +273,18 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>getClasspathFilenames</id>
+                                <goals>
+                                    <goal>properties</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
@@ -275,6 +293,22 @@
                             <folders>
                                 <folder>${project.build.testOutputDirectory}</folder>
                             </folders>
+                            <agents>${io.github.stephankoelle:jamm:jar}</agents>
+                            <jvmArguments>
+                                -XX:+UseParallelGC
+                                --add-opens java.base/jdk.internal.loader=ALL-UNNAMED
+                                --add-opens java.base/jdk.internal.reflect=ALL-UNNAMED
+                                --add-opens java.base/jdk.internal.ref=ALL-UNNAMED
+                                --add-opens java.base/jdk.internal.module=ALL-UNNAMED
+                                --add-opens java.base/java.lang.module=ALL-UNNAMED
+                                --add-opens java.base/jdk.internal.math=ALL-UNNAMED
+                                --add-opens java.base/jdk.internal.util.jar=ALL-UNNAMED
+                                --add-opens java.xml/javax.xml.catalog=ALL-UNNAMED
+                                --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
+                                --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+                                --add-opens jdk.management.jfr/jdk.management.jfr=ALL-UNNAMED
+                                --add-opens java.logging/sun.util.logging.internal=ALL-UNNAMED
+                            </jvmArguments>
                         </configuration>
                         <executions>
                             <execution>
