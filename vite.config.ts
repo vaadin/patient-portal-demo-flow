@@ -10,21 +10,28 @@ import { overrideVaadinConfig } from './vite.generated';
 
 function vaadinBundlesPlugin(): Plugin {
 
+  type ExportInfo = string | {
+    namespace?: string,
+    source: string,
+  };
+
   type ExposeInfo = {
-    exports: string[];
+    exports: ExportInfo[],
   };
 
   type PackageInfo = {
-    name: string,
     version: string,
     exposes: Record<string, ExposeInfo>,
   };
 
+  type BundleJson = {
+    packages: Record<string, PackageInfo>,
+  };
+
   const modulesDirectory = path.join(__dirname, 'node_modules');
 
-  const bundleMap = new Map<string, PackageInfo>();
-
   let vaadinBundleJsonPath: string | undefined;
+  let vaadinBundleJson: BundleJson;
 
   function resolveVaadinBundleJsonPath() {
     try {
@@ -52,7 +59,7 @@ function vaadinBundlesPlugin(): Plugin {
       packageName,
       modulePath
     } = parseModuleId(id);
-    const packageInfo = bundleMap.get(packageName);
+    const packageInfo = vaadinBundleJson.packages[packageName];
     if (!packageInfo) return;
 
     const exposeInfo: ExposeInfo = packageInfo.exposes[modulePath];
@@ -60,18 +67,18 @@ function vaadinBundlesPlugin(): Plugin {
 
     const exportsSet = new Set<string>();
     for (const e of exposeInfo.exports) {
-      if (e.indexOf('__@__') >= 0) {
-        const [namespace, sourceId] = e.split('__@__');
-        if (namespace.length) {
+      if (typeof e === 'string') {
+        exportsSet.add(e);
+      } else {
+        const {namespace, source} = e;
+        if (namespace) {
           exportsSet.add(namespace);
         } else {
-          const sourceExports = getExports(sourceId);
+          const sourceExports = getExports(source);
           if (sourceExports) {
             sourceExports.forEach((e) => exportsSet.add(e));
           }
         }
-      } else {
-        exportsSet.add(e);
       }
     }
     return Array.from(exportsSet);
@@ -91,20 +98,16 @@ function vaadinBundlesPlugin(): Plugin {
         });
         logger.warnOnce('@vaadin/bundles npm package is not found, ' +
           'Vaadin component dependency bundles are disabled.');
+        vaadinBundleJson = {packages: {}};
         return false;
       }
 
       return true;
     },
     async config(config) {
-      console.log('vaadinBundleJsonPath', vaadinBundleJsonPath);
-      const {packages}: { packages: PackageInfo[] } = JSON.parse(
+      vaadinBundleJson = JSON.parse(
         await readFile(vaadinBundleJsonPath!, {encoding: 'utf8'})
       );
-      packages.forEach((packageInfo) =>
-        bundleMap.set(packageInfo.name, packageInfo)
-      );
-      console.log('bundle packages', Array.from(bundleMap.keys()).join(', '));
 
       return mergeConfig(config, {
         optimizeDeps: {
@@ -116,7 +119,7 @@ function vaadinBundlesPlugin(): Plugin {
           exclude: [
             // Vaadin bundle
             '@vaadin/bundles',
-            ...Array.from(bundleMap.keys()),
+            ...Object.keys(vaadinBundleJson.packages),
             // Known small packages
             '@vaadin/router',
           ]
