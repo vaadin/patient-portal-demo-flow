@@ -19,6 +19,8 @@
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
         <jna.version>5.6.0</jna.version>
         <selenium.version>4.1.3</selenium.version>
+        <jackson.version>2.13.2</jackson.version>
+        <jackson.databind.version>2.13.2.2</jackson.databind.version>
     </properties>
 
     <parent>
@@ -142,17 +144,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.10.2</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.2.2</version>
+            <version>${jackson.databind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.10.2</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <!-- Spring -->
