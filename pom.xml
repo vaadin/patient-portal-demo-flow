@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>23.0-SNAPSHOT</vaadin.version>
+        <vaadin.version>23.3-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.7.4</version>
     </parent>
 
     <pluginRepositories>
