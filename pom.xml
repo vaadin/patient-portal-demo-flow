@@ -293,9 +293,10 @@
                         <configuration>
                             <maxAttempts>100</maxAttempts>
                             <wait>2500</wait>
-                            <folders>
-                                <folder>${project.build.testOutputDirectory}</folder>
-                            </folders>
+
+                            <directories>
+                                <directory>${project.build.testOutputDirectory}</directory>
+                            </directories>
                             <agents>${io.github.stephankoelle:jamm:jar}</agents>
                             <jvmArguments>
                                 -XX:+UseParallelGC
