@@ -28,3 +28,5 @@ reference-screenshots/
 node_modules
 webpack.generated.js
 drivers
+
+vite.*.ts
