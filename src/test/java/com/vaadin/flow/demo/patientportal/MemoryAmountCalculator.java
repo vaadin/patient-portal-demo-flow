@@ -15,13 +15,31 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import java.lang.reflect.InaccessibleObjectException;
+
 import org.github.jamm.MemoryMeter;
+import org.slf4j.LoggerFactory;
 
 public class MemoryAmountCalculator {
 
-    private static MemoryMeter memoryMeter = MemoryMeter.builder().build();
+    private static final MemoryMeter memoryMeter = MemoryMeter.builder().build();
 
     static long getObjectSize(Object o) {
-        return memoryMeter.measureDeep(o);
+        try {
+            return memoryMeter.measureDeep(o);
+        } catch (RuntimeException ex) {
+            // Unwrap original exception
+            Throwable cause = ex;
+            while (cause != null && RuntimeException.class.equals(cause.getClass())) {
+                cause = cause.getCause();
+            }
+            if (cause instanceof InaccessibleObjectException) {
+                // Print error message to the console so that it will be immediately visible
+                // and not hidden by application error handlers
+                System.err.println("[ERROR] " + cause.getMessage());
+                System.err.println("[ERROR] Usually, to fix the problem a '--add-opens' flag must be added to JVM arguments");
+            }
+            throw ex;
+        }
     }
 }

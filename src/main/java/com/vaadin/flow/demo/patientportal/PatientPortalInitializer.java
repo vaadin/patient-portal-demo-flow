@@ -15,19 +15,30 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import javax.annotation.PostConstruct;
+import java.util.Map;
+import java.util.Set;
 
+import jakarta.annotation.PostConstruct;
+import org.burningwave.core.assembler.StaticComponentContainer;
+import org.burningwave.core.classes.Modules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.vaadin.demo.service.DBInitService;
+
+import static org.burningwave.core.assembler.StaticComponentContainer.Classes;
+import static org.burningwave.core.assembler.StaticComponentContainer.Driver;
+import static org.burningwave.core.assembler.StaticComponentContainer.Fields;
+import static org.burningwave.core.assembler.StaticComponentContainer.Methods;
 
 /**
  * Spring boot web appplication initializer.
@@ -35,23 +46,29 @@ import com.vaadin.demo.service.DBInitService;
  *
  * @author Vaadin Ltd
  */
-@SpringBootApplication(exclude = { WebMvcAutoConfiguration.class,
-        SpringDataWebAutoConfiguration.class, },scanBasePackages = { "com.vaadin.flow.demo.patientportal", "com.vaadin.demo" })
+@SpringBootApplication(exclude = {WebMvcAutoConfiguration.class,
+        SpringDataWebAutoConfiguration.class,}, scanBasePackages = {"com.vaadin.flow.demo.patientportal", "com.vaadin.demo"})
 @EnableJpaRepositories("com.vaadin.demo.repositories")
 @EntityScan("com.vaadin.demo.entities")
-public class PatientPortalInitializer extends WebSecurityConfigurerAdapter {
+public class PatientPortalInitializer {
 
     @Autowired
     private DBInitService initService;
 
     public static void main(String[] args) {
+        // Opens all modules to each other to allow memory calculator to use
+        // reflection to compute objects size
+        // This is a workaround to avoid a huge number of '--add-opens' flags
+        // to JVM arguments list
+        Modules.create().exportAllToAll();
         SpringApplication.run(PatientPortalInitializer.class, args);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/*").permitAll();
+        http.authorizeHttpRequests().requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
+        return http.build();
     }
 
     @PostConstruct
