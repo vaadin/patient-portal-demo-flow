@@ -17,6 +17,7 @@ package com.vaadin.flow.demo.patientportal;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.testbench.TestBenchElement;
@@ -43,7 +44,7 @@ public class PatientEditorMemoryIT extends AbstractMemoryMeasurementIT {
         super.doOpen();
         List<TestBenchElement> elements = $("login-view").all();
         if(!elements.isEmpty()){
-            $("login-view").first().$("*").id("login-button").click();
+            login();
             super.doOpen();
         }
     }
