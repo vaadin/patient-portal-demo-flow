@@ -29,8 +29,8 @@ import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.Route;
@@ -69,8 +69,8 @@ public class PatientJournal extends
                                                                                                .orElse("");
         grid.addColumn(doctorNameProvider).setHeader("Doctor").setComparator(doctorNameProvider);
         grid.addColumn(JournalEntry::getEntry).setComparator(JournalEntry::getEntry).setHeader("Notes");
-        grid.setItemDetailsRenderer(TemplateRenderer.<JournalEntry>of(
-                "<section class=\"details\"><h3>Notes</h3><article>[[item.entry]]</article></section>")
+        grid.setItemDetailsRenderer(LitRenderer.<JournalEntry>of(
+                "<section class=\"details\"><h3>Notes</h3><article>${item.entry}</article></section>")
                                                     .withProperty("entry",JournalEntry::getEntry));
         grid.setSelectionMode(Grid.SelectionMode.NONE);
         getElement().appendChild(grid.getElement());

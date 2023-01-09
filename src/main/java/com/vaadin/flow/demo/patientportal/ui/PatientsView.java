@@ -32,8 +32,8 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.demo.patientportal.ui.patients.PatientProfile;
@@ -80,8 +80,8 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
     private void setupGridColumns() {
         ValueProvider<Patient, String> fullNameProvider = patient -> patient
                 .getLastName() + ", " + patient.getFirstName();
-        grid.addColumn(TemplateRenderer
-                .<Patient> of("<strong>[[item.fullName]]</strong>")
+        grid.addColumn(LitRenderer
+                .<Patient> of("<strong>${item.fullName}</strong>")
                 .withProperty("fullName", fullNameProvider)).setHeader("Name")
                 .setSortable(true).setFlexGrow(1);
 
