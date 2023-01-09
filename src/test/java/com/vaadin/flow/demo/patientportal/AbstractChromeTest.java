@@ -120,5 +120,6 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         setTextFieldValue("username", "user");
         setTextFieldValue("password", "password");
         layout.$("*").id("login-button").click();
+        waitUntil(d -> $("main-view").first().$("*").id("logout"));
     }
 }
