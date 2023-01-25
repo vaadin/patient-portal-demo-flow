@@ -55,6 +55,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel>
     private void logout() {
         UI.getCurrent().getSession().setAttribute("login", null);
         UI.getCurrent().close();
-        UI.getCurrent().getPage().executeJavaScript("window.location.href=''");
+        UI.getCurrent().getPage().executeJs("window.location.href=''");
     }
 }
