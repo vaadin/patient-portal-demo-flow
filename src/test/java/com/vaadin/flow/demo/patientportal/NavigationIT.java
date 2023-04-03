@@ -29,7 +29,7 @@ import com.vaadin.testbench.TestBenchElement;
 
 public class NavigationIT extends AbstractChromeTest {
 
-    private final int patientId = 21;
+    private final int patientId = 15;
 
     private class LocationCondition implements ExpectedCondition<Boolean> {
 
