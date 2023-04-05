@@ -347,8 +347,8 @@
                             <trimStackTrace>false</trimStackTrace>
                             <enableAssertions>true</enableAssertions>
                             <systemPropertyVariables>
-                                <!-- Pass location of downloaded webdrivers to the tests
-                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>-->
+                                <!-- Pass location of downloaded webdrivers to the tests-->
+                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
