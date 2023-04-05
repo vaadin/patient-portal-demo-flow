@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2000-2023 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,15 +41,15 @@ import static org.burningwave.core.assembler.StaticComponentContainer.Fields;
 import static org.burningwave.core.assembler.StaticComponentContainer.Methods;
 
 /**
- * Spring boot web appplication initializer.
+ * Spring boot web application initializer.
  * <p>
  *
  * @author Vaadin Ltd
  */
 @SpringBootApplication(exclude = {WebMvcAutoConfiguration.class,
-        SpringDataWebAutoConfiguration.class,}, scanBasePackages = {"com.vaadin.flow.demo.patientportal", "com.vaadin.demo"})
-@EnableJpaRepositories("com.vaadin.demo.repositories")
+        SpringDataWebAutoConfiguration.class,}, scanBasePackages = {"com.vaadin.flow.demo", "com.vaadin.demo"})
 @EntityScan("com.vaadin.demo.entities")
+@EnableJpaRepositories("com.vaadin.demo.repositories")
 public class PatientPortalInitializer {
 
     @Autowired

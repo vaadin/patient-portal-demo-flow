@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2000-2023 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,7 +31,7 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 
 public class JournalEditorIT extends AbstractChromeTest {
 
-    public static final String DATE = "10/20/2020";
+    public static final String DATE = "20/10/2020";
     public static final String APPOINTMENT = "X_RAY";
     public static final String DOCTOR = "Number 0, Doc ";
     public static final String ENTRY = "some notes";
@@ -64,23 +64,22 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         GridElement grid = $(GridElement.class).first();
 
-        List<WebElement> cells = getChildren(grid);
-        int index = cells.size() - 5;
+        int rowIndex = grid.getRowCount() - 1;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
-                grid.getCell(0,0).getText(),
+                grid.getCell(rowIndex,0).getText(),
                 CoreMatchers.allOf(
                         CoreMatchers.anyOf(CoreMatchers.containsString("10"),
                                 CoreMatchers.containsString("October")),
                         CoreMatchers.containsString("20")));
         Assert.assertThat(
                 "Appointment-type of the new journal-entry should be displayed.",
-                grid.getCell(0,1).getText(), is(APPOINTMENT));
+                grid.getCell(rowIndex,1).getText(), is(APPOINTMENT));
         Assert.assertThat(
                 "Doctor of the new journal-entry should be displayed.",
-                grid.getCell(0,2).getText().trim(), is(DOCTOR.trim()));
+                grid.getCell(rowIndex,2).getText().trim(), is(DOCTOR.trim()));
         Assert.assertThat(
                 "Entry-notes of the new journal-entry should be displayed.",
-                grid.getCell(0,3).getText(), is(ENTRY));
+                grid.getCell(rowIndex,3).getText(), is(ENTRY));
 
     }
 

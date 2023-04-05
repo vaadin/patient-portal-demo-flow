@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>24.0-SNAPSHOT</vaadin.version>
+        <vaadin.version>24.1-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>com.vaadin.demo</groupId>
             <artifactId>patient-portal-backend</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.tomcat</groupId>
@@ -192,7 +192,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.3.0</version>
+            <version>5.3.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -347,8 +347,8 @@
                             <trimStackTrace>false</trimStackTrace>
                             <enableAssertions>true</enableAssertions>
                             <systemPropertyVariables>
-                                <!-- Pass location of downloaded webdrivers to the tests -->
-                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+                                <!-- Pass location of downloaded webdrivers to the tests
+                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>-->
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
