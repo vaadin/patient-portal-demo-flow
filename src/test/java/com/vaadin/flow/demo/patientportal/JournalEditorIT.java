@@ -31,7 +31,7 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 
 public class JournalEditorIT extends AbstractChromeTest {
 
-    public static final String DATE = "20/10/2020";
+    public static final String DATE = "10/11/2020";
     public static final String APPOINTMENT = "X_RAY";
     public static final String DOCTOR = "Number 0, Doc ";
     public static final String ENTRY = "some notes";
