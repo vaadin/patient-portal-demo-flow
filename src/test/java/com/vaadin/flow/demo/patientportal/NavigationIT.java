@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2000-2023 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,8 +15,7 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import java.util.List;
-
+import com.vaadin.flow.component.grid.testbench.GridElement;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -24,12 +23,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.testbench.TestBenchElement;
+import java.util.List;
+import java.util.Random;
 
 public class NavigationIT extends AbstractChromeTest {
-
-    private final int patientId = 21;
 
     private class LocationCondition implements ExpectedCondition<Boolean> {
 
@@ -52,17 +49,17 @@ public class NavigationIT extends AbstractChromeTest {
     }
 
     @Test
-    public void testNavigation() throws InterruptedException {
+    public void testNavigation() {
         open();
 
         waitForElementPresent(By.xpath("//patients-view"));
 
-        // Click on the first cell that actually contains patient-data:
-        List<TestBenchElement> cells = $("patients-view").first()
-                .$("vaadin-grid-cell-content").all();
-        WebElement firstPatient = cells.stream().filter(cell -> cell.getText()
-                .equals(String.valueOf(patientId))).findFirst().get();
-        firstPatient.click();
+        var patientsGrid = $("patients-view").first().$(GridElement.class).first();
+        Random random = new Random(System.nanoTime());
+        var rowIndex = random.nextInt(0, patientsGrid.getRowCount() - 1);
+        var cell = patientsGrid.getCell(rowIndex, 1);
+        cell.click();
+        var patientId = cell.getText();
 
         waitLocation("patients/" + patientId);
 

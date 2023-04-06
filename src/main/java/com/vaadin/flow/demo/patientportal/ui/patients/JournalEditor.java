@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2000-2023 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ public class JournalEditor extends
         this.patientService = patientService;
 
         datePicker.setValue(LocalDate.now());
+        datePicker.setLocale(Locale.ENGLISH);
 
         appointmentTypeComboBox.setItems(Arrays.stream(AppointmentType.values())
                 .map(AppointmentType::name).collect(Collectors.toList()));
