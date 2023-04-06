@@ -14,6 +14,7 @@ target/
 .DS_Store
 
 # Frontend
+src/main/dev-bundle/
 /src/main/webapp/frontend-es*/
 frontend/generated/
 frontend/index.html
