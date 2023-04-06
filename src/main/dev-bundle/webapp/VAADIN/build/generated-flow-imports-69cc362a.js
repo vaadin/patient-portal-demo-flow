@@ -1,4 +1,4 @@
-import{C as CSSResult,c as css$e,r as render$1,h as html$1,D as Directive,n as nothing,P as PartType,a as noChange,d as directive,s as svg$6,u as unsafeCSS,_ as __vitePreload}from"./indexhtml-1bbb5b46.js";const{toString:toString$2}=Object.prototype;function isRegexp(n){return toString$2.call(n)==="[object RegExp]"}function stripCssComments(n,{preserve:i=!0,whitespace:t=!0,all:r}={}){if(r)throw new Error("The `all` option is no longer supported. Use the `preserve` option instead.");let o=i,a;typeof i=="function"?(o=!1,a=i):isRegexp(i)&&(o=!1,a=d=>i.test(d));let s=!1,l="",h="",c="";for(let d=0;d<n.length;d++){if(l=n[d],n[d-1]!=="\\"&&(l==='"'||l==="'")&&(s===l?s=!1:s||(s=l)),!s&&l==="/"&&n[d+1]==="*"){const u=n[d+2]==="!";let f=d+2;for(;f<n.length;f++){if(n[f]==="*"&&n[f+1]==="/"){o&&u||a&&a(h)?c+=`/*${h}*/`:t||(n[f+2]===`
+import{C as CSSResult,c as css$e,r as render$1,h as html$1,D as Directive,n as nothing,P as PartType,a as noChange,d as directive,s as svg$6,u as unsafeCSS,_ as __vitePreload}from"./indexhtml-afe8e734.js";const{toString:toString$2}=Object.prototype;function isRegexp(n){return toString$2.call(n)==="[object RegExp]"}function stripCssComments(n,{preserve:i=!0,whitespace:t=!0,all:r}={}){if(r)throw new Error("The `all` option is no longer supported. Use the `preserve` option instead.");let o=i,a;typeof i=="function"?(o=!1,a=i):isRegexp(i)&&(o=!1,a=d=>i.test(d));let s=!1,l="",h="",c="";for(let d=0;d<n.length;d++){if(l=n[d],n[d-1]!=="\\"&&(l==='"'||l==="'")&&(s===l?s=!1:s||(s=l)),!s&&l==="/"&&n[d+1]==="*"){const u=n[d+2]==="!";let f=d+2;for(;f<n.length;f++){if(n[f]==="*"&&n[f+1]==="/"){o&&u||a&&a(h)?c+=`/*${h}*/`:t||(n[f+2]===`
 `?f++:n[f+2]+n[f+3]===`\r
 `&&(f+=2)),h="";break}h+=n[f]}d=f+1;continue}c+=l}return c}const createLinkReferences=(n,i)=>{const t=/(?:@media\s(.+?))?(?:\s{)?\@import\s*(?:url\(\s*['"]?(.+?)['"]?\s*\)|(["'])((?:\\.|[^\\])*?)\3)([^;]*);(?:})?/g;/\/\*(.|[\r\n])*?\*\//gm.exec(n)!=null&&(n=stripCssComments(n));for(var r,o=n;(r=t.exec(n))!==null;){o=o.replace(r[0],"");const a=document.createElement("link");a.rel="stylesheet",a.href=r[2]||r[4];const s=r[1]||r[5];s&&(a.media=s),i===document?document.head.appendChild(a):i.appendChild(a)}return o},addAdoptedStyle=(n,i,t)=>{const r=new CSSStyleSheet;r.replaceSync(n),t?i.adoptedStyleSheets=[r,...i.adoptedStyleSheets]:i.adoptedStyleSheets=[...i.adoptedStyleSheets,r]},addStyleTag=(n,i)=>{const t=document.createElement("style");t.type="text/css",t.textContent=n;let r;if(i){const a=Array.from(document.head.childNodes).filter(s=>s.nodeType===Node.COMMENT_NODE).find(s=>s.data.trim()===i);a&&(r=a)}document.head.insertBefore(t,r)},injectGlobalCss=(n,i,t,r)=>{if(t===document){const a=getHash(n);if(window.Vaadin.theme.injectedGlobalCss.indexOf(a)!==-1)return;window.Vaadin.theme.injectedGlobalCss.push(a)}const o=createLinkReferences(n,t);t===document?addStyleTag(o,i):addAdoptedStyle(o,t,r)};window.Vaadin=window.Vaadin||{};window.Vaadin.theme=window.Vaadin.theme||{};window.Vaadin.theme.injectedGlobalCss=[];function hashFnv32a(n){let i,t,r=2166136261;for(i=0,t=n.length;i<t;i++)r^=n.charCodeAt(i),r+=(r<<1)+(r<<4)+(r<<7)+(r<<8)+(r<<24);return("0000000"+(r>>>0).toString(16)).substr(-8)}function getHash(n){let i=hashFnv32a(n);return i+hashFnv32a(i+n)}/**
  * @license
@@ -16356,7 +16356,7 @@ vaadin-button iron-icon {
      </div> 
      <div class="field"> 
       <label for="date">Date</label> 
-      <vaadin-date-picker id="date"></vaadin-date-picker> 
+      <vaadin-date-picker id="date" placeholder="MM/dd/yyyy"></vaadin-date-picker> 
      </div> 
      <div class="field"> 
       <label for="appointment">Appointment</label> 
@@ -16541,7 +16541,7 @@ vaadin-button iron-icon {
     </div> 
     <div class="field"> 
      <label for="birthDate">Date of birth</label> 
-     <vaadin-date-picker id="birthDate"></vaadin-date-picker> 
+     <vaadin-date-picker id="birthDate" placeholder="MM/dd/yyyy"></vaadin-date-picker> 
     </div> 
     <div class="field"> 
      <label for="ssn">SSN</label> 

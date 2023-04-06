@@ -94,7 +94,7 @@ class PatientEditor extends PolymerElement {
     </div> 
     <div class="field"> 
      <label for="birthDate">Date of birth</label> 
-     <vaadin-date-picker id="birthDate"></vaadin-date-picker> 
+     <vaadin-date-picker id="birthDate" placeholder="MM/dd/yyyy"></vaadin-date-picker> 
     </div> 
     <div class="field"> 
      <label for="ssn">SSN</label> 

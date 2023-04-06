@@ -81,7 +81,7 @@ class JournalEditor extends PolymerElement {
      </div> 
      <div class="field"> 
       <label for="date">Date</label> 
-      <vaadin-date-picker id="date"></vaadin-date-picker> 
+      <vaadin-date-picker id="date" placeholder="MM/dd/yyyy"></vaadin-date-picker> 
      </div> 
      <div class="field"> 
       <label for="appointment">Appointment</label> 

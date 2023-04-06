@@ -145,14 +145,14 @@
   "@vaadin/vaadin-usage-statistics": "2.1.2",
   "@vaadin/vertical-layout": "24.1.0-alpha6",
   "@vaadin/virtual-list": "24.1.0-alpha6",
-  "@webcomponents/shadycss": "1.11.1",
+  "@webcomponents/shadycss": "1.11.2",
   "construct-style-sheets-polyfill": "3.1.0",
   "cookieconsent": "3.1.1",
   "date-fns": "2.29.3",
   "highcharts": "9.2.2",
   "is-regexp": "3.1.0",
   "lit-element": "3.3.1",
-  "lit-html": "2.7.1",
+  "lit-html": "2.7.2",
   "mgrs": "1.0.0",
   "mobile-drag-drop": "2.3.0-rc.2",
   "ol": "6.13.0",
@@ -160,7 +160,7 @@
   "quickselect": "2.0.0",
   "rbush": "3.0.1",
   "strip-css-comments": "5.0.0",
-  "tslib": "2.4.1",
+  "tslib": "2.5.0",
   "wkt-parser": "1.3.2"
  },
  "bundleImports": [
@@ -277,9 +277,9 @@
   "components/shared-styles.js": "da9a0ee5cc163e5ebab60be60b95d6a5be85589713c79eddc8c1b8703a850cbf",
   "components/login-view.js": "bff60f2f3788ee4483e18c72a634c7b200231666050ce66660e3da7b0bfbc1b6",
   "components/main/main-view.js": "b42ffcf2a430400bd4962597bb8ec613e2ed349172aa7a75f58c3bb39f892de3",
-  "components/main/patients/journal-editor.js": "32142f07d82e97e45c74e635d1c4d88af73ef66434ebb3975b1d09716c8986b3",
+  "components/main/patients/journal-editor.js": "a8090d6f41e2e9219e10c8edd0d0a9e403a30367f5055bad3116bfac9f07efc1",
   "components/main/patients/patient-details.js": "c373c591303bdb0ca9b0e62585d2392f2cdb25a5506788ed130f0b2871184edd",
-  "components/main/patients/patient-editor.js": "b94a81db5c3e03fdeb2bc962294b0be87466f4a1157d110d5c1895aac344b0b6",
+  "components/main/patients/patient-editor.js": "1d2f780de0db88cbf2ab45d6d7ec46df61098bb378c4d31c13e0fe76b378d751",
   "components/main/patients/patient-journal.js": "774f423ba1a312204450eeef9ebc8e987f818acfdf57b29cf8f3b4290b0a066e",
   "components/main/patients/patient-profile.js": "c2d3e7419610a00d9a07a701e54b876ff1b1d44049408ee1b98a37f07624e201",
   "components/main/patients/patients-view.js": "0cab6fe44788a8dc90a1935e3f10b8c7fcacb723b32242b6fbe105190644fc85",
@@ -307,7 +307,7 @@
  },
  "themeJsonContents": {},
  "entryScripts": [
-  "VAADIN/build/indexhtml-1bbb5b46.js"
+  "VAADIN/build/indexhtml-afe8e734.js"
  ],
  "webComponents": [],
  "packageJsonHash": "fbc9df16e2251bc837d66512387460dfde94d43fe899770bb439e16dd25e79f3"

@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ public class JournalEditor extends
         this.patientService = patientService;
 
         datePicker.setValue(LocalDate.now());
+        datePicker.setLocale(Locale.ENGLISH);
 
         appointmentTypeComboBox.setItems(Arrays.stream(AppointmentType.values())
                 .map(AppointmentType::name).collect(Collectors.toList()));
