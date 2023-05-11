@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +80,14 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
                 "The UI instance size is '" + uiSize + "' which is bigger than "
                         + "expected allowed amount :'" + gold + "'.",
                 gold > uiSize);
+    }
+
+    // Since UIs are eagerly closed when navigating away, to measure memory
+    // consumption every UI should be opened in a new tab
+    protected void open(String... parameters) {
+        String url = this.getTestURL(parameters);
+        this.getDriver().switchTo().newWindow(WindowType.TAB).get(url);
+        this.waitForDevServer();
     }
 
     private boolean shouldBreakWithAverage(int i, List<Long> sizes) {
