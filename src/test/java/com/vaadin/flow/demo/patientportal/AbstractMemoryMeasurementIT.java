@@ -18,6 +18,7 @@ package com.vaadin.flow.demo.patientportal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LongSummaryStatistics;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,6 +40,9 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
     private static final double FAILURE_THRESHOLD = 5 * 0.01; // 5%
 
     private static final Logger logger = LoggerFactory.getLogger("Measurement");
+
+    private final AtomicInteger currentBrowserTab = new AtomicInteger();
+    private final List<String> browserTabs = new ArrayList<>();
 
     @Test
     public void memoryConsumption() {
@@ -65,7 +69,7 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
             }
 
             doOpen();
-            long current = getMemory(i);
+            long current = getMemory();
             // See how much session size increased after adding one UI
             uiSize = current - previous;
             previous = current;
@@ -84,9 +88,19 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
 
     // Since UIs are eagerly closed when navigating away, to measure memory
     // consumption every UI should be opened in a new tab
+    // However, the number of tabs must be limited to avoid browser crashes
+    // and to consent to measure against predictable number or open UIs
     protected void open(String... parameters) {
         String url = this.getTestURL(parameters);
-        this.getDriver().switchTo().newWindow(WindowType.TAB).get(url);
+        int tabToUse = currentBrowserTab.getAndUpdate(current -> ++current < UIS_NUMBER ? current : 0);
+        if (browserTabs.size() <= tabToUse) {
+            this.getDriver().switchTo().newWindow(WindowType.TAB).get(url);
+            browserTabs.add(this.getDriver().getWindowHandle());
+        } else {
+            this.getDriver().switchTo()
+                    .window(browserTabs.get(tabToUse))
+                    .get(url);
+        }
         this.waitForDevServer();
     }
 
@@ -128,12 +142,14 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
         return true;
     }
 
-    private long getMemory(int uisAmount) {
+    private long getMemory() {
         waitForElementPresent(By.id("show-memory"));
         findElement(By.id("show-memory")).click();
         WebElement uis = findElement(By.id("uis"));
 
-        Assert.assertEquals(String.valueOf(uisAmount), uis.getText());
+        int openUIs = Integer.parseInt(uis.getText());
+        Assert.assertTrue("Expecting at most " + UIS_NUMBER + " open UI, but was " + openUIs,
+                openUIs <= UIS_NUMBER);
 
         waitForElementPresent(By.id("memory"));
         WebElement sessionMemory = findElement(By.id("memory"));
