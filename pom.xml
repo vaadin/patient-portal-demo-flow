@@ -16,7 +16,6 @@
 
         <vaadin.version>24.1-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
-        <selenium.version>4.8.3</selenium.version>
 
         <jna.version>5.6.0</jna.version>
     </properties>
@@ -24,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
+        <version>3.1.4</version>
     </parent>
 
     <pluginRepositories>
