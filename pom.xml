@@ -12,12 +12,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>23.3-SNAPSHOT</vaadin.version>
+        <vaadin.version>23.4-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
-        <jna.version>5.6.0</jna.version>
+        <jna.version>5.12.1</jna.version>
         <selenium.version>4.8.3</selenium.version>
         <jackson.version>2.13.2</jackson.version>
         <jackson.databind.version>2.13.2.2</jackson.databind.version>
