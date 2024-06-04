@@ -22,8 +22,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.demo.entities.Patient;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
@@ -38,12 +36,15 @@ import com.vaadin.flow.demo.patientportal.converters.DateToStringEncoder;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
 import com.vaadin.flow.demo.patientportal.ui.patients.PatientProfile;
 import com.vaadin.flow.function.ValueProvider;
+import com.vaadin.flow.internal.AnnotationReader;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Vaadin Ltd
@@ -81,8 +82,8 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
         ValueProvider<Patient, String> fullNameProvider = patient -> patient
                 .getLastName() + ", " + patient.getFirstName();
         grid.addColumn(LitRenderer
-                .<Patient> of("<strong>${item.fullName}</strong>")
-                .withProperty("fullName", fullNameProvider)).setHeader("Name")
+                        .<Patient>of("<strong>${item.fullName}</strong>")
+                        .withProperty("fullName", fullNameProvider)).setHeader("Name")
                 .setSortable(true).setFlexGrow(1);
 
         grid.addColumn(Patient::getId).setHeader("Id")
@@ -106,7 +107,8 @@ public class PatientsView extends PolymerTemplate<TemplateModel>
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         // todo improve the app security
-        if (UI.getCurrent().getSession().getAttribute("login") == null) {
+        boolean publicView = AnnotationReader.getAnnotationFor(event.getNavigationTarget(), AnonymousAllowed.class).isPresent();
+        if (!publicView && UI.getCurrent().getSession().getAttribute("login") == null) {
             UI.getCurrent().navigate(LoginView.class);
         }
     }

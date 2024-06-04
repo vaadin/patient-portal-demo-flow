@@ -44,8 +44,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel>
     public void beforeEnter(BeforeEnterEvent event) {
         if (UI.getCurrent().getSession().getAttribute("login") == null
          && !(event.getLocation().getPath().endsWith("test"))) {
-            event.rerouteTo(LoginView.class);
-            UI.getCurrent().navigate(LoginView.class);
+            event.forwardTo(LoginView.class);
             return;
         }
         getModel().setPage(event.getLocation().getFirstSegment());

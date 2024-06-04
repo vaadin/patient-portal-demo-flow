@@ -22,8 +22,10 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.demo.patientportal.ui.MainView;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = "patients/test", layout = PatientsView.class)
+@AnonymousAllowed
 public class PatientsListMemory extends MemoryMeasurement {
 
     @Override

@@ -28,7 +28,7 @@ import com.vaadin.flow.server.VaadinSession;
 public class MemoryMeasurement extends Div {
 
     public MemoryMeasurement() {
-        UI.getCurrent().getSession().setAttribute("login", "foo");
+        UI.getCurrent().getSession().setAttribute("login", true);
 
         UI.getCurrent().setId(UUID.randomUUID().toString());
         setId("session-size");
