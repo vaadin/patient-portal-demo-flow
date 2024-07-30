@@ -12,8 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>14.8-SNAPSHOT</vaadin.version>
-        <flow.version>2.8-SNAPSHOT</flow.version>
+        <vaadin.version>14.12-SNAPSHOT</vaadin.version>
+        <flow.version>2.11-SNAPSHOT</flow.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
