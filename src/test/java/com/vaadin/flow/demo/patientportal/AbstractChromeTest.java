@@ -39,7 +39,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     @Override
     protected void updateHeadlessChromeOptions(ChromeOptions chromeOptions) {
-        chromeOptions.addArguments("--start-maximized");
+        chromeOptions.addArguments("--window-size=1000,1000");
     }
 
     protected void setLayout(TestBenchElement layout) {
