@@ -20,6 +20,9 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.bidi.browsingcontext.BrowsingContext;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.context.annotation.Bean;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
@@ -33,6 +36,11 @@ import com.vaadin.testbench.TestBenchElement;
 public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     private TestBenchElement layout;
+
+    @Override
+    protected void updateHeadlessChromeOptions(ChromeOptions chromeOptions) {
+        chromeOptions.addArguments("--start-maximized");
+    }
 
     protected void setLayout(TestBenchElement layout) {
         this.layout = layout;
