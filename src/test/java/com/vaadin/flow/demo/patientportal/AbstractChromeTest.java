@@ -17,10 +17,10 @@ package com.vaadin.flow.demo.patientportal;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.springframework.context.annotation.Bean;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
@@ -35,7 +35,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     private TestBenchElement layout;
 
-    @Bean
+    @Before
     @Override
     public void setup() throws Exception {
         super.setup();
