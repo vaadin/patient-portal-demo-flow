@@ -37,9 +37,11 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     private TestBenchElement layout;
 
+    @Bean
     @Override
-    protected void updateHeadlessChromeOptions(ChromeOptions chromeOptions) {
-        chromeOptions.addArguments("--window-size=1000,1000");
+    public void setup() throws Exception {
+        super.setup();
+        testBench().resizeViewPortTo(1000, 1000);
     }
 
     protected void setLayout(TestBenchElement layout) {
