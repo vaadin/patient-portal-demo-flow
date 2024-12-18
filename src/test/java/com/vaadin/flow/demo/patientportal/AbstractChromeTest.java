@@ -17,6 +17,7 @@ package com.vaadin.flow.demo.patientportal;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -33,6 +34,13 @@ import com.vaadin.testbench.TestBenchElement;
 public abstract class AbstractChromeTest extends ChromeBrowserTest {
 
     private TestBenchElement layout;
+
+    @Before
+    @Override
+    public void setup() throws Exception {
+        super.setup();
+        testBench().resizeViewPortTo(1000, 1000);
+    }
 
     protected void setLayout(TestBenchElement layout) {
         this.layout = layout;
