@@ -14,16 +14,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>24.1-SNAPSHOT</vaadin.version>
+        <vaadin.version>24.7-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
 
-        <jna.version>5.6.0</jna.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.4</version>
+        <version>3.4.2</version>
     </parent>
 
     <pluginRepositories>
@@ -213,13 +212,6 @@
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${vaadin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>commons-io</groupId>
-                        <artifactId>commons-io</artifactId>
-                        <version>2.8.0</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <goals>
@@ -293,9 +285,9 @@
                         <configuration>
                             <maxAttempts>100</maxAttempts>
                             <wait>2500</wait>
-                            <directories>
-                                <directory>${project.build.testOutputDirectory}</directory>
-                            </directories>
+                            <additionalClasspathElements>
+                                <additionalClasspathElement>${project.build.testOutputDirectory}</additionalClasspathElement>
+                            </additionalClasspathElements>
                             <agents>${io.github.stephankoelle:jamm:jar}</agents>
                             <jvmArguments>
                                 -XX:+UseParallelGC
