@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.slf4j.Logger;
@@ -97,8 +98,10 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
             this.getDriver().switchTo().newWindow(WindowType.TAB).get(url);
             browserTabs.add(this.getDriver().getWindowHandle());
         } else {
+            String windowHandle = browserTabs.get(tabToUse);
+            waitUntil(d -> d.getWindowHandles().contains(windowHandle));
             this.getDriver().switchTo()
-                    .window(browserTabs.get(tabToUse))
+                    .window(windowHandle)
                     .get(url);
         }
         this.waitForDevServer();
@@ -143,17 +146,29 @@ public abstract class AbstractMemoryMeasurementIT extends AbstractChromeTest {
     }
 
     private long getMemory() {
-        waitForElementPresent(By.id("show-memory"));
-        findElement(By.id("show-memory")).click();
-        WebElement uis = findElement(By.id("uis"));
-
-        int openUIs = Integer.parseInt(uis.getText());
+        waitUntil(driver -> {
+            try {
+                findElement(By.id("show-memory")).click();
+                return true;
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+        int openUIs = waitUntil(d -> {
+            String uisText = findElement(By.id("uis")).getText();
+            if (uisText.isBlank()) {
+                return null;
+            }
+            return Integer.parseInt(uisText);
+        });
         Assert.assertTrue("Expecting at most " + UIS_NUMBER + " open UI, but was " + openUIs,
                 openUIs <= UIS_NUMBER);
 
         waitForElementPresent(By.id("memory"));
         WebElement sessionMemory = findElement(By.id("memory"));
-        return Long.parseLong(sessionMemory.getText());
+        long memory = Long.parseLong(sessionMemory.getText());
+        findElement(By.id("clear-memory")).click();
+        return memory;
     }
 
     private void printTeamcityStats(long value) {
