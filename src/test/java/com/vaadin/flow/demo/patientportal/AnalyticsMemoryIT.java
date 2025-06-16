@@ -37,8 +37,10 @@ public class AnalyticsMemoryIT extends AbstractMemoryMeasurementIT {
         TestBenchElement main = $("main-view").first();
         waitUntil(driver -> main.$("*").attribute("id", "analytics").exists());
         WebElement analytics = main.$("*").id("analytics");
+        String targetURL = analytics.getAttribute("href");
         new Actions(getDriver()).moveToElement(analytics).click().build()
                 .perform();
+        waitUntil(driver -> targetURL.equals(driver.getCurrentUrl()));
     }
 
     @Override
