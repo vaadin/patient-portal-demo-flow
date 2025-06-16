@@ -21,11 +21,14 @@ import java.util.UUID;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.server.VaadinSession;
 
 public class MemoryMeasurement extends Div {
+
+    private final Span uis = new Span();
+    private final Span memory = new Span();
 
     public MemoryMeasurement() {
         UI.getCurrent().getSession().setAttribute("login", true);
@@ -33,25 +36,36 @@ public class MemoryMeasurement extends Div {
         UI.getCurrent().setId(UUID.randomUUID().toString());
         setId("session-size");
 
+        uis.setId("uis");
+        memory.setId("memory");
+
         removeExtraUIs();
 
-        NativeButton button = new NativeButton("Show session memory",
+        NativeButton showMemory = new NativeButton("Show session memory",
                 event -> showMemory());
-        button.setId("show-memory");
-        add(button);
+        showMemory.setId("show-memory");
+        NativeButton clearMemory = new NativeButton("Clear session memory info",
+                event -> clearMemoryInfo());
+        clearMemory.setId("clear-memory");
+        add(showMemory, clearMemory, uis, memory);
     }
 
     private void showMemory() {
         removeExtraUIs();
         getUI().ifPresent(ui -> {
-            Label uis = new Label(
-                    String.valueOf(ui.getSession().getUIs().size()));
-            uis.setId("uis");
-            Label memory = new Label(String.valueOf(
+            uis.setText(String.valueOf(ui.getSession().getUIs().size()));
+            uis.setVisible(true);
+            memory.setText(String.valueOf(
                     MemoryAmountCalculator.getObjectSize(ui.getSession())));
-            memory.setId("memory");
-            add(uis, memory);
+            memory.setVisible(true);
         });
+    }
+
+    private void clearMemoryInfo() {
+        uis.setText("");
+        uis.setVisible(false);
+        memory.setText("");
+        memory.setVisible(false);
     }
 
     private void removeExtraUIs() {
