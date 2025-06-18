@@ -15,13 +15,13 @@
  */
 package com.vaadin.flow.demo.spring;
 
-import com.vaadin.flow.demo.patientportal.AbstractChromeTest;
-import com.vaadin.flow.theme.AbstractTheme;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.demo.patientportal.AbstractChromeTest;
+import com.vaadin.flow.theme.AbstractTheme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 public class MainViewIT extends AbstractChromeTest {
@@ -39,18 +39,25 @@ public class MainViewIT extends AbstractChromeTest {
      * identified by {@code themeClass}. If the theme is not found, JUnit
      * assert will fail the test case.
      *
-     * @param element       web element to check for the theme
-     * @param themeClass    theme class (such as {@code Lumo.class}
+     * @param element    web element to check for the theme
+     * @param themeClass theme class (such as {@code Lumo.class}
      */
     protected void assertThemePresentOnElement(
             WebElement element, Class<? extends AbstractTheme> themeClass) {
         String themeName = themeClass.getSimpleName().toLowerCase();
-        Boolean hasStyle = (Boolean) executeScript("" +
-                "var styles = Array.from(arguments[0]._template.content" +
-                ".querySelectorAll('style'))" +
-                ".filter(style => style.textContent.indexOf('" +
-                themeName + "') > -1);" +
-                "return styles.length > 0;", element);
+        Boolean hasStyle = (Boolean) executeScript("""
+                if (arguments[0]._template) {
+                    var styles = Array.from(arguments[0]._template.content
+                        .querySelectorAll('style'))
+                        .filter(style => style.textContent.indexOf('%1$s') > -1);
+                    return styles.length > 0;
+                } else {
+                    return !!arguments[0].shadowRoot.adoptedStyleSheets
+                        .flatMap( style => Array.from(style.cssRules) )
+                        .map( rule => rule.cssText )
+                        .find( css => css.includes("--%s"));
+                }
+                """.formatted(themeName), element);
 
         Assert.assertTrue("Element '" + element.getTagName() + "' should have" +
                         " had theme '" + themeClass.getSimpleName() + "'.",
