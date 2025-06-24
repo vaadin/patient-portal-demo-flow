@@ -21,7 +21,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -61,7 +61,7 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> impleme
             ui.getSession().setAttribute("login", true);
             ui.navigate(PatientsView.class);
         } else {
-            Label error = new Label("Faulty login credentials!");
+            NativeLabel error = new NativeLabel("Faulty login credentials!");
             error.setClassName("alert error");
             error.getStyle().set("color", "red");
             error.getStyle().set("fontSize", "18px");
