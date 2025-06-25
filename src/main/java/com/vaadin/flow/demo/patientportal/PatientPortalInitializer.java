@@ -15,11 +15,7 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import java.util.Map;
-import java.util.Set;
-
 import jakarta.annotation.PostConstruct;
-import org.burningwave.core.assembler.StaticComponentContainer;
 import org.burningwave.core.classes.Modules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -30,15 +26,11 @@ import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguratio
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import com.vaadin.demo.service.DBInitService;
-
-import static org.burningwave.core.assembler.StaticComponentContainer.Classes;
-import static org.burningwave.core.assembler.StaticComponentContainer.Driver;
-import static org.burningwave.core.assembler.StaticComponentContainer.Fields;
-import static org.burningwave.core.assembler.StaticComponentContainer.Methods;
 
 /**
  * Spring boot web application initializer.
@@ -66,8 +58,10 @@ public class PatientPortalInitializer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeHttpRequests().requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
+        PathPatternRequestMatcher.Builder matcherBuilder = PathPatternRequestMatcher.withDefaults();
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.authorizeHttpRequests(auth ->
+                auth.requestMatchers(matcherBuilder.matcher("/**")).permitAll());
         return http.build();
     }
 
