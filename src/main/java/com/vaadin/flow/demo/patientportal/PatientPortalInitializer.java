@@ -58,10 +58,9 @@ public class PatientPortalInitializer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        PathPatternRequestMatcher.Builder matcherBuilder = PathPatternRequestMatcher.withDefaults();
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers(matcherBuilder.matcher("/**")).permitAll());
+                auth.requestMatchers("/**").permitAll());
         return http.build();
     }
 
