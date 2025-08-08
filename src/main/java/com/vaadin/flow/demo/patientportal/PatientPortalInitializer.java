@@ -31,6 +31,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import com.vaadin.demo.service.DBInitService;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.page.AppShellConfigurator;
 
 /**
  * Spring boot web application initializer.
@@ -69,4 +71,8 @@ public class PatientPortalInitializer {
         initService.initDatabase();
     }
 
+    @CssImport("@vaadin/vaadin-lumo-styles/lumo.css")
+    public static class VaadinAppConfig implements AppShellConfigurator {
+
+    }
 }
