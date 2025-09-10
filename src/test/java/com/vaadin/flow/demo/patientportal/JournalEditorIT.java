@@ -56,6 +56,7 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         getLayout().$("*").id("entry").sendKeys(ENTRY);
         getLayout().$("*").id("entry").sendKeys(Keys.ENTER);
+        getLayout().$("*").id("entry").sendKeys(Keys.TAB);
 
         getLayout().$("*").id("save").click();
 
@@ -65,7 +66,6 @@ public class JournalEditorIT extends AbstractChromeTest {
         GridElement grid = $(GridElement.class).first();
 
         List<WebElement> cells = getChildren(grid);
-        int index = cells.size() - 5;
         Assert.assertThat("Date of the new journal-entry should be displayed.",
                 grid.getCell(0,0).getText(),
                 CoreMatchers.allOf(
