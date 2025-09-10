@@ -15,9 +15,6 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
-import static org.hamcrest.CoreMatchers.is;
-
-import java.sql.SQLOutput;
 import java.util.List;
 
 import org.hamcrest.CoreMatchers;
@@ -26,8 +23,12 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
+import com.vaadin.testbench.TestBenchElement;
+
+import static org.hamcrest.CoreMatchers.is;
 
 public class JournalEditorIT extends AbstractChromeTest {
 
@@ -54,18 +55,19 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         selectFromComboBox("doctor", DOCTOR);
 
-        getLayout().$("*").id("entry").sendKeys(ENTRY);
-        getLayout().$("*").id("entry").sendKeys(Keys.ENTER);
-        getLayout().$("*").id("entry").sendKeys(Keys.TAB);
+        TestBenchElement entryField = getLayout().$("*").id("entry");
 
-        getLayout().$("*").id("save").click();
+        new Actions(getDriver()).sendKeys(entryField, ENTRY)
+                .sendKeys(Keys.ENTER)
+                .pause(500)
+                .click(getLayout().$("*").id("save"))
+                .perform();
 
         waitForElementPresent(By.xpath("//patient-journal"));
         setLayout($("patients-view").first().$("patient-details").first().$("patient-journal").first());
 
         GridElement grid = $(GridElement.class).first();
 
-        List<WebElement> cells = getChildren(grid);
         Assert.assertThat("Date of the new journal-entry should be displayed.",
                 grid.getCell(0,0).getText(),
                 CoreMatchers.allOf(
