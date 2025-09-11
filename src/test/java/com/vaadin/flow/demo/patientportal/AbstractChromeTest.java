@@ -22,6 +22,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
@@ -121,4 +122,12 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         setTextFieldValue("password", "password");
         layout.$("*").id("login-button").click();
     }
+
+    @Override
+    protected ChromeOptions createHeadlessChromeOptions() {
+        final ChromeOptions options = super.createHeadlessChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        return options;
+    }
+
 }
