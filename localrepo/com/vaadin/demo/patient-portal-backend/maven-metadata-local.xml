@@ -4,8 +4,8 @@
   <artifactId>patient-portal-backend</artifactId>
   <versioning>
     <versions>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>3.0.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20221227105909</lastUpdated>
+    <lastUpdated>20250922054751</lastUpdated>
   </versioning>
 </metadata>

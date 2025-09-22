@@ -2,23 +2,23 @@
 <metadata modelVersion="1.1.0">
   <groupId>com.vaadin.demo</groupId>
   <artifactId>patient-portal-backend</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
   <versioning>
+    <lastUpdated>20250922054751</lastUpdated>
     <snapshot>
       <localCopy>true</localCopy>
     </snapshot>
-    <lastUpdated>20230404185000</lastUpdated>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>2.0.0-SNAPSHOT</value>
-        <updated>20230404185000</updated>
+        <value>3.0.0-SNAPSHOT</value>
+        <updated>20250922054751</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>2.0.0-SNAPSHOT</value>
-        <updated>20230404185000</updated>
+        <value>3.0.0-SNAPSHOT</value>
+        <updated>20250922054751</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
+  <version>3.0.0-SNAPSHOT</version>
 </metadata>

@@ -15,24 +15,22 @@
  */
 package com.vaadin.flow.demo.patientportal;
 
+import com.vaadin.demo.service.DBInitService;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.page.AppShellConfigurator;
 import jakarta.annotation.PostConstruct;
 import org.burningwave.core.classes.Modules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.data.autoconfigure.web.SpringDataWebAutoConfiguration;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
-
-import com.vaadin.demo.service.DBInitService;
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.page.AppShellConfigurator;
 
 /**
  * Spring boot web application initializer.

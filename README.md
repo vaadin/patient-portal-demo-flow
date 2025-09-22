@@ -10,6 +10,12 @@ as a binary maven artefact in a remote repository. So there are two ways to buil
 1. Run maven with a custom local repository location : <code>mvn -Dmaven.repo.local=localrepo install</code>. 
 The <code>localrepo</code> directory contains the <code>patient-portal-backend</code> artifact binaries.
 1. Clone the [patient-portal-backend](https://github.com/vaadin/patient-portal-demo-backend/tree/master/patient-portal-backend) project and install the artifact locally.  
+   ```
+   mvn install:install-file -Dfile=/path/to/patient-portal-demo-backend/patient-portal-backend/target/patient-portal-backend-3.0.0-SNAPSHOT.jar \
+      -DgroupId=com.vaadin.demo -DartifactId=patient-portal-backend -Dversion=3.0.0-SNAPSHOT -Dpackaging=jar \
+      -DlocalRepositoryPath=localrepo
+   ``` 
+
 
 Run using
 ```mvn clean spring-boot:run```
