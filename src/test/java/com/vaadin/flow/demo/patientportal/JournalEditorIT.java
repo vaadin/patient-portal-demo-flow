@@ -58,7 +58,7 @@ public class JournalEditorIT extends AbstractChromeTest {
         TestBenchElement entryField = getLayout().$("*").id("entry");
 
         new Actions(getDriver()).sendKeys(entryField, ENTRY)
-                .sendKeys(Keys.ENTER)
+                .sendKeys(entryField, Keys.ENTER)
                 .pause(500)
                 .click(getLayout().$("*").id("save"))
                 .perform();
