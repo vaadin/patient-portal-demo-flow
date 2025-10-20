@@ -126,6 +126,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
     @Override
     protected ChromeOptions createHeadlessChromeOptions() {
         final ChromeOptions options = super.createHeadlessChromeOptions();
+        options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         return options;
     }
