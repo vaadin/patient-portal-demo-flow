@@ -23,7 +23,6 @@ import org.burningwave.core.classes.Modules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.data.autoconfigure.web.SpringDataWebAutoConfiguration;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -38,8 +37,7 @@ import org.springframework.security.web.SecurityFilterChain;
  *
  * @author Vaadin Ltd
  */
-@SpringBootApplication(exclude = {WebMvcAutoConfiguration.class,
-        SpringDataWebAutoConfiguration.class,}, scanBasePackages = {"com.vaadin.flow.demo", "com.vaadin.demo"})
+@SpringBootApplication(exclude = {WebMvcAutoConfiguration.class}, scanBasePackages = {"com.vaadin.flow.demo", "com.vaadin.demo"})
 @EntityScan("com.vaadin.demo.entities")
 @EnableJpaRepositories("com.vaadin.demo.repositories")
 public class PatientPortalInitializer {
