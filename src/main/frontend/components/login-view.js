@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { sharedStyles } from './shared-styles.js';
+import '@vaadin/button';
 
 class LoginView extends LitElement {
   static get styles() {

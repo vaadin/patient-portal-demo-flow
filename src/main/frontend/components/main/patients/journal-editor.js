@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { sharedStyles } from '../../shared-styles.js';
+import '@vaadin/button';
 import '@vaadin/icons/vaadin-icons.js';
 import '@vaadin/date-picker/vaadin-date-picker.js';
 import '@vaadin/combo-box/vaadin-combo-box.js';
