@@ -30,7 +30,7 @@ import com.vaadin.flow.router.RouterLayout;
  *
  */
 @Tag("patient-details")
-@JsModule("./components/main/patients/patient-details.js")
+@JsModule("./components/main/patients/patient-details.ts")
 @RoutePrefix("patients")
 @ParentLayout(PatientsView.class)
 public class PatientDetails extends LitTemplate implements RouterLayout {

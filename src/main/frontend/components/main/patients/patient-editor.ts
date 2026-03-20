@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/button';
 import '@vaadin/combo-box/src/vaadin-combo-box.js';
@@ -7,7 +8,10 @@ import '@vaadin/text-field/src/vaadin-text-field.js';
 import '@vaadin/icons/vaadin-icons.js';
 import '@vaadin/icon';
 
+@customElement('patient-editor')
 class PatientEditor extends LitElement {
+  declare $server: { close(): void };
+
   static get styles() {
     return [sharedStyles, css`
       :host {
@@ -62,8 +66,6 @@ class PatientEditor extends LitElement {
       }
     `];
   }
-
-  static get is() { return 'patient-editor'; }
 
   render() {
     return html`
@@ -123,4 +125,3 @@ class PatientEditor extends LitElement {
     `;
   }
 }
-customElements.define(PatientEditor.is, PatientEditor);

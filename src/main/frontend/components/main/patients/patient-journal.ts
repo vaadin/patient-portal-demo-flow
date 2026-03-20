@@ -1,9 +1,18 @@
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/grid/vaadin-grid.js';
 import '@vaadin/icon';
 
+interface Patient {
+  firstName?: string;
+  lastName?: string;
+  id?: string;
+}
+
+@customElement('patient-journal')
 class PatientJournal extends LitElement {
+  @property({ type: Object }) patient: Patient | null = null;
   static get styles() {
     return [sharedStyles, css`
       :host {
@@ -60,21 +69,8 @@ class PatientJournal extends LitElement {
     `];
   }
 
-  static get is() { return 'patient-journal'; }
-
-  static get properties() {
-    return {
-      patient: { type: Object }
-    };
-  }
-
-  constructor() {
-    super();
-    this.patient = null;
-  }
-
   render() {
-    const p = this.patient || {};
+    const p = this.patient ?? {};
     return html`
       <div class="top">
         <h2>${p.firstName} ${p.lastName}</h2>
@@ -86,4 +82,3 @@ class PatientJournal extends LitElement {
     `;
   }
 }
-customElements.define(PatientJournal.is, PatientJournal);

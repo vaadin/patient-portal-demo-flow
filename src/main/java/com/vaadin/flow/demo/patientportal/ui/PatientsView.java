@@ -49,7 +49,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Vaadin Ltd
  */
 @Tag("patients-view")
-@JsModule("./components/main/patients/patients-view.js")
+@JsModule("./components/main/patients/patients-view.ts")
 @Route(value = "patients", layout = MainView.class)
 @ParentLayout(MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH

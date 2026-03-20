@@ -1,8 +1,12 @@
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/icon';
 
+@customElement('patient-details')
 class PatientDetails extends LitElement {
+  @property({ type: String }) patientId = '';
+
   static get styles() {
     return [sharedStyles, css`
       :host {
@@ -69,19 +73,6 @@ class PatientDetails extends LitElement {
     `];
   }
 
-  static get is() { return 'patient-details'; }
-
-  static get properties() {
-    return {
-      patientId: { type: String }
-    };
-  }
-
-  constructor() {
-    super();
-    this.patientId = '';
-  }
-
   render() {
     return html`
       <nav class="details-nav">
@@ -99,4 +90,3 @@ class PatientDetails extends LitElement {
     `;
   }
 }
-customElements.define(PatientDetails.is, PatientDetails);

@@ -1,9 +1,11 @@
 import { LitElement, html, css } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/grid/vaadin-grid.js';
 import '@vaadin/grid/vaadin-grid-sorter.js';
 import '@vaadin/icons/vaadin-icons.js';
 
+@customElement('patients-view')
 class PatientsView extends LitElement {
   static get styles() {
     return [sharedStyles, css`
@@ -36,8 +38,6 @@ class PatientsView extends LitElement {
     `];
   }
 
-  static get is() { return 'patients-view'; }
-
   render() {
     return html`
       <vaadin-grid id="patientsGrid"></vaadin-grid>
@@ -45,4 +45,3 @@ class PatientsView extends LitElement {
     `;
   }
 }
-customElements.define(PatientsView.is, PatientsView);

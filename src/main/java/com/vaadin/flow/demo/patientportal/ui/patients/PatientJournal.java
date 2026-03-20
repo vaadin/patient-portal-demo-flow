@@ -40,7 +40,7 @@ import com.vaadin.flow.router.Route;
  *
  */
 @Tag("patient-journal")
-@JsModule("./components/main/patients/patient-journal.js")
+@JsModule("./components/main/patients/patient-journal.ts")
 @Route(value = "journal", layout = PatientDetails.class)
 public class PatientJournal extends AbstractPatientTemplate {
 

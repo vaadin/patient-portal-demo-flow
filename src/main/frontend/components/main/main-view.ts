@@ -1,8 +1,15 @@
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { sharedStyles } from '../shared-styles.js';
 import '@vaadin/icon';
 
+@customElement('main-view')
 class MainView extends LitElement {
+  declare $server: { logout(): void };
+
+  @property({ type: String }) page = '';
+  @property({ type: String }) extra = '';
+
   static get styles() {
     return [sharedStyles, css`
       :host {
@@ -58,21 +65,6 @@ class MainView extends LitElement {
     `];
   }
 
-  static get is() { return 'main-view'; }
-
-  static get properties() {
-    return {
-      page: { type: String },
-      extra: { type: String }
-    };
-  }
-
-  constructor() {
-    super();
-    this.page = '';
-    this.extra = '';
-  }
-
   render() {
     return html`
       <nav class="menu">
@@ -86,4 +78,3 @@ class MainView extends LitElement {
     `;
   }
 }
-customElements.define(MainView.is, MainView);

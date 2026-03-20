@@ -45,7 +45,7 @@ import com.vaadin.flow.router.Route;
  * @author Vaadin Ltd
  */
 @Tag("patient-editor")
-@JsModule("./components/main/patients/patient-editor.js")
+@JsModule("./components/main/patients/patient-editor.ts")
 @Route(value = "edit", layout = PatientDetails.class)
 public class PatientEditor extends AbstractPatientTemplate {
     @Id("id")

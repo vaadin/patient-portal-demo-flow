@@ -32,7 +32,7 @@ import com.vaadin.flow.server.VaadinSession;
  *
  */
 @Tag("login-view")
-@JsModule("./components/login-view.js")
+@JsModule("./components/login-view.ts")
 @Route("")
 public class LoginView extends LitTemplate implements BeforeEnterObserver {
 

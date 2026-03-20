@@ -32,7 +32,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @SuppressWarnings("serial")
 @UIScope
 @Tag("main-view")
-@JsModule("./components/main/main-view.js")
+@JsModule("./components/main/main-view.ts")
 public class MainView extends LitTemplate implements RouterLayout, BeforeEnterObserver {
 
     @Override

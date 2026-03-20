@@ -1,8 +1,12 @@
 import { LitElement, html, css } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { sharedStyles } from './shared-styles.js';
 import '@vaadin/button';
 
+@customElement('login-view')
 class LoginView extends LitElement {
+  declare $server: { login(username: string, password: string): void };
+
   static get styles() {
     return [sharedStyles, css`
       :host {
@@ -45,11 +49,9 @@ class LoginView extends LitElement {
     `];
   }
 
-  static get is() { return 'login-view'; }
-
   render() {
     return html`
-      <div class="login-box" @keydown="${e => e.key === 'Enter' && this._login()}">
+      <div class="login-box" @keydown="${(e: KeyboardEvent) => e.key === 'Enter' && this._login()}">
         <div class="form">
           <h1>Patient portal</h1>
           <div class="field stacked">
@@ -67,10 +69,9 @@ class LoginView extends LitElement {
     `;
   }
 
-  _login() {
-    const username = this.shadowRoot.querySelector('#username').value;
-    const password = this.shadowRoot.querySelector('#password').value;
+  private _login() {
+    const username = (this.shadowRoot!.querySelector('#username') as HTMLInputElement).value;
+    const password = (this.shadowRoot!.querySelector('#password') as HTMLInputElement).value;
     this.$server.login(username, password);
   }
 }
-customElements.define(LoginView.is, LoginView);

@@ -1,6 +1,24 @@
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
+interface Patient {
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  gender?: string;
+  birthDate?: string;
+  ssn?: string;
+  id?: string;
+  medicalRecord?: string;
+  lastVisit?: string;
+  pictureUrl?: string;
+  doctor?: { firstName?: string; lastName?: string };
+}
+
+@customElement('patient-profile')
 class PatientProfile extends LitElement {
+  @property({ type: Object }) patient: Patient | null = null;
+
   static get styles() {
     return [css`
       :host {
@@ -95,22 +113,9 @@ class PatientProfile extends LitElement {
     `];
   }
 
-  static get is() { return 'patient-profile'; }
-
-  static get properties() {
-    return {
-      patient: { type: Object }
-    };
-  }
-
-  constructor() {
-    super();
-    this.patient = null;
-  }
-
   render() {
-    const p = this.patient || {};
-    const doctor = p.doctor || {};
+    const p = this.patient ?? {};
+    const doctor = p.doctor ?? {};
     return html`
       <div class="full-name">
         <div class="name-wrapper">
@@ -162,4 +167,3 @@ class PatientProfile extends LitElement {
     `;
   }
 }
-customElements.define(PatientProfile.is, PatientProfile);

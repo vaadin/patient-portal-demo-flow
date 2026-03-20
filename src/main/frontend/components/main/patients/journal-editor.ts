@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/button';
 import '@vaadin/icons/vaadin-icons.js';
@@ -7,7 +8,17 @@ import '@vaadin/combo-box/vaadin-combo-box.js';
 import '@vaadin/text-field/vaadin-text-field.js';
 import '@vaadin/icon';
 
+interface Patient {
+  firstName?: string;
+  lastName?: string;
+}
+
+@customElement('journal-editor')
 class JournalEditor extends LitElement {
+  declare $server: { save(): void; close(): void };
+
+  @property({ type: Object }) patient: Patient | null = null;
+
   static get styles() {
     return [sharedStyles, css`
       :host {
@@ -70,21 +81,8 @@ class JournalEditor extends LitElement {
     `];
   }
 
-  static get is() { return 'journal-editor'; }
-
-  static get properties() {
-    return {
-      patient: { type: Object }
-    };
-  }
-
-  constructor() {
-    super();
-    this.patient = null;
-  }
-
   render() {
-    const p = this.patient || {};
+    const p = this.patient ?? {};
     return html`
       <header>
         <h1>New Journal Entry</h1>
@@ -124,4 +122,3 @@ class JournalEditor extends LitElement {
     `;
   }
 }
-customElements.define(JournalEditor.is, JournalEditor);
