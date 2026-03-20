@@ -16,16 +16,15 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.spring.annotation.UIScope;
-import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * @author Vaadin Ltd
@@ -34,11 +33,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @UIScope
 @Tag("main-view")
 @JsModule("./components/main/main-view.js")
-public class MainView extends PolymerTemplate<MainView.MainViewModel>
-        implements RouterLayout, BeforeEnterObserver {
-    public interface MainViewModel extends TemplateModel {
-        void setPage(String page);
-    }
+public class MainView extends LitTemplate implements RouterLayout, BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
@@ -47,10 +42,10 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel>
             event.forwardTo(LoginView.class);
             return;
         }
-        getModel().setPage(event.getLocation().getFirstSegment());
+        getElement().setProperty("page", event.getLocation().getFirstSegment());
     }
 
-    @EventHandler
+    @ClientCallable
     private void logout() {
         UI.getCurrent().getSession().setAttribute("login", null);
         UI.getCurrent().close();

@@ -1,10 +1,10 @@
-import '@polymer/polymer/polymer-legacy.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-class PatientDetails extends PolymerElement {
-  static get template() {
-    return html`
-   <style include="shared-styles">
+import { LitElement, html, css } from 'lit';
+import { sharedStyles } from '../../shared-styles.js';
+import '@vaadin/icon';
+
+class PatientDetails extends LitElement {
+  static get styles() {
+    return [sharedStyles, css`
       :host {
         display: flex;
         flex-direction: column;
@@ -66,21 +66,37 @@ class PatientDetails extends PolymerElement {
           display: none;
         }
       }
-    </style> 
-   <nav class="details-nav"> 
-    <a router-link="" href="patients"> 
-     <iron-icon icon="vaadin:arrow-long-left"></iron-icon> <span class="linktext" id="all-patients">All patients</span></a> 
-    <div class="sub-pages"> 
-     <a router-link="" href="patients/[[patientId]]" class\$="[[_getItemClasses('profile', page)]]" id="profile">Profile</a> 
-     <a router-link="" href="patients/journal/[[patientId]]" class\$="[[_getItemClasses('journal', page)]]" id="journal">Journal</a> 
-    </div> 
-    <a router-link="" href="patients/edit/[[patientId]]" id="edit">Edit patient</a> 
-   </nav> 
-   <slot></slot> 
-`;
+    `];
   }
 
-  static get is() { return 'patient-details' }
+  static get is() { return 'patient-details'; }
+
+  static get properties() {
+    return {
+      patientId: { type: String }
+    };
+  }
+
+  constructor() {
+    super();
+    this.patientId = '';
+  }
+
+  render() {
+    return html`
+      <nav class="details-nav">
+        <a router-link href="patients">
+          <vaadin-icon icon="vaadin:arrow-long-left"></vaadin-icon>
+          <span class="linktext" id="all-patients">All patients</span>
+        </a>
+        <div class="sub-pages">
+          <a router-link href="patients/${this.patientId}" id="profile">Profile</a>
+          <a router-link href="patients/journal/${this.patientId}" id="journal">Journal</a>
+        </div>
+        <a router-link href="patients/edit/${this.patientId}" id="edit">Edit patient</a>
+      </nav>
+      <slot></slot>
+    `;
+  }
 }
 customElements.define(PatientDetails.is, PatientDetails);
-

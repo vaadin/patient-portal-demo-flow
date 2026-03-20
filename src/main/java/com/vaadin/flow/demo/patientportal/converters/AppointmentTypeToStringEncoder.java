@@ -16,21 +16,17 @@
 package com.vaadin.flow.demo.patientportal.converters;
 
 import com.vaadin.demo.entities.AppointmentType;
-import com.vaadin.flow.templatemodel.ModelEncoder;
 
 /**
  * @author Vaadin Ltd
  *
  */
-public class AppointmentTypeToStringEncoder
-        implements ModelEncoder<AppointmentType, String> {
+public class AppointmentTypeToStringEncoder {
 
-    @Override
     public String encode(AppointmentType modelValue) {
         return modelValue.name();
     }
 
-    @Override
     public AppointmentType decode(String presentationValue) {
         return AppointmentType.valueOf(presentationValue);
     }

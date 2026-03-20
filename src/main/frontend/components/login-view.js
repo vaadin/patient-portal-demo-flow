@@ -1,13 +1,10 @@
-import '@polymer/polymer/polymer-legacy.js';
-import './my-icons.js';
-import './shared-styles.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-class LoginView extends PolymerElement {
-  static get template() {
-    return html`
-   <style include="shared-styles">
-       :host {
+import { LitElement, html, css } from 'lit';
+import { sharedStyles } from './shared-styles.js';
+
+class LoginView extends LitElement {
+  static get styles() {
+    return [sharedStyles, css`
+      :host {
         display: block;
         position: absolute;
         top: 0;
@@ -20,14 +17,10 @@ class LoginView extends PolymerElement {
         padding: 2rem;
       }
 
-
-
       .login-box {
         width: 400px;
         position: relative;
       }
-
-
 
       .login-box h1 {
         color: #9DD22D;
@@ -35,13 +28,9 @@ class LoginView extends PolymerElement {
         font-weight: 300;
       }
 
-
-
       .login-box button {
         width: 40%;
       }
-
-
 
       .alert.error {
         position: absolute;
@@ -49,32 +38,38 @@ class LoginView extends PolymerElement {
         transform: translateY(100px);
       }
 
-
-
       button {
         margin-top: 1rem;
       }
-    </style> 
-   <div class="login-box"> 
-    <iron-a11y-keys keys="enter" on-keys-pressed="login"></iron-a11y-keys> 
-    <div class="form"> 
-     <h1>Patient portal</h1> 
-     <div class="field stacked"> 
-      <label for="username">Username</label> 
-      <input autofocus="" id="username" type="text" autocomplete="username" value="{{username::input}}"> 
-     </div> 
-     <div class="field stacked"> 
-      <label for="password">Password</label> 
-      <input id="password" type="password" autocomplete="password" value="{{password::input}}"> 
-     </div> 
-     <vaadin-button id="login-button" class="primary">Login</vaadin-button> 
-    </div> 
-    <slot></slot> 
-   </div> 
-`;
+    `];
   }
 
-  static get is() { return 'login-view' }
+  static get is() { return 'login-view'; }
+
+  render() {
+    return html`
+      <div class="login-box" @keydown="${e => e.key === 'Enter' && this._login()}">
+        <div class="form">
+          <h1>Patient portal</h1>
+          <div class="field stacked">
+            <label for="username">Username</label>
+            <input autofocus id="username" type="text" autocomplete="username" value="user">
+          </div>
+          <div class="field stacked">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="password" value="password">
+          </div>
+          <vaadin-button id="login-button" class="primary" @click="${() => this._login()}">Login</vaadin-button>
+        </div>
+        <slot></slot>
+      </div>
+    `;
+  }
+
+  _login() {
+    const username = this.shadowRoot.querySelector('#username').value;
+    const password = this.shadowRoot.querySelector('#password').value;
+    this.$server.login(username, password);
+  }
 }
 customElements.define(LoginView.is, LoginView);
-

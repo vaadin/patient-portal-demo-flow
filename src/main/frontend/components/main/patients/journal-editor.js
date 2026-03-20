@@ -1,13 +1,14 @@
+import { LitElement, html, css } from 'lit';
+import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/icons/vaadin-icons.js';
 import '@vaadin/date-picker/vaadin-date-picker.js';
 import '@vaadin/combo-box/vaadin-combo-box.js';
 import '@vaadin/text-field/vaadin-text-field.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-class JournalEditor extends PolymerElement {
-  static get template() {
-    return html`
-   <style include="shared-styles">
+import '@vaadin/icon';
+
+class JournalEditor extends LitElement {
+  static get styles() {
+    return [sharedStyles, css`
       :host {
         display: block;
       }
@@ -65,49 +66,61 @@ class JournalEditor extends PolymerElement {
           width: 100%;
         }
       }
-
-    </style> 
-   <header> 
-    <h1>New Journal Entry</h1> 
-    <vaadin-button on-click="close" class="close-button"> 
-     <iron-icon icon="vaadin:close-big"></iron-icon> 
-    </vaadin-button> 
-   </header> 
-   <div class="edit-form"> 
-    <div class="details"> 
-     <div class="field"> 
-      <label>Patient</label> 
-      <span>[[patient.lastName]], [[patient.firstName]]</span> 
-     </div> 
-     <div class="field"> 
-      <label for="date">Date</label> 
-      <vaadin-date-picker id="date" placeholder="MM/dd/yyyy"></vaadin-date-picker> 
-     </div> 
-     <div class="field"> 
-      <label for="appointment">Appointment</label> 
-      <vaadin-combo-box id="appointment"></vaadin-combo-box> 
-     </div> 
-     <div class="field"> 
-      <label for="doctor">Doctor</label> 
-      <vaadin-combo-box id="doctor"></vaadin-combo-box> 
-     </div> 
-    </div> 
-    <div class="spacer"></div> 
-    <div class="field stacked centered notes"> 
-     <label for="entry">Notes</label> 
-     <vaadin-text-field id="entry" name="entry"></vaadin-text-field> 
-    </div> 
-    <div class="buttons"> 
-     <vaadin-button id="save" class="primary" disabled="[[!valid]]" on-click="save">
-      Save
-     </vaadin-button> 
-     <a class="button" on-click="close">Cancel</a> 
-    </div> 
-   </div> 
-`;
+    `];
   }
 
-  static get is() { return 'journal-editor' }
+  static get is() { return 'journal-editor'; }
+
+  static get properties() {
+    return {
+      patient: { type: Object }
+    };
+  }
+
+  constructor() {
+    super();
+    this.patient = null;
+  }
+
+  render() {
+    const p = this.patient || {};
+    return html`
+      <header>
+        <h1>New Journal Entry</h1>
+        <vaadin-button class="close-button" @click="${() => this.$server.close()}">
+          <vaadin-icon icon="vaadin:close-big"></vaadin-icon>
+        </vaadin-button>
+      </header>
+      <div class="edit-form">
+        <div class="details">
+          <div class="field">
+            <label>Patient</label>
+            <span>${p.lastName}, ${p.firstName}</span>
+          </div>
+          <div class="field">
+            <label for="date">Date</label>
+            <vaadin-date-picker id="date" placeholder="MM/dd/yyyy"></vaadin-date-picker>
+          </div>
+          <div class="field">
+            <label for="appointment">Appointment</label>
+            <vaadin-combo-box id="appointment"></vaadin-combo-box>
+          </div>
+          <div class="field">
+            <label for="doctor">Doctor</label>
+            <vaadin-combo-box id="doctor"></vaadin-combo-box>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="field stacked centered notes">
+          <label for="entry">Notes</label>
+          <vaadin-text-field id="entry" name="entry"></vaadin-text-field>
+        </div>
+        <div class="buttons">
+          <vaadin-button id="save" class="primary" @click="${() => this.$server.save()}">Save</vaadin-button>
+          <a class="button" @click="${() => this.$server.close()}">Cancel</a>
+        </div>
+      </div>
+    `;
+  }
 }
 customElements.define(JournalEditor.is, JournalEditor);
-

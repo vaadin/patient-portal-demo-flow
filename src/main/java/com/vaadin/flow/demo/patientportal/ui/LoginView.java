@@ -16,20 +16,16 @@
 
 package com.vaadin.flow.demo.patientportal.ui;
 
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.NativeLabel;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
-import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * @author Vaadin Ltd
@@ -37,26 +33,12 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  */
 @Tag("login-view")
 @JsModule("./components/login-view.js")
-@CssImport("./shared-styles.css")
 @Route("")
-public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> implements BeforeEnterObserver {
+public class LoginView extends LitTemplate implements BeforeEnterObserver {
 
-    @Id("login-button")
-    private Button loginButton;
-
-    public LoginView() {
-
-        getModel().setUsername("user");
-        getModel().setPassword("password");
-
-        loginButton.addClickListener(event -> login());
-    }
-
-    @EventHandler
-    private void login() {
-        if ("user".equals(getModel().getUsername())
-                && "password".equals(getModel().getPassword())) {
-
+    @ClientCallable
+    private void login(String username, String password) {
+        if ("user".equals(username) && "password".equals(password)) {
             UI ui = UI.getCurrent();
             ui.getSession().setAttribute("login", true);
             ui.navigate(PatientsView.class);
@@ -76,17 +58,6 @@ public class LoginView extends PolymerTemplate<LoginView.LoginViewModel> impleme
         if (loggedIn != null && Boolean.valueOf((boolean) loggedIn)) {
             beforeEnterEvent.rerouteTo(PatientsView.class);
         }
-    }
-
-    public interface LoginViewModel extends TemplateModel {
-
-        String getUsername();
-
-        void setUsername(String username);
-
-        String getPassword();
-
-        void setPassword(String password);
     }
 
 }

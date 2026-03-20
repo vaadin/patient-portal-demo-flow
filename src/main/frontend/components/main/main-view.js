@@ -1,12 +1,11 @@
-import '@polymer/polymer/polymer-legacy.js';
-import '../my-icons.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-class MainView extends PolymerElement {
-  static get template() {
-    return html`
-   <style include="shared-styles">
-       :host {
+import { LitElement, html, css } from 'lit';
+import { sharedStyles } from '../shared-styles.js';
+import '@vaadin/icon';
+
+class MainView extends LitElement {
+  static get styles() {
+    return [sharedStyles, css`
+      :host {
         display: flex;
         flex-direction: column;
         position: absolute;
@@ -53,42 +52,38 @@ class MainView extends PolymerElement {
         height: 100%;
       }
 
-      .content>* {
+      .content > * {
         flex: 1;
       }
-    </style> 
-   <nav class="menu"> 
-    <a router-link="" href\$="[[_getPatientsLink(extra)]]" class\$="[[_isActive('patients', page)]]" id="patients">Patients</a> 
-    <a router-link="" href\$="[[_getAnalyticsLink(extra)]]" class\$="[[_isActive('analytics', page)]]" id="analytics">Analytics</a> 
-    <a id="logout" class="right" on-click="logout"> 
-     <iron-icon icon="vaadin:exit-o"></iron-icon> Logout</a> 
-   </nav> 
-   <slot></slot> 
-`;
+    `];
   }
 
-  static get is() { return 'main-view' }
+  static get is() { return 'main-view'; }
 
   static get properties() {
-      return {
-        extra: {
-          type: String,
-          value: ""
-        }
-      }
-    }
-
-  _getPatientsLink(extra){
-      return "/patients"+extra;
+    return {
+      page: { type: String },
+      extra: { type: String }
+    };
   }
 
-  _getAnalyticsLink(extra){
-      return "/analytics"+extra;
+  constructor() {
+    super();
+    this.page = '';
+    this.extra = '';
   }
 
-  _isActive(link, page) {
-    return link === page ? 'active' : '';
+  render() {
+    return html`
+      <nav class="menu">
+        <a router-link href="/patients${this.extra}" class="${this.page === 'patients' ? 'active' : ''}" id="patients">Patients</a>
+        <a router-link href="/analytics${this.extra}" class="${this.page === 'analytics' ? 'active' : ''}" id="analytics">Analytics</a>
+        <a id="logout" class="right" @click="${() => this.$server.logout()}">
+          <vaadin-icon icon="vaadin:exit-o"></vaadin-icon> Logout
+        </a>
+      </nav>
+      <slot></slot>
+    `;
   }
 }
 customElements.define(MainView.is, MainView);
-

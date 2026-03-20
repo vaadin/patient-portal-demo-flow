@@ -28,7 +28,6 @@ import com.vaadin.flow.router.Route;
 @Tag("patient-profile")
 @JsModule("./components/main/patients/patient-profile.js")
 @Route(value = "", layout = PatientDetails.class)
-public class PatientProfile extends
-        AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
+public class PatientProfile extends AbstractPatientTemplate {
 
 }

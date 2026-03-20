@@ -21,21 +21,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
-import com.vaadin.flow.templatemodel.ModelEncoder;
-
 /**
  * Encodes between Date-objects and their String-representations in format
  * 'yyyy/MM/dd'.
  *
  * @author Vaadin Ltd
  */
-public class DateToStringEncoder implements ModelEncoder<Date, String> {
+public class DateToStringEncoder {
 
     public static final String DATE_FORMAT = "MM/dd/yyyy";
     private static final DateTimeFormatter formatter = DateTimeFormatter
             .ofPattern(DATE_FORMAT);
 
-    @Override
     public String encode(Date modelValue) {
         if (modelValue instanceof java.sql.Date) {
             return ((java.sql.Date) modelValue).toLocalDate().format(formatter);
@@ -45,7 +42,6 @@ public class DateToStringEncoder implements ModelEncoder<Date, String> {
                         .format(formatter);
     }
 
-    @Override
     public Date decode(String presentationValue) {
         try {
             return Date.from(LocalDate.parse(presentationValue, formatter)

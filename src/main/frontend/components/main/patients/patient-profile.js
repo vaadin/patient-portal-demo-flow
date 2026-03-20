@@ -1,11 +1,8 @@
-import '@polymer/polymer/polymer-legacy.js';
-import '@polymer/polymer/polymer-legacy.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-const $_documentContainer = document.createElement('template');
+import { LitElement, html, css } from 'lit';
 
-$_documentContainer.innerHTML = `<dom-module id="patient-profile" include="shared-styles.html"> 
-  <template> 
-   <style>
+class PatientProfile extends LitElement {
+  static get styles() {
+    return [css`
       :host {
         display: flex;
         flex: 0!important;
@@ -95,75 +92,74 @@ $_documentContainer.innerHTML = `<dom-module id="patient-profile" include="share
           margin-bottom: 20px;
         }
       }
-    </style> 
-   <div class="full-name"> 
-    <div class="name-wrapper"> 
-     <div class="label">
-      First name
-     </div> 
-     <div class="name first" id="firstName">
-      [[patient.firstName]]
-     </div> 
-    </div> 
-    <div class="name-wrapper"> 
-     <div class="label">
-      Middle name
-     </div> 
-     <div class="name" id="middleName">
-      [[patient.middleName]]
-     </div> 
-    </div> 
-    <div class="name-wrapper"> 
-     <div class="label">
-      Last name
-     </div> 
-     <div class="name" id="lastName">
-      [[patient.lastName]]
-     </div> 
-    </div> 
-   </div> 
-   <table class="patient-data"> 
-    <tbody>
-     <tr> 
-      <td class="label">Gender</td> 
-      <td class="value" id="gender">[[patient.gender]]</td> 
-     </tr> 
-     <tr> 
-      <td class="label">Date of birth</td> 
-      <td class="value" id="birthDate">[[patient.birthDate]]</td> 
-     </tr> 
-     <tr> 
-      <td class="label">SSN</td> 
-      <td class="value" id="ssn">[[patient.ssn]]</td> 
-     </tr> 
-     <tr> 
-      <td class="label">Patient Id</td> 
-      <td class="value" id="id">[[patient.id]]</td> 
-     </tr> 
-     <tr> 
-      <td class="label">Doctor</td> 
-      <td class="value" id="doctor">[[patient.doctor.lastName]], [[patient.doctor.firstName]]</td> 
-     </tr> 
-     <tr> 
-      <td class="label">Medical Record</td> 
-      <td class="value" id="medicalRecord">[[patient.medicalRecord]]</td> 
-     </tr> 
-     <tr> 
-      <td class="label">Last Visit</td> 
-      <td class="value" id="lastVisit">[[patient.lastVisit]]</td> 
-     </tr> 
-    </tbody>
-   </table> 
-   <template is="dom-if" if="[[patient.pictureUrl]]"> 
-    <img class="profile-pic" src="[[patient.pictureUrl]]" alt="Patient photo"> 
-   </template> 
-  </template> 
-   
- </dom-module>`;
+    `];
+  }
 
-document.head.appendChild($_documentContainer.content);
-class PatientProfile extends PolymerElement {
-  static get is() { return 'patient-profile' }
+  static get is() { return 'patient-profile'; }
+
+  static get properties() {
+    return {
+      patient: { type: Object }
+    };
+  }
+
+  constructor() {
+    super();
+    this.patient = null;
+  }
+
+  render() {
+    const p = this.patient || {};
+    const doctor = p.doctor || {};
+    return html`
+      <div class="full-name">
+        <div class="name-wrapper">
+          <div class="label">First name</div>
+          <div class="name first" id="firstName">${p.firstName}</div>
+        </div>
+        <div class="name-wrapper">
+          <div class="label">Middle name</div>
+          <div class="name" id="middleName">${p.middleName}</div>
+        </div>
+        <div class="name-wrapper">
+          <div class="label">Last name</div>
+          <div class="name" id="lastName">${p.lastName}</div>
+        </div>
+      </div>
+      <table class="patient-data">
+        <tbody>
+          <tr>
+            <td class="label">Gender</td>
+            <td class="value" id="gender">${p.gender}</td>
+          </tr>
+          <tr>
+            <td class="label">Date of birth</td>
+            <td class="value" id="birthDate">${p.birthDate}</td>
+          </tr>
+          <tr>
+            <td class="label">SSN</td>
+            <td class="value" id="ssn">${p.ssn}</td>
+          </tr>
+          <tr>
+            <td class="label">Patient Id</td>
+            <td class="value" id="id">${p.id}</td>
+          </tr>
+          <tr>
+            <td class="label">Doctor</td>
+            <td class="value" id="doctor">${doctor.lastName}, ${doctor.firstName}</td>
+          </tr>
+          <tr>
+            <td class="label">Medical Record</td>
+            <td class="value" id="medicalRecord">${p.medicalRecord}</td>
+          </tr>
+          <tr>
+            <td class="label">Last Visit</td>
+            <td class="value" id="lastVisit">${p.lastVisit}</td>
+          </tr>
+        </tbody>
+      </table>
+      ${p.pictureUrl ? html`<img class="profile-pic" src="${p.pictureUrl}" alt="Patient photo">` : ''}
+    `;
+  }
 }
 customElements.define(PatientProfile.is, PatientProfile);
-

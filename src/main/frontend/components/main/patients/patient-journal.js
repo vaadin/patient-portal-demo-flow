@@ -1,11 +1,11 @@
+import { LitElement, html, css } from 'lit';
+import { sharedStyles } from '../../shared-styles.js';
 import '@vaadin/grid/vaadin-grid.js';
-import '../../my-icons.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
-class PatientJournal extends PolymerElement {
-  static get template() {
-    return html`
-   <style include="shared-styles">
+import '@vaadin/icon';
+
+class PatientJournal extends LitElement {
+  static get styles() {
+    return [sharedStyles, css`
       :host {
         display: flex;
         flex-direction: column;
@@ -57,31 +57,33 @@ class PatientJournal extends PolymerElement {
         font-size: 0.8rem;
         font-weight: bold;
       }
-    </style> 
-   <iron-media-query query="(max-width: 600px)" query-matches="{{narrow}}"></iron-media-query> 
-   <div class="top"> 
-    <h2>[[patient.firstName]] [[patient.lastName]]</h2> 
-    <a router-link="" class="button primary" href="patients/new-entry/[[patient.id]]" id="new"> 
-     <iron-icon icon="vaadin:plus"></iron-icon> New entry</a> 
-   </div> 
-   <slot></slot>  
-`;
+    `];
   }
 
-  static get is() { return 'patient-journal' }
+  static get is() { return 'patient-journal'; }
 
-  _expandIcon(expanded) {
-    return expanded ? 'chevron-down' : 'chevron-right';
+  static get properties() {
+    return {
+      patient: { type: Object }
+    };
   }
 
-  _toggleExpand(evt) {
-    const item = evt.model.item;
-    if(this.$.grid.expandedItems && this.$.grid.expandedItems.includes(item)){
-      this.$.grid.expandedItems = [];
-    } else {
-      this.$.grid.expandedItems = [item];
-    }
+  constructor() {
+    super();
+    this.patient = null;
+  }
+
+  render() {
+    const p = this.patient || {};
+    return html`
+      <div class="top">
+        <h2>${p.firstName} ${p.lastName}</h2>
+        <a router-link class="button primary" href="patients/new-entry/${p.id}" id="new">
+          <vaadin-icon icon="vaadin:plus"></vaadin-icon> New entry
+        </a>
+      </div>
+      <slot></slot>
+    `;
   }
 }
 customElements.define(PatientJournal.is, PatientJournal);
-

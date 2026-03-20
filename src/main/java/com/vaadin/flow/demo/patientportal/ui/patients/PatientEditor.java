@@ -33,8 +33,8 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
-import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.ClientCallable;
+import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
@@ -47,8 +47,7 @@ import com.vaadin.flow.router.Route;
 @Tag("patient-editor")
 @JsModule("./components/main/patients/patient-editor.js")
 @Route(value = "edit", layout = PatientDetails.class)
-public class PatientEditor extends
-        AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
+public class PatientEditor extends AbstractPatientTemplate {
     @Id("id")
     private Span idComponent;
 
@@ -142,7 +141,7 @@ public class PatientEditor extends
         getUI().ifPresent(ui -> ui.navigate(PatientsView.class));
     }
 
-    @EventHandler
+    @ClientCallable
     private void close() {
         getUI().ifPresent(
                 ui -> ui.navigate(PatientProfile.class, getPatient().getId()));

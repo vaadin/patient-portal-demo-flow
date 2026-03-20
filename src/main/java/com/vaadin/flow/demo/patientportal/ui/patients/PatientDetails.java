@@ -19,12 +19,11 @@ package com.vaadin.flow.demo.patientportal.ui.patients;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.demo.patientportal.ui.PatientsView;
 import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.RoutePrefix;
 import com.vaadin.flow.router.RouterLayout;
-import com.vaadin.flow.templatemodel.TemplateModel;
 
 /**
  * @author Vaadin Ltd
@@ -34,19 +33,12 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 @JsModule("./components/main/patients/patient-details.js")
 @RoutePrefix("patients")
 @ParentLayout(PatientsView.class)
-public class PatientDetails
-        extends PolymerTemplate<PatientDetails.PatientDetailsModel> implements
-        RouterLayout {
-
-    public interface PatientDetailsModel extends TemplateModel {
-        void setPatientId(String patientId);
-        String getPatientId();
-    }
+public class PatientDetails extends LitTemplate implements RouterLayout {
 
     @Override
     public void showRouterLayoutContent(HasElement content) {
         Long patientId = ((AbstractPatientTemplate) content).getPatient().getId();
-        getModel().setPatientId(patientId+"");
+        getElement().setProperty("patientId", patientId + "");
         RouterLayout.super.showRouterLayoutContent(content);
     }
 }
