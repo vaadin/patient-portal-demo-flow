@@ -31,3 +31,5 @@ webpack.generated.js
 drivers
 
 vite.*.ts
+src/main/frontend/generated
+src/main/bundles

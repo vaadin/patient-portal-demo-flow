@@ -27,6 +27,7 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.flow.testutil.AbstractTestBenchTest;
 import com.vaadin.testbench.TestBenchElement;
+import com.vaadin.testbench.k6.Destructive;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -87,6 +88,7 @@ public class PatientEditorIT extends AbstractChromeTest {
     }
 
     @Test
+    @Destructive
     public void deletePatient() {
         //        doOpen();
         getDriver().get(AbstractTestBenchTest.getTestURL(getRootURL(), "/"));

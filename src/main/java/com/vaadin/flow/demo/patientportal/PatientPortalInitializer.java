@@ -19,7 +19,6 @@ import com.vaadin.demo.service.DBInitService;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import jakarta.annotation.PostConstruct;
-import org.burningwave.core.classes.Modules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,11 +45,6 @@ public class PatientPortalInitializer {
     private DBInitService initService;
 
     public static void main(String[] args) {
-        // Opens all modules to each other to allow memory calculator to use
-        // reflection to compute objects size
-        // This is a workaround to avoid a huge number of '--add-opens' flags
-        // to JVM arguments list
-        Modules.create().exportAllToAll();
         SpringApplication.run(PatientPortalInitializer.class, args);
     }
 

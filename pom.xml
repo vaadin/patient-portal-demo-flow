@@ -15,9 +15,31 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>25.0-SNAPSHOT</vaadin.version>
+        <vaadin.version>25.1-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
 
+        <!-- Local server configuration (used in default profile) -->
+        <app.port>8081</app.port>
+        <management.port>8082</management.port>
+        <proxy.port>6000</proxy.port>
+
+        <!-- K6 test configuration -->
+        <k6.vus>100</k6.vus>
+        <k6.duration>30s</k6.duration>
+        <k6.testDir>${project.build.directory}/k6/tests</k6.testDir>
+
+        <!-- Combined scenario weights (percentage of VUs for each scenario) -->
+        <k6.combineScenarios>true</k6.combineScenarios>
+        <k6.scenarioWeights>patientEditor:40,journalEditor:30,navigation:20</k6.scenarioWeights>
+        <!-- <k6.scenarioWeights>patientEditor:70,journalEditor:30</k6.scenarioWeights> -->
+<!--        <k6.scenarioWeights>patientEditor:100</k6.scenarioWeights>-->
+
+        <!-- Enable Vaadin-specific metrics collection (requires VaadinActuator in demo app) -->
+        <k6.collectVaadinMetrics>true</k6.collectVaadinMetrics>
+
+        <!-- Skip flags for flexible execution -->
+        <k6.skipRecord>false</k6.skipRecord>
+        <k6.skipRun>false</k6.skipRun>
     </properties>
 
     <parent>
@@ -147,6 +169,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!-- /Spring -->
 
         <dependency>
@@ -171,9 +197,10 @@
             <version>0.4.1</version>
         </dependency>
         <dependency>
-            <groupId>org.burningwave</groupId>
-            <artifactId>core</artifactId>
-            <version>12.62.5</version>
+        <groupId>com.vaadin.laboratory</groupId>
+            <artifactId>testbench-k6-support</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -264,6 +291,10 @@
                         <configuration>
                             <maxAttempts>100</maxAttempts>
                             <wait>2500</wait>
+                            <managementPort>${management.port}</managementPort>
+                            <arguments>
+                                <argument>--server.port=${app.port}</argument>
+                            </arguments>
                             <additionalClasspathElements>
                                 <additionalClasspathElement>${project.build.testOutputDirectory}</additionalClasspathElement>
                             </additionalClasspathElements>
@@ -305,9 +336,147 @@
                         <configuration>
                             <trimStackTrace>false</trimStackTrace>
                             <enableAssertions>true</enableAssertions>
+                            <systemPropertyVariables>
+                                <app.port>${app.port}</app.port>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>
 
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Orchestrate local server lifecycle -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.1</version>
+                        <executions>
+                            <!-- Start the demo app -->
+                            <execution>
+                                <id>start-demo-app</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <arguments>
+                                        <argument>-jar</argument>
+                                        <argument>target/${project.build.finalName}.jar</argument>
+                                        <argument>--server.port=${app.port}</argument>
+                                        <argument>--management.server.port=${management.port}</argument>
+                                    </arguments>
+                                    <async>true</async>
+                                    <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
+                                </configuration>
+                            </execution>
+
+                            <!-- Stop demo app -->
+                            <execution>
+                                <id>stop-demo-app</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>bash</executable>
+                                    <arguments>
+                                        <argument>-c</argument>
+                                        <argument>
+                                            echo "Stopping demo app..."
+                                            pkill -f "${project.build.finalName}.jar.*--server.port=${app.port}" || true
+                                        </argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Wait for app to be fully ready before running tests -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>wait-for-app</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo>Waiting for health endpoint on port ${management.port}...</echo>
+                                        <waitfor maxwait="2" maxwaitunit="minute" checkevery="2" checkeveryunit="second">
+                                            <http url="http://localhost:${management.port}/actuator/health" errorsBeginAt="500"/>
+                                        </waitfor>
+                                        <echo>Health endpoint ready. Waiting for app on port ${app.port}...</echo>
+                                        <waitfor maxwait="2" maxwaitunit="minute" checkevery="2" checkeveryunit="second">
+                                            <http url="http://localhost:${app.port}/" errorsBeginAt="500"/>
+                                        </waitfor>
+                                        <echo>App is ready on port ${app.port}!</echo>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- K6 TestBench Converter Plugin -->
+                    <plugin>
+                        <groupId>com.vaadin.laboratory</groupId>
+                        <artifactId>testbench-k6-converter</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                        <executions>
+                            <!-- Record TestBench scenarios -->
+                            <execution>
+                                <id>record-scenarios</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>record</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${k6.skipRecord}</skip>
+                                    <testClasses>
+                                        <testClass>JournalEditorIT</testClass>
+                                        <testClass>PatientEditorIT</testClass>
+                                        <testClass>NavigationIT</testClass>
+                                    </testClasses>
+                                    <proxyPort>${proxy.port}</proxyPort>
+                                    <appPort>${app.port}</appPort>
+                                    <testWorkDir>${project.basedir}</testWorkDir>
+                                    <harDir>${project.build.directory}</harDir>
+                                    <outputDir>${project.build.directory}/k6/tests</outputDir>
+                                </configuration>
+                            </execution>
+
+                            <!-- Run k6 load tests -->
+                            <execution>
+                                <id>run-load-tests</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${k6.skipRun}</skip>
+                                    <testDir>${k6.testDir}</testDir>
+                                    <virtualUsers>${k6.vus}</virtualUsers>
+                                    <duration>${k6.duration}</duration>
+                                    <appPort>${app.port}</appPort>
+                                    <managementPort>${management.port}</managementPort>
+                                    <combineScenarios>${k6.combineScenarios}</combineScenarios>
+                                    <scenarioWeights>${k6.scenarioWeights}</scenarioWeights>
+                                    <collectVaadinMetrics>${k6.collectVaadinMetrics}</collectVaadinMetrics>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
