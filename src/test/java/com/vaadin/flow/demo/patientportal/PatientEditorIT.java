@@ -23,11 +23,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.flow.testutil.AbstractTestBenchTest;
 import com.vaadin.testbench.TestBenchElement;
-import com.vaadin.testbench.k6.Destructive;
+import com.vaadin.testbench.loadtest.Destructive;
 
 import static org.hamcrest.CoreMatchers.is;
 
