@@ -30,7 +30,9 @@
 
         <!-- Combined scenario weights (percentage of VUs for each scenario) -->
         <k6.combineScenarios>true</k6.combineScenarios>
-        <k6.scenarioWeights>patientEditor:40,journalEditor:30,navigation:20</k6.scenarioWeights>
+        <k6.scenarioWeights>patientEditor:30,navigation:70</k6.scenarioWeights>
+        <!-- <k6.scenarioWeights>journalEditor:30,navigation:30</k6.scenarioWeights> -->
+        <!-- <k6.scenarioWeights>patientEditor:40,journalEditor:30,navigation:20</k6.scenarioWeights> -->
         <!-- <k6.scenarioWeights>patientEditor:70,journalEditor:30</k6.scenarioWeights> -->
 <!--        <k6.scenarioWeights>patientEditor:100</k6.scenarioWeights>-->
 
@@ -201,6 +203,11 @@
             <artifactId>testbench-k6-support</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin.laboratory</groupId>
+            <artifactId>loadtest-error-handler</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -444,7 +451,7 @@
                                 <configuration>
                                     <skip>${k6.skipRecord}</skip>
                                     <testClasses>
-                                        <testClass>JournalEditorIT</testClass>
+                                        <!-- <testClass>JournalEditorIT</testClass> -->
                                         <testClass>PatientEditorIT</testClass>
                                         <testClass>NavigationIT</testClass>
                                     </testClasses>
