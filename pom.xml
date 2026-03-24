@@ -206,7 +206,7 @@
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>loadtest-error-handler</artifactId>
+            <artifactId>loadtest-helper</artifactId>
             <version>10.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
