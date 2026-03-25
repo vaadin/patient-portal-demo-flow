@@ -20,17 +20,13 @@ import java.util.List;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.Proxy;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
 import com.vaadin.flow.testutil.ChromeBrowserTest;
-import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.TestBenchElement;
+import com.vaadin.testbench.loadtest.LoadTestItHelper;
 
 /**
  * @author Vaadin Ltd
@@ -46,18 +42,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         super.setup();
         testBench().resizeViewPortTo(1000, 1000);
         
-        // Check if proxy recording is enabled
-        String proxyHost = System.getProperty(PROXY_HOST_PROPERTY);
-        if (proxyHost != null && !proxyHost.isEmpty()) {
-            // Replace the default driver with a proxy-configured one
-            WebDriver defaultDriver = getDriver();
-            if (defaultDriver != null) {
-                defaultDriver.quit();
-            }
-            setDriver(createProxyDriver(proxyHost));
-        }
-
-        getDriver().get("http://" + getDeploymentHostname() + ":" + getDeploymentPort() + "/" + getTestPath());
+        setDriver(LoadTestItHelper.openWithProxy( getDriver(), getTestURL()));
     
     }
 
@@ -148,28 +133,6 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         setTextFieldValue("password", "password");
         layout.$("*").id("login-button").click();
         waitUntil(d -> $("main-view").first().$("*").id("logout"));
-    }
-
-       private static final String PROXY_HOST_PROPERTY = "k6.proxy.host";
-
-    /**
-     * Creates a ChromeDriver configured with proxy settings for k6 recording.
-     */
-    private WebDriver createProxyDriver(String proxyHost) {
-        ChromeOptions options = new ChromeOptions();
-
-        Proxy proxy = new Proxy();
-        proxy.setHttpProxy(proxyHost);
-        proxy.setSslProxy(proxyHost);
-        options.setProxy(proxy);
-
-        // Required for MITM proxy to work with HTTPS
-        options.addArguments("--ignore-certificate-errors");
-        // Force localhost traffic through proxy (don't bypass loopback)
-        options.addArguments("--proxy-bypass-list=<-loopback>");
-        options.setAcceptInsecureCerts(true);
-
-        return TestBench.createDriver(new ChromeDriver(options));
     }
 
 }
