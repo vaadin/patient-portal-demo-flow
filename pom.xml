@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <vaadin.version>25.1-SNAPSHOT</vaadin.version>
+        <vaadin.version>25.2-SNAPSHOT</vaadin.version>
         <flow.version>${vaadin.version}</flow.version>
 
         <!-- Local server configuration (used in default profile) -->
@@ -47,7 +47,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.4</version>
+        <version>4.0.5</version>
     </parent>
 
     <pluginRepositories>
@@ -69,13 +69,6 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>localrepository</id>
             <url>file://${basedir}/localrepo</url>
             <snapshots>
@@ -93,6 +86,13 @@
         <repository>
             <id>Vaadin Directory</id>
             <url>https://maven.vaadin.com/vaadin-addons</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -201,13 +201,13 @@
         <dependency>
         <groupId>com.vaadin</groupId>
             <artifactId>testbench-loadtest-support</artifactId>
-            <version>10.1-SNAPSHOT</version>
+            <version>10.2.0-alpha1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>loadtest-helper</artifactId>
-            <version>10.1-SNAPSHOT</version>
+            <version>10.2.0-alpha1</version>
         </dependency>
     </dependencies>
 
@@ -365,7 +365,7 @@
                     <plugin>
                         <groupId>com.vaadin</groupId>
                         <artifactId>testbench-converter-plugin</artifactId>
-                        <version>10.1-SNAPSHOT</version>
+                        <version>10.2.0-alpha1</version>
                         <executions>
                             <!-- Start and wait for the demo app -->
                             <execution>
