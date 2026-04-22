@@ -20,7 +20,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -70,8 +69,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void setDate(String datePickerId, String date) {
         DatePickerElement datePicker = layout.$(DatePickerElement.class).id(datePickerId);
-        datePicker.clear();
-        datePicker.setDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        datePicker.setInputValue(date);
     }
 
     /**
@@ -120,5 +118,6 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
         setTextFieldValue("username", "user");
         setTextFieldValue("password", "password");
         layout.$("*").id("login-button").click();
+        waitUntil(d -> $("main-view").first().$("*").id("logout"));
     }
 }
