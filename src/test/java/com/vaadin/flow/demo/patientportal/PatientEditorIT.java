@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.demo.entities.Gender;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.flow.testutil.AbstractTestBenchTest;
 import com.vaadin.testbench.TestBenchElement;
@@ -36,7 +35,7 @@ public class PatientEditorIT extends AbstractChromeTest {
     public static final String FIRST_NAME = "Flow";
     public static final String MIDDLE_NAME = "Is";
     public static final String LAST_NAME = "Awesome";
-    public static final String GENDER = Gender.FEMALE.name();
+    public static final String GENDER = "FEMALE";
     public static final String BIRTH_DATE = "06/13/1993";
     public static final String SSN = "453-87-1829";
     public static final String DOCTOR = "Number 1, Doc ";
@@ -83,7 +82,7 @@ public class PatientEditorIT extends AbstractChromeTest {
         assertValue("gender", GENDER.toLowerCase());
         assertValue("birthDate", BIRTH_DATE);
         assertValue("ssn", SSN);
-        assertValue("doctor", "Number 1, Doc");
+        assertValue("doctor", DOCTOR.trim());
     }
 
     @Test
