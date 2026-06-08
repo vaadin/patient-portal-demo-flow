@@ -18,7 +18,6 @@ package com.vaadin.flow.demo.patientportal;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -68,7 +67,6 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void setDate(String datePickerId, String date) {
         DatePickerElement datePicker = layout.$(DatePickerElement.class).id(datePickerId);
-        datePicker.clear();
         datePicker.setInputValue(date);
     }
 
@@ -83,9 +81,7 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void selectFromComboBox(String comboBoxId, String value) {
         ComboBoxElement comboBox = layout.$(ComboBoxElement.class).id(comboBoxId);
-        comboBox.clear();
-        comboBox.sendKeys(value);
-        comboBox.sendKeys(Keys.ENTER);
+        comboBox.selectByText(value);
     }
 
     /**
