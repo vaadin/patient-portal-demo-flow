@@ -18,6 +18,7 @@ package com.vaadin.flow.demo.patientportal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -69,7 +70,9 @@ public abstract class AbstractChromeTest extends ChromeBrowserTest {
      */
     protected void setDate(String datePickerId, String date) {
         DatePickerElement datePicker = layout.$(DatePickerElement.class).id(datePickerId);
-        datePicker.setInputValue(date);
+        LocalDate localDate = LocalDate.parse(date,
+                DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH));
+        datePicker.setDate(localDate);
     }
 
     /**
