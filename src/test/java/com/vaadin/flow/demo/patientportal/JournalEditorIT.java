@@ -21,12 +21,10 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.testbench.TestBenchElement;
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -55,13 +53,9 @@ public class JournalEditorIT extends AbstractChromeTest {
 
         selectFromComboBox("doctor", DOCTOR);
 
-        TestBenchElement entryField = getLayout().$("*").id("entry");
+        getLayout().$(TextFieldElement.class).id("entry").setValue(ENTRY);
 
-        new Actions(getDriver()).sendKeys(entryField, ENTRY)
-                .sendKeys(entryField, Keys.ENTER)
-                .pause(500)
-                .click(getLayout().$("*").id("save"))
-                .perform();
+        getLayout().$("*").id("save").click();
 
         waitForElementPresent(By.xpath("//patient-journal"));
         setLayout($("patients-view").first().$("patient-details").first().$("patient-journal").first());
