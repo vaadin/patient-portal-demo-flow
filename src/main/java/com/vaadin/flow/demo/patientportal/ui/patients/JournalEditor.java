@@ -32,8 +32,8 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
-import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.ClientCallable;
+import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.demo.patientportal.dto.DoctorDTO;
 import com.vaadin.flow.demo.patientportal.service.PatientService;
@@ -44,10 +44,9 @@ import com.vaadin.flow.router.Route;
  *
  */
 @Tag("journal-editor")
-@JsModule("./components/main/patients/journal-editor.js")
+@JsModule("./components/main/patients/journal-editor.ts")
 @Route(value = "new-entry", layout = PatientDetails.class)
-public class JournalEditor extends
-        AbstractPatientTemplate<AbstractPatientTemplate.PatientTemplateModel> {
+public class JournalEditor extends AbstractPatientTemplate {
 
     private List<JournalEntry> journalEntries;
 
@@ -80,7 +79,7 @@ public class JournalEditor extends
         doctorComboBox.setItemLabelGenerator(DoctorDTO::getFullName);
     }
 
-    @EventHandler
+    @ClientCallable
     private void save() {
         Date date = java.sql.Date.valueOf(datePicker.getValue());
         AppointmentType appointmentType = AppointmentType
@@ -99,7 +98,7 @@ public class JournalEditor extends
         close();
     }
 
-    @EventHandler
+    @ClientCallable
     private void close() {
         getUI().get()
                 .navigate(PatientJournal.class, getPatient().getId());

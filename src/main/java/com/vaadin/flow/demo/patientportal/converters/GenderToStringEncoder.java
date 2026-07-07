@@ -16,20 +16,17 @@
 package com.vaadin.flow.demo.patientportal.converters;
 
 import com.vaadin.demo.entities.Gender;
-import com.vaadin.flow.templatemodel.ModelEncoder;
 
 /**
  * @author Vaadin Ltd
  *
  */
-public class GenderToStringEncoder implements ModelEncoder<Gender, String> {
+public class GenderToStringEncoder {
 
-    @Override
     public String encode(Gender modelValue) {
         return modelValue.name().toLowerCase();
     }
 
-    @Override
     public Gender decode(String presentationValue) {
         return Gender.valueOf(presentationValue.toUpperCase());
     }

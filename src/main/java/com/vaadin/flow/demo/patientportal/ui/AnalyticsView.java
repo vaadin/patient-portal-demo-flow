@@ -54,6 +54,7 @@ public class AnalyticsView extends Div implements HasUrlParameter<String> {
     private Chart chart = new Chart(ChartType.COLUMN);
 
     public AnalyticsView() {
+        setSizeFull();
         RouterLink age = new RouterLink("Age", AnalyticsView.class, AGE_ROUTE);
         RouterLink doctor = new RouterLink("Doctor", AnalyticsView.class,
                 DOCTOR_ROUTE);
@@ -63,6 +64,7 @@ public class AnalyticsView extends Div implements HasUrlParameter<String> {
         HorizontalLayout navigation = new HorizontalLayout();
         navigation.add(age, doctor, gender);
 
+        //chart.setSizeFull();
         Configuration configuration = chart.getConfiguration();
         configuration.getLegend().setEnabled(false);
         configuration.setExporting(false);

@@ -27,8 +27,8 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.template.Id;
+import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
@@ -43,18 +43,17 @@ import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.templatemodel.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Vaadin Ltd
  */
 @Tag("patients-view")
-@JsModule("./components/main/patients/patients-view.js")
+@JsModule("./components/main/patients/patients-view.ts")
 @Route(value = "patients", layout = MainView.class)
 @ParentLayout(MainView.class)
 // todo fix navigation NPE on back - PR submitted to GH
-public class PatientsView extends PolymerTemplate<TemplateModel>
+public class PatientsView extends LitTemplate
         implements RouterLayout, BeforeEnterObserver {
 
     @Id("patientsGrid")
